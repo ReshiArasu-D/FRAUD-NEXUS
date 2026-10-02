@@ -45,6 +45,7 @@ client_script = r"""api.controller = function($scope, $http, $timeout, $window) 
     ];
     c.aiInput = '';
     c.showNotifications = false;
+    c.showProfileMenu = false;
     c.notifications = [];
     c.sidebarCollapsed = false;
     c.showPassword = false;
@@ -1184,7 +1185,7 @@ template = r"""<div class="fnx-app">
 </div>
 
 <!-- ============ 4. AUTHENTICATED CUSTOMER WORKSPACE ============ -->
-<div ng-if="c.user && c.currentView !== 'landing' && c.currentView !== 'portalSelect' && c.currentView !== 'auth'" class="fnx-main-layout">
+<div ng-if="c.user && c.currentView !== 'landing' && c.currentView !== 'portalSelect' && c.currentView !== 'auth'" class="fnx-main-layout" ng-click="c.showProfileMenu = false; c.showNotifications = false">
     <!-- TOP HEADER (Only Language, Notifications, Profile top-right) -->
     <header class="fnx-header">
         <div class="fnx-header-left">
@@ -1205,11 +1206,36 @@ template = r"""<div class="fnx-app">
                 &#128276;<span class="fnx-notif-dot" ng-if="c.cases.length > 0"></span>
             </button>
 
-            <!-- 3. Customer Profile Menu (Top-Right ONLY) -->
-            <div class="fnx-profile-pill" ng-click="c.navigate('profile')" title="View Customer Profile & KYC">
-                <span class="fnx-avatar">{{c.user.name.charAt(0)}}</span>
-                <span class="fnx-profile-name">{{c.user.name}}</span>
-                <button class="fnx-icon-btn fnx-logout-btn" ng-click="$event.stopPropagation(); c.logout();" title="Logout">&#10148;</button>
+            <!-- 3. Customer Profile Dropdown Menu (Top-Right ONLY) -->
+            <div class="fnx-profile-menu-wrap" ng-click="$event.stopPropagation()">
+                <button class="fnx-profile-btn" ng-click="c.showProfileMenu = !c.showProfileMenu" title="Account Menu" aria-label="Account Menu">
+                    <span class="fnx-avatar-lg">{{c.user.name.charAt(0).toUpperCase()}}</span>
+                    <span class="fnx-profile-name-label">{{c.user.name.split(' ')[0]}}</span>
+                    <svg class="fnx-chevron" ng-class="{'rotated': c.showProfileMenu}" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+                </button>
+                <div class="fnx-profile-dropdown" ng-if="c.showProfileMenu">
+                    <div class="fnx-profile-dropdown-header">
+                        <div class="fnx-profile-dropdown-avatar">{{c.user.name.charAt(0).toUpperCase()}}</div>
+                        <div class="fnx-profile-dropdown-info">
+                            <div class="fnx-profile-dropdown-name">{{c.user.name}}</div>
+                            <div class="fnx-profile-dropdown-email">{{c.user.email}}</div>
+                        </div>
+                    </div>
+                    <div class="fnx-profile-dropdown-divider"></div>
+                    <button class="fnx-profile-dropdown-item" ng-click="c.showProfileMenu = false; c.navigate('profile')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                        My Profile
+                    </button>
+                    <button class="fnx-profile-dropdown-item" ng-click="c.showProfileMenu = false; c.navigate('dashboard')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </button>
+                    <div class="fnx-profile-dropdown-divider"></div>
+                    <button class="fnx-profile-dropdown-item fnx-profile-dropdown-logout" ng-click="c.showProfileMenu = false; c.logout()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Sign Out
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -3031,40 +3057,175 @@ css = r"""
     border-radius: 50% !important;
 }
 
-.fnx-profile-pill {
-    display: flex !important;
-    align-items: center !important;
-    gap: 0.6rem !important;
-    background-color: #123B63 !important;
-    padding: 0.35rem 0.85rem 0.35rem 0.45rem !important;
-    border-radius: 30px !important;
-    border: 1px solid #1E4E7A !important;
-    cursor: pointer !important;
+/* ===== PROFILE DROPDOWN MENU ===== */
+.fnx-profile-menu-wrap {
+    position: relative !important;
+    display: inline-block !important;
 }
 
-.fnx-avatar {
-    width: 28px !important;
-    height: 28px !important;
-    background-color: #00B8D9 !important;
+.fnx-profile-btn {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    background: linear-gradient(135deg, #123B63 0%, #1a4f82 100%) !important;
+    border: 1px solid rgba(0,184,217,0.35) !important;
+    border-radius: 24px !important;
+    padding: 0.3rem 0.75rem 0.3rem 0.35rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-profile-btn:hover {
+    background: linear-gradient(135deg, #1a4f82 0%, #225c94 100%) !important;
+    border-color: rgba(0,184,217,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(0,184,217,0.12) !important;
+}
+
+.fnx-avatar-lg {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+    background: linear-gradient(135deg, #00B8D9 0%, #0090aa 100%) !important;
     color: #0B1F3A !important;
     font-weight: 800 !important;
     border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0 !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
 }
 
-.fnx-profile-name {
-    font-size: 0.9rem !important;
+.fnx-profile-name-label {
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    color: #E2EEF6 !important;
+    max-width: 90px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.fnx-chevron {
+    color: #94BAD8 !important;
+    transition: transform 0.2s ease !important;
+    flex-shrink: 0 !important;
+}
+
+.fnx-chevron.rotated {
+    transform: rotate(180deg) !important;
+}
+
+.fnx-profile-dropdown {
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    right: 0 !important;
+    width: 240px !important;
+    background: #0F2744 !important;
+    border: 1px solid rgba(0,184,217,0.2) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) !important;
+    z-index: 9999 !important;
+    overflow: hidden !important;
+    animation: fnxDropdownIn 0.18s ease !important;
+}
+
+@keyframes fnxDropdownIn {
+    from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.fnx-profile-dropdown-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 1rem 1.1rem !important;
+    background: rgba(0,184,217,0.07) !important;
+}
+
+.fnx-profile-dropdown-avatar {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    background: linear-gradient(135deg, #00B8D9 0%, #0090aa 100%) !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 3px 8px rgba(0,184,217,0.3) !important;
+}
+
+.fnx-profile-dropdown-info {
+    overflow: hidden !important;
+}
+
+.fnx-profile-dropdown-name {
+    font-size: 0.92rem !important;
     font-weight: 700 !important;
+    color: #FFFFFF !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.fnx-profile-dropdown-email {
+    font-size: 0.78rem !important;
+    color: #7AADCC !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin-top: 1px !important;
+}
+
+.fnx-profile-dropdown-divider {
+    height: 1px !important;
+    background: rgba(255,255,255,0.07) !important;
+    margin: 0.25rem 0 !important;
+}
+
+.fnx-profile-dropdown-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.7rem !important;
+    width: 100% !important;
+    padding: 0.7rem 1.1rem !important;
+    background: none !important;
+    border: none !important;
+    color: #CBD5E1 !important;
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+.fnx-profile-dropdown-item:hover {
+    background: rgba(0,184,217,0.1) !important;
     color: #FFFFFF !important;
 }
 
-.fnx-logout-btn {
-    margin-left: 0.4rem !important;
-    font-size: 0.95rem !important;
-    opacity: 0.8 !important;
+.fnx-profile-dropdown-item svg {
+    opacity: 0.7 !important;
+    flex-shrink: 0 !important;
+}
+
+.fnx-profile-dropdown-item:hover svg {
+    opacity: 1 !important;
+}
+
+.fnx-profile-dropdown-logout {
+    color: #F87171 !important;
+    margin-bottom: 0.3rem !important;
+}
+
+.fnx-profile-dropdown-logout:hover {
+    background: rgba(248,113,113,0.1) !important;
+    color: #FCA5A5 !important;
 }
 
 .fnx-notif-dropdown {

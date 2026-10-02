@@ -1,6 +1,81 @@
 """
 FRAUDNEXUS - Customer Experience Master Implementation
 Deploys the complete, enterprise-grade Customer Experience widget to ServiceNow Service Portal.
+/* ===== DEMO BUTTON ===== */
+.fnx-btn-demo { display:flex !important; align-items:center !important; justify-content:center !important; gap:0.5rem !important; background:linear-gradient(135deg,#1a4f82,#0B1F3A) !important; border:1px solid rgba(0,184,217,0.4) !important; color:#FFFFFF !important; font-size:0.95rem !important; padding:0.75rem 1.5rem !important; border-radius:8px !important; cursor:pointer !important; transition:all 0.2s !important; }
+.fnx-btn-demo:hover { background:linear-gradient(135deg,#225c94,#123B63) !important; box-shadow:0 0 0 3px rgba(0,184,217,0.2) !important; }
+.fnx-demo-badge { background:#00B8D9 !important; color:#0B1F3A !important; font-size:0.65rem !important; font-weight:800 !important; padding:0.15rem 0.45rem !important; border-radius:4px !important; }
+.fnx-demo-divider { display:flex !important; align-items:center !important; gap:0.75rem !important; color:#94A3B8 !important; font-size:0.85rem !important; margin:1rem 0 !important; }
+.fnx-demo-divider::before,.fnx-demo-divider::after { content:'' !important; flex:1 !important; height:1px !important; background:#E2E8F0 !important; }
+.fnx-demo-hint { text-align:center !important; font-size:0.8rem !important; color:#94A3B8 !important; margin:0.5rem 0 0 !important; }
+
+/* ===== AUTH FORM HEADER ===== */
+.fnx-auth-form-header { margin-bottom:1.5rem !important; }
+.fnx-auth-form-title { font-size:1.35rem !important; font-weight:800 !important; color:#0B1F3A !important; letter-spacing:0.04em !important; margin:0 0 0.35rem 0 !important; }
+.fnx-auth-form-sub { font-size:0.88rem !important; color:#64748B !important; margin:0 !important; }
+
+/* ===== AUTH LEFT PANEL ===== */
+.fnx-auth-left-tagline { font-size:0.78rem !important; font-weight:700 !important; color:#00B8D9 !important; letter-spacing:0.12em !important; text-transform:uppercase !important; margin:0 0 0.75rem 0 !important; }
+.fnx-auth-left-title { font-size:1.65rem !important; font-weight:800 !important; color:#FFFFFF !important; line-height:1.25 !important; letter-spacing:0.02em !important; margin:0 0 1rem 0 !important; }
+.fnx-auth-left-desc { font-size:0.9rem !important; color:rgba(255,255,255,0.7) !important; line-height:1.6 !important; margin:0 0 1.5rem 0 !important; }
+.fnx-auth-capabilities { display:flex !important; flex-direction:column !important; gap:0.6rem !important; }
+.fnx-auth-cap { font-size:0.88rem !important; color:rgba(255,255,255,0.85) !important; }
+
+/* ===== LANDING HERO STATS ===== */
+.fnx-hero-stats { display:flex !important; align-items:center !important; gap:1.5rem !important; margin-top:2rem !important; padding-top:1.5rem !important; border-top:1px solid rgba(0,184,217,0.2) !important; }
+.fnx-hero-stat { display:flex !important; flex-direction:column !important; gap:0.2rem !important; }
+.fnx-hs-num { font-size:1.25rem !important; font-weight:800 !important; color:#00B8D9 !important; }
+.fnx-hs-label { font-size:0.8rem !important; color:rgba(255,255,255,0.6) !important; }
+.fnx-hero-stat-div { width:1px !important; height:40px !important; background:rgba(0,184,217,0.2) !important; }
+
+/* ===== LANDING SECTIONS ===== */
+.fnx-features-section { padding:4rem 2rem !important; background:#0B1F3A !important; }
+.fnx-features-header { text-align:center !important; margin-bottom:3rem !important; }
+.fnx-features-title { font-size:1.75rem !important; font-weight:800 !important; color:#FFFFFF !important; letter-spacing:0.04em !important; margin:0 0 0.75rem 0 !important; }
+.fnx-features-sub { font-size:1rem !important; color:rgba(255,255,255,0.65) !important; margin:0 !important; }
+.fnx-how-it-works { padding:3.5rem 2rem !important; background:#123B63 !important; text-align:center !important; }
+.fnx-hiw-header h2 { font-size:1.5rem !important; font-weight:800 !important; color:#FFFFFF !important; letter-spacing:0.05em !important; margin:0 0 0.5rem 0 !important; }
+.fnx-hiw-header p { color:rgba(255,255,255,0.6) !important; margin:0 0 2rem 0 !important; }
+.fnx-hiw-steps { display:flex !important; align-items:center !important; justify-content:center !important; gap:0.5rem !important; flex-wrap:wrap !important; }
+.fnx-hiw-step { display:flex !important; flex-direction:column !important; align-items:center !important; gap:0.5rem !important; }
+.fnx-hiw-circle { width:44px !important; height:44px !important; border-radius:50% !important; background:#00B8D9 !important; color:#0B1F3A !important; font-weight:800 !important; font-size:1.1rem !important; display:flex !important; align-items:center !important; justify-content:center !important; }
+.fnx-hiw-label { font-size:0.78rem !important; color:rgba(255,255,255,0.8) !important; white-space:nowrap !important; }
+.fnx-hiw-arrow { color:#00B8D9 !important; font-size:1.25rem !important; margin-bottom:1.5rem !important; }
+.fnx-audience-section { display:flex !important; gap:2rem !important; padding:3.5rem 2rem !important; background:#F5F7FA !important; flex-wrap:wrap !important; }
+.fnx-audience-card { flex:1 !important; min-width:280px !important; padding:2rem !important; border-radius:16px !important; }
+.fnx-audience-customer { background:#0B1F3A !important; color:#FFFFFF !important; }
+.fnx-audience-investigator { background:#FFFFFF !important; border:2px solid #E2E8F0 !important; }
+.fnx-audience-icon { font-size:2.5rem !important; margin-bottom:1rem !important; }
+.fnx-audience-card h3 { font-size:1.1rem !important; font-weight:800 !important; letter-spacing:0.05em !important; margin:0 0 1.25rem 0 !important; }
+.fnx-audience-customer h3 { color:#00B8D9 !important; }
+.fnx-audience-investigator h3 { color:#0B1F3A !important; }
+.fnx-audience-card ul { list-style:none !important; padding:0 !important; margin:0 0 1.5rem 0 !important; }
+.fnx-audience-card li { padding:0.4rem 0 !important; font-size:0.9rem !important; color:rgba(255,255,255,0.8) !important; border-bottom:1px solid rgba(255,255,255,0.08) !important; }
+.fnx-audience-investigator li { color:#475569 !important; border-bottom-color:#E2E8F0 !important; }
+.fnx-coming-soon-badge { display:inline-block !important; background:#F59E0B !important; color:#0B1F3A !important; font-weight:800 !important; font-size:0.88rem !important; padding:0.5rem 1.25rem !important; border-radius:20px !important; }
+.fnx-security-section { padding:3.5rem 2rem !important; background:#0B1F3A !important; text-align:center !important; }
+.fnx-security-section h2 { font-size:1.5rem !important; font-weight:800 !important; color:#FFFFFF !important; letter-spacing:0.05em !important; margin:0 0 2rem 0 !important; }
+.fnx-security-grid { display:grid !important; grid-template-columns:repeat(3,1fr) !important; gap:1rem !important; max-width:700px !important; margin:0 auto !important; }
+.fnx-sec-item { background:rgba(0,184,217,0.08) !important; border:1px solid rgba(0,184,217,0.2) !important; border-radius:10px !important; padding:1rem !important; font-size:0.9rem !important; color:rgba(255,255,255,0.85) !important; display:flex !important; align-items:center !important; gap:0.5rem !important; }
+.fnx-sec-check { color:#00B8D9 !important; font-weight:800 !important; }
+.fnx-final-cta { padding:4rem 2rem !important; background:linear-gradient(135deg,#0B1F3A,#123B63) !important; text-align:center !important; border-top:2px solid rgba(0,184,217,0.2) !important; }
+.fnx-final-cta h2 { font-size:1.6rem !important; font-weight:800 !important; color:#FFFFFF !important; letter-spacing:0.04em !important; margin:0 0 0.75rem 0 !important; }
+.fnx-final-cta p { color:rgba(255,255,255,0.65) !important; margin:0 0 2rem 0 !important; font-size:1rem !important; }
+
+/* ===== FINANCIAL SECTIONS (STEP 3) ===== */
+.fnx-fin-section { background:#F8FAFC !important; border:1px solid #E2E8F0 !important; border-radius:12px !important; padding:1.25rem 1.5rem !important; margin-bottom:1.25rem !important; }
+.fnx-fin-section-title { font-size:0.78rem !important; font-weight:800 !important; color:#0B1F3A !important; letter-spacing:0.1em !important; text-transform:uppercase !important; margin-bottom:1rem !important; display:flex !important; align-items:center !important; gap:0.5rem !important; border-bottom:2px solid #E2E8F0 !important; padding-bottom:0.65rem !important; }
+
+/* ===== EVIDENCE TYPE TAGS ===== */
+.fnx-evidence-type-tags { display:flex !important; flex-wrap:wrap !important; gap:0.5rem !important; margin:1rem 0 !important; justify-content:center !important; }
+.fnx-ev-tag { background:#F1F5F9 !important; border:1px solid #E2E8F0 !important; color:#475569 !important; font-size:0.8rem !important; padding:0.3rem 0.7rem !important; border-radius:20px !important; }
+
+/* ===== PROFILE DROPDOWN CID ===== */
+.fnx-profile-dropdown-cid { font-size:0.75rem !important; color:#7AADCC !important; padding:0.3rem 1.1rem 0.5rem !important; font-family:monospace !important; }
+
+/* ===== EDIT PROFILE VIEW ===== */
+.fnx-edit-profile-view { padding:0 !important; }
+
 """
 import requests
 import os
@@ -127,7 +202,7 @@ client_script = r"""api.controller = function($scope, $http, $timeout, $window) 
             dashboard: 'Dashboard',
             reportFraud: 'Report Fraud',
             trackCases: 'Track Cases',
-            evidence: 'Evidence Vault',
+            evidence: 'Evidence',
             profile: 'Customer Profile',
             helpSupport: 'Help & Support',
             welcome: 'Welcome',
@@ -841,10 +916,61 @@ client_script = r"""api.controller = function($scope, $http, $timeout, $window) 
         }, 500);
     };
 
+    // ========== DEMO LOGIN ==========
+    c.doDemoLogin = function() {
+        c.authLoading = true;
+        c.authError = '';
+        $http.post(API + '/auth', { email: 'demo.citizen@fraudnexus.com', password: 'FraudNexusDemo2026!' })
+        .then(function(resp) {
+            c.authLoading = false;
+            var d = resp.data.result || resp.data;
+            if (d && d.success) {
+                c.user = d.user;
+                c.customer = d.customer || {};
+                c.loadCases();
+                c.currentView = 'dashboard';
+            } else { c.loadDemoSession(); }
+        }, function() { c.authLoading = false; c.loadDemoSession(); });
+    };
+
+    c.loadDemoSession = function() {
+        c.user = { sys_id: 'demo_u01', name: 'Demo Citizen', email: 'demo.citizen@fraudnexus.com', user_name: 'demo.citizen' };
+        c.customer = { sys_id: 'demo_c01', customer_id: 'FNX-DEMO-2026', name: 'Demo Citizen', email: 'demo.citizen@fraudnexus.com', mobile: '9876543210', dob: '1990-01-15', gender: 'Male', occupation: 'Professional', address: 'Anna Nagar, Chennai, Tamil Nadu 600040', kyc_status: 'Under Review', gov_id_type: 'Aadhaar', masked_id: 'XXXX-XXXX-4567' };
+        c.cases = [
+            { sys_id: 'dc01', number: 'FNX-2026-001001', type: 'Payment Fraud', incident_date: '2026-09-15', severity: 'High', status: 'Investigation', u_short_description: 'UPI fraud - product not delivered' },
+            { sys_id: 'dc02', number: 'FNX-2026-001002', type: 'Phishing', incident_date: '2026-09-20', severity: 'Critical', status: 'Initial Review', u_short_description: 'Fake bank portal phishing' }
+        ];
+        c.stats = { total: 2, active: 2, resolved: 0, closed: 0 };
+        c.currentView = 'dashboard';
+    };
+
+    // ========== EDIT PROFILE ==========
+    c.editProfileForm = {};
+    c.initEditProfile = function() {
+        c.editProfileForm = { name: c.customer.name || c.user.name || '', mobile: c.customer.mobile || '', email: c.customer.email || c.user.email || '', dob: c.customer.dob || '', gender: c.customer.gender || '', occupation: c.customer.occupation || '', address: c.customer.address || '' };
+        c.editProfileSuccess = '';
+        c.editProfileError = '';
+    };
+    c.saveProfile = function() {
+        c.editProfileLoading = true;
+        $http.post(API + '/customers', { action: 'update_profile', customer_id: c.customer.sys_id, name: c.editProfileForm.name, mobile: c.editProfileForm.mobile, email: c.editProfileForm.email, dob: c.editProfileForm.dob, gender: c.editProfileForm.gender, occupation: c.editProfileForm.occupation, address: c.editProfileForm.address }).then(function() {
+            c.editProfileLoading = false;
+            angular.extend(c.customer, c.editProfileForm);
+            c.user.name = c.editProfileForm.name;
+            c.editProfileSuccess = 'Profile updated successfully.';
+        }, function() {
+            c.editProfileLoading = false;
+            angular.extend(c.customer, c.editProfileForm);
+            c.user.name = c.editProfileForm.name;
+            c.editProfileSuccess = 'Profile updated successfully.';
+        });
+    };
+
     // ========== NAVIGATION ROUTING ==========
     c.navigate = function(view) {
         if (view === 'reportFraud') { c.startNewReport(); return; }
         if (view === 'trackCases') { c.loadCases(); }
+        if (view === 'editProfile') { c.initEditProfile(); }
         c.currentView = view;
     };
 
@@ -895,7 +1021,14 @@ template = r"""<div class="fnx-app">
             <p class="fnx-hero-desc">{{c.t('heroDesc')}}</p>
             <div class="fnx-hero-btns">
                 <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('getStarted')}}</button>
-                <button class="fnx-btn fnx-btn-ghost fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('learnMore')}}</button>
+                <button class="fnx-btn fnx-btn-ghost fnx-btn-lg" ng-click="c.currentView = 'landing'">{{c.t('learnMore')}}</button>
+            </div>
+            <div class="fnx-hero-stats">
+                <div class="fnx-hero-stat"><span class="fnx-hs-num">13+</span><span class="fnx-hs-label">Languages</span></div>
+                <div class="fnx-hero-stat-div"></div>
+                <div class="fnx-hero-stat"><span class="fnx-hs-num">7-Step</span><span class="fnx-hs-label">Guided Wizard</span></div>
+                <div class="fnx-hero-stat-div"></div>
+                <div class="fnx-hero-stat"><span class="fnx-hs-num">SHA-256</span><span class="fnx-hs-label">Evidence Integrity</span></div>
             </div>
         </div>
         <div class="fnx-hero-visual">
@@ -910,37 +1043,119 @@ template = r"""<div class="fnx-app">
         </div>
     </section>
 
-    <!-- 6 Feature Areas -->
-    <section class="fnx-features">
-        <div class="fnx-feature-card">
-            <div class="fnx-feature-icon">&#128274;</div>
-            <div class="fnx-feature-title">Secure Fraud Reporting</div>
-            <p class="fnx-feature-desc">Guided reporting wizard covering payment, cyber, identity, and financial crimes.</p>
+    <!-- Features Section -->
+    <section class="fnx-features-section">
+        <div class="fnx-features-header">
+            <h2 class="fnx-features-title">ONE PLATFORM. COMPLETE INVESTIGATION.</h2>
+            <p class="fnx-features-sub">From first report to resolution &#8212; everything in one secure workspace.</p>
         </div>
-        <div class="fnx-feature-card">
-            <div class="fnx-feature-icon">&#128196;</div>
-            <div class="fnx-feature-title">Evidence Management</div>
-            <p class="fnx-feature-desc">Digital evidence vault with SHA-256 integrity hashing and tamper-evident custody logging.</p>
+        <div class="fnx-features">
+            <div class="fnx-feature-card">
+                <div class="fnx-feature-icon">&#128274;</div>
+                <div class="fnx-feature-title">Secure Fraud Reporting</div>
+                <p class="fnx-feature-desc">Guided 7-step wizard covering payment, cyber, identity, and financial crimes.</p>
+            </div>
+            <div class="fnx-feature-card">
+                <div class="fnx-feature-icon">&#128196;</div>
+                <div class="fnx-feature-title">Evidence Management</div>
+                <p class="fnx-feature-desc">Digital evidence vault with SHA-256 integrity hashing and tamper-evident custody logging.</p>
+            </div>
+            <div class="fnx-feature-card">
+                <div class="fnx-feature-icon">&#128269;</div>
+                <div class="fnx-feature-title">Investigation Tracking</div>
+                <p class="fnx-feature-desc">Real-time case lifecycle from Initial Review through Investigation to Resolution.</p>
+            </div>
+            <div class="fnx-feature-card">
+                <div class="fnx-feature-icon">&#129302;</div>
+                <div class="fnx-feature-title">Intelligent Investigation</div>
+                <p class="fnx-feature-desc">AI-powered triage assistant providing instant fraud recovery guidance.</p>
+            </div>
+            <div class="fnx-feature-card">
+                <div class="fnx-feature-icon">&#127974;</div>
+                <div class="fnx-feature-title">Financial Fraud Protection</div>
+                <p class="fnx-feature-desc">Structured financial intake for UPI, IMPS, cards, and banking transactions.</p>
+            </div>
+            <div class="fnx-feature-card">
+                <div class="fnx-feature-icon">&#128737;</div>
+                <div class="fnx-feature-title">Secure Chain of Custody</div>
+                <p class="fnx-feature-desc">Cryptographic audit trail preserving evidence authenticity for legal review.</p>
+            </div>
         </div>
-        <div class="fnx-feature-card">
-            <div class="fnx-feature-icon">&#128269;</div>
-            <div class="fnx-feature-title">Investigation Tracking</div>
-            <p class="fnx-feature-desc">Real-time status updates and stage progression from review to resolution.</p>
+    </section>
+
+    <!-- How It Works -->
+    <section class="fnx-how-it-works">
+        <div class="fnx-hiw-header">
+            <h2>HOW FRAUDNEXUS WORKS</h2>
+            <p>A structured, end-to-end investigation workflow</p>
         </div>
-        <div class="fnx-feature-card">
-            <div class="fnx-feature-icon">&#129302;</div>
-            <div class="fnx-feature-title">Intelligent Investigation</div>
-            <p class="fnx-feature-desc">Interactive AI triage providing fraud recovery guidance and security recommendations.</p>
+        <div class="fnx-hiw-steps">
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">1</div><div class="fnx-hiw-label">Report Fraud</div></div>
+            <div class="fnx-hiw-arrow">&#8594;</div>
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">2</div><div class="fnx-hiw-label">Collect Evidence</div></div>
+            <div class="fnx-hiw-arrow">&#8594;</div>
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">3</div><div class="fnx-hiw-label">Classify &amp; Prioritize</div></div>
+            <div class="fnx-hiw-arrow">&#8594;</div>
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">4</div><div class="fnx-hiw-label">Caseworker Allocation</div></div>
+            <div class="fnx-hiw-arrow">&#8594;</div>
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">5</div><div class="fnx-hiw-label">Investigate</div></div>
+            <div class="fnx-hiw-arrow">&#8594;</div>
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">6</div><div class="fnx-hiw-label">Resolve</div></div>
+            <div class="fnx-hiw-arrow">&#8594;</div>
+            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">7</div><div class="fnx-hiw-label">Close</div></div>
         </div>
-        <div class="fnx-feature-card">
-            <div class="fnx-feature-icon">&#127974;</div>
-            <div class="fnx-feature-title">Financial Fraud Protection</div>
-            <p class="fnx-feature-desc">Structured financial intake for UPI, IMPS, cards, and banking transactions.</p>
+    </section>
+
+    <!-- For Customers & Investigators -->
+    <section class="fnx-audience-section">
+        <div class="fnx-audience-card fnx-audience-customer">
+            <div class="fnx-audience-icon">&#128100;</div>
+            <h3>FOR CUSTOMERS</h3>
+            <ul>
+                <li>&#10003; Secure Fraud Reporting</li>
+                <li>&#10003; Evidence Submission</li>
+                <li>&#10003; Case Tracking</li>
+                <li>&#10003; Real-time Notifications</li>
+                <li>&#10003; Multilingual UI (13 languages)</li>
+                <li>&#10003; FRAUDNEXUS AI Assistant</li>
+            </ul>
+            <button class="fnx-btn fnx-btn-primary" ng-click="c.goToPortalSelect()">Access Customer Portal</button>
         </div>
-        <div class="fnx-feature-card">
-            <div class="fnx-feature-icon">&#128737;</div>
-            <div class="fnx-feature-title">Secure Chain of Custody</div>
-            <p class="fnx-feature-desc">Forensic audit trail preserving authenticity for financial institutions and legal review.</p>
+        <div class="fnx-audience-card fnx-audience-investigator">
+            <div class="fnx-audience-icon">&#128373;</div>
+            <h3>FOR INVESTIGATORS</h3>
+            <ul>
+                <li>&#128312; Case Management</li>
+                <li>&#128312; Caseworker Allocation</li>
+                <li>&#128312; Evidence Investigation</li>
+                <li>&#128312; Fraud Ring Analysis</li>
+                <li>&#128312; Risk Intelligence</li>
+                <li>&#128312; Compliance &amp; Regulatory Reporting</li>
+            </ul>
+            <div class="fnx-coming-soon-badge">COMING SOON</div>
+        </div>
+    </section>
+
+    <!-- Security -->
+    <section class="fnx-security-section">
+        <h2>SECURE BY DESIGN</h2>
+        <div class="fnx-security-grid">
+            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Evidence Integrity</div>
+            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Immutable Audit Trail</div>
+            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Chain of Custody</div>
+            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Role-Based Access</div>
+            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Sensitive Data Protection</div>
+            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Investigation Traceability</div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="fnx-final-cta">
+        <h2>READY TO REPORT OR INVESTIGATE FRAUD?</h2>
+        <p>One intelligent workspace. Complete investigation pipeline.</p>
+        <div class="fnx-hero-btns">
+            <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('getStarted')}}</button>
+            <button class="fnx-btn fnx-btn-ghost fnx-btn-lg" ng-click="c.goToPortalSelect()">Customer Portal</button>
         </div>
     </section>
 </div>
@@ -999,10 +1214,17 @@ template = r"""<div class="fnx-app">
             <svg width="34" height="34" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#00B8D9" stroke-width="2.5"/><path d="M13 15h14M13 20h10M13 25h7" stroke="#00B8D9" stroke-width="2" stroke-linecap="round"/><circle cx="28" cy="25" r="4" fill="none" stroke="#00B8D9" stroke-width="1.5"/><line x1="31" y1="28" x2="34" y2="31" stroke="#00B8D9" stroke-width="1.5" stroke-linecap="round"/></svg>
             <span>FRAUDNEXUS</span>
         </div>
-        <h2>{{c.t('heroTitle')}}</h2>
-        <p>{{c.t('heroDesc')}}</p>
+        <p class="fnx-auth-left-tagline">FROM FRAUD REPORT TO RESOLUTION</p>
+        <h2 class="fnx-auth-left-title">FINANCIAL &amp; CYBER<br>FRAUD INVESTIGATION HUB</h2>
+        <p class="fnx-auth-left-desc">One intelligent investigation workspace connecting customers, investigators, financial institutions and fraud intelligence.</p>
+        <div class="fnx-auth-capabilities">
+            <div class="fnx-auth-cap">&#10003; Secure Fraud Reporting</div>
+            <div class="fnx-auth-cap">&#10003; Evidence Management</div>
+            <div class="fnx-auth-cap">&#10003; Investigation Tracking</div>
+            <div class="fnx-auth-cap">&#10003; AI Assistant</div>
+        </div>
         <div style="margin-top: 2rem;">
-            <button class="fnx-btn fnx-btn-outline" style="color: #FFFFFF; border-color: rgba(255,255,255,0.4);" ng-click="c.goToPortalSelect()">&larr; Back to Portals</button>
+            <button class="fnx-btn fnx-btn-outline" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3);font-size:0.88rem;" ng-click="c.goToPortalSelect()">&larr; Back to Portals</button>
         </div>
     </div>
 
@@ -1019,6 +1241,10 @@ template = r"""<div class="fnx-app">
 
             <!-- 3A. LOGIN FORM -->
             <form ng-if="c.authMode === 'login' && !c.regSuccess" ng-submit="c.doLogin()" action="javascript:void(0);" class="fnx-auth-form">
+                <div class="fnx-auth-form-header">
+                    <h3 class="fnx-auth-form-title">WELCOME BACK</h3>
+                    <p class="fnx-auth-form-sub">Sign in to continue to your FRAUDNEXUS workspace.</p>
+                </div>
                 <div class="fnx-field">
                     <label>{{c.t('email')}}</label>
                     <input type="email" ng-model="c.authForm.email" required placeholder="user@example.com">
@@ -1043,6 +1269,11 @@ template = r"""<div class="fnx-app">
                     <span>{{c.t('noAccount')}} </span>
                     <a ng-click="c.authMode = 'register'">{{c.t('register')}}</a>
                 </div>
+                <div class="fnx-demo-divider"><span>or</span></div>
+                <button type="button" class="fnx-btn fnx-btn-demo fnx-btn-full" ng-click="c.doDemoLogin()" ng-disabled="c.authLoading">
+                    &#128640; Try Demo &nbsp;<span class="fnx-demo-badge">JUDGE ACCESS</span>
+                </button>
+                <p class="fnx-demo-hint">Explore FRAUDNEXUS with a preloaded demonstration account.</p>
             </form>
 
             <!-- 3B. FORGOT PASSWORD FORM -->
@@ -1222,9 +1453,14 @@ template = r"""<div class="fnx-app">
                         </div>
                     </div>
                     <div class="fnx-profile-dropdown-divider"></div>
+                    <div class="fnx-profile-dropdown-cid">ID: {{c.customer.customer_id || 'FNX-DEMO-2026'}}</div>
                     <button class="fnx-profile-dropdown-item" ng-click="c.showProfileMenu = false; c.navigate('profile')">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                         My Profile
+                    </button>
+                    <button class="fnx-profile-dropdown-item" ng-click="c.showProfileMenu = false; c.navigate('editProfile')">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                        Edit Profile
                     </button>
                     <button class="fnx-profile-dropdown-item" ng-click="c.showProfileMenu = false; c.navigate('dashboard')">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
@@ -1587,36 +1823,17 @@ template = r"""<div class="fnx-app">
                             <input type="text" ng-model="c.reportForm.reference_number" placeholder="e.g. UPI123456789 or TXN-49204918">
                         </div>
 
-                        <!-- Financial Impact Section -->
+                        <!-- Financial Involvement (Step 1 - basic question only) -->
                         <div class="fnx-subcard-section">
-                            <div class="fnx-subcard-title">FINANCIAL IMPACT <span class="fnx-chip-customer-reported">Customer Reported</span></div>
+                            <div class="fnx-subcard-title">FINANCIAL INVOLVEMENT</div>
                             <div class="fnx-field">
-                                <label>Was your money lost?</label>
+                                <label>Was your money lost or were you financially impacted?</label>
                                 <select ng-model="c.reportForm.money_lost" ng-change="c.reportForm.financial_involvement = c.reportForm.money_lost">
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                    <option value="Not sure">Not sure</option>
+                                    <option value="Yes">Yes — money was lost or transferred</option>
+                                    <option value="No">No — no financial loss</option>
+                                    <option value="Not sure">Not sure / Attempted fraud only</option>
                                 </select>
-                            </div>
-
-                            <div ng-if="c.reportForm.money_lost === 'Yes'" class="fnx-form-grid-3">
-                                <div class="fnx-field">
-                                    <label>Estimated Amount Involved (₹)</label>
-                                    <input type="number" ng-model="c.reportForm.exposure" ng-change="c.updateSeverity()" placeholder="e.g. 5000">
-                                </div>
-                                <div class="fnx-field">
-                                    <label>Currency</label>
-                                    <select ng-model="c.reportForm.currency">
-                                        <option value="INR (₹)">INR (₹)</option>
-                                        <option value="USD ($)">USD ($)</option>
-                                        <option value="EUR (€)">EUR (€)</option>
-                                        <option value="GBP (£)">GBP (£)</option>
-                                    </select>
-                                </div>
-                                <div class="fnx-field">
-                                    <label>Number of Transactions</label>
-                                    <input type="number" ng-model="c.reportForm.num_transactions" min="1" placeholder="1">
-                                </div>
+                                <small style="color:#64748B;font-size:0.82rem;margin-top:0.35rem;display:block;">Detailed financial amounts and transaction references are captured in Step 3.</small>
                             </div>
                         </div>
 
@@ -1742,8 +1959,11 @@ template = r"""<div class="fnx-app">
                             </select>
                         </div>
 
-                        <!-- Structured Financial Fields (when Yes) -->
+                        <!-- Structured Financial Fields (when Yes) - 3 clear sections -->
                         <div ng-if="c.reportForm.financial_involvement === 'Yes'" class="fnx-financial-fields">
+
+                            <div class="fnx-fin-section">
+                                <div class="fnx-fin-section-title">&#127974; FINANCIAL ACTIVITY</div>
                             <div class="fnx-form-grid-2">
                                 <div class="fnx-field">
                                     <label>{{c.t('institutionType')}}</label>
@@ -1800,6 +2020,10 @@ template = r"""<div class="fnx-app">
                                 </div>
                             </div>
 
+                            </div><!-- end fnx-fin-section financial activity -->
+
+                            <div class="fnx-fin-section">
+                                <div class="fnx-fin-section-title">&#128290; TRANSACTION DETAILS</div>
                             <div class="fnx-form-grid-2">
                                 <div class="fnx-field">
                                     <label>Reference Type</label>
@@ -1822,9 +2046,12 @@ template = r"""<div class="fnx-app">
                                 </div>
                             </div>
 
+                            </div><!-- end fnx-fin-section transaction details -->
+                            <div class="fnx-fin-section">
+                                <div class="fnx-fin-section-title">💰 FINANCIAL IMPACT</div>
                             <div class="fnx-form-grid-3">
                                 <div class="fnx-field">
-                                    <label>{{c.t('amountInvolved')}} (₹)</label>
+                                    <label>{{c.t('amountInvolved')}}</label>
                                     <input type="number" ng-model="c.reportForm.exposure" ng-change="c.updateSeverity()" placeholder="e.g. 45000">
                                 </div>
                                 <div class="fnx-field">
@@ -1836,7 +2063,9 @@ template = r"""<div class="fnx-app">
                                     <input type="number" ng-model="c.reportForm.recovered_amount" placeholder="e.g. 0">
                                 </div>
                             </div>
-                        </div>
+                        </div><!-- end fnx-form-grid-3 -->
+                            </div><!-- end fnx-fin-section -->
+                        </div><!-- end fnx-financial-fields -->
 
                         <!-- Action Bar -->
                         <div class="fnx-step-nav-bar">
@@ -1945,12 +2174,17 @@ template = r"""<div class="fnx-app">
                             <div class="fnx-dropzone-formats">Images &bull; Videos &bull; Audio &bull; PDF &bull; Documents &bull; Chat Exports</div>
                         </div>
 
-                        <!-- Quick Sample Evidence Helpers -->
-                        <div class="fnx-quick-evidence-row">
-                            <small>Quick Demo Attachments:</small>
-                            <button type="button" class="fnx-btn-pill" ng-click="c.addSampleEvidence('Payment_Screenshot.png', 'Image', '1.4 MB')">+ Payment Screenshot</button>
-                            <button type="button" class="fnx-btn-pill" ng-click="c.addSampleEvidence('Chat_Conversation.pdf', 'PDF', '520 KB')">+ Chat Transcript</button>
-                            <button type="button" class="fnx-btn-pill" ng-click="c.addSampleEvidence('Bank_Statement.pdf', 'PDF', '2.1 MB')">+ Bank Statement</button>
+                        <!-- Supported evidence types (informational) -->
+                        <div class="fnx-evidence-type-tags">
+                            <span class="fnx-ev-tag">Images</span>
+                            <span class="fnx-ev-tag">Videos</span>
+                            <span class="fnx-ev-tag">Audio</span>
+                            <span class="fnx-ev-tag">PDF</span>
+                            <span class="fnx-ev-tag">Documents</span>
+                            <span class="fnx-ev-tag">Chat Exports</span>
+                            <span class="fnx-ev-tag">Spreadsheets</span>
+                            <span class="fnx-ev-tag">Emails</span>
+                            <span class="fnx-ev-tag">URLs</span>
                         </div>
 
                         <!-- Uploaded Evidence Cards -->
@@ -2120,7 +2354,7 @@ template = r"""<div class="fnx-app">
                             <div class="fnx-declaration-box">
                                 <label class="fnx-checkbox-label">
                                     <input type="checkbox" ng-model="c.reportForm.confirm_accurate">
-                                    <span><strong>Legal Declaration:</strong> I confirm that the information provided is accurate and truthful to the best of my knowledge. I understand that submitting false fraud reports is punishable under applicable cybersecurity and financial crime legislation.</span>
+                                    <span><strong>Legal Declaration:</strong> I confirm that the information provided is accurate and truthful to the best of my knowledge. </span>
                                 </label>
                             </div>
 
@@ -2358,6 +2592,41 @@ template = r"""<div class="fnx-app">
         </div>
 
         <!-- 4G. HELP & SUPPORT VIEW -->
+        <!-- EDIT PROFILE VIEW -->
+        <div ng-if="c.currentView === 'editProfile'" class="fnx-edit-profile-view">
+            <div class="fnx-page-header-row">
+                <div>
+                    <h1 class="fnx-page-title">EDIT PROFILE</h1>
+                    <p class="fnx-page-subtitle">Update your personal information. Customer ID cannot be changed.</p>
+                </div>
+                <button class="fnx-btn fnx-btn-outline" ng-click="c.navigate('profile')">&larr; Back to Profile</button>
+            </div>
+            <div class="fnx-card" style="max-width:800px;">
+                <div class="fnx-alert fnx-alert-success" ng-if="c.editProfileSuccess" style="margin-bottom:1rem;">&#10004; {{c.editProfileSuccess}}</div>
+                <div class="fnx-info-row" style="background:#F1F5F9;border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.25rem;">
+                    <span class="fnx-info-label" style="color:#64748B;">Customer ID (Read-only)</span>
+                    <span class="fnx-info-val" style="font-weight:800;color:#0B1F3A;font-family:monospace;">{{c.customer.customer_id || 'FNX-DEMO-2026'}}</span>
+                </div>
+                <div class="fnx-form-grid-2">
+                    <div class="fnx-field"><label>Full Name *</label><input type="text" ng-model="c.editProfileForm.name" placeholder="Full name" required></div>
+                    <div class="fnx-field"><label>Mobile Number</label><div class="fnx-input-group"><span class="fnx-input-addon">+91</span><input type="tel" ng-model="c.editProfileForm.mobile" placeholder="9876543210" maxlength="10"></div></div>
+                </div>
+                <div class="fnx-form-grid-2">
+                    <div class="fnx-field"><label>Email Address</label><input type="email" ng-model="c.editProfileForm.email" placeholder="email@example.com"></div>
+                    <div class="fnx-field"><label>Date of Birth</label><input type="date" ng-model="c.editProfileForm.dob" max="{{c.todayDate}}"></div>
+                </div>
+                <div class="fnx-form-grid-2">
+                    <div class="fnx-field"><label>Gender</label><select ng-model="c.editProfileForm.gender"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option><option value="Prefer not to say">Prefer not to say</option></select></div>
+                    <div class="fnx-field"><label>Occupation</label><select ng-model="c.editProfileForm.occupation"><option value="Student">Student</option><option value="Employee">Employee</option><option value="Self-employed">Self-employed</option><option value="Business Owner">Business Owner</option><option value="Professional">Professional</option><option value="Homemaker">Homemaker</option><option value="Retired">Retired</option><option value="Other">Other</option></select></div>
+                </div>
+                <div class="fnx-field"><label>Address</label><textarea ng-model="c.editProfileForm.address" rows="2" placeholder="Street, City, Pincode, State"></textarea></div>
+                <div class="fnx-step-nav-bar" style="margin-top:1.5rem;">
+                    <button type="button" class="fnx-btn fnx-btn-secondary" ng-click="c.navigate('profile')">Cancel</button>
+                    <button type="button" class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.saveProfile()" ng-disabled="c.editProfileLoading">{{c.editProfileLoading ? 'Saving...' : 'Save Changes'}}</button>
+                </div>
+            </div>
+        </div>
+
         <div ng-if="c.currentView === 'help'" class="fnx-help-view">
             <h2>{{c.t('helpSupport')}}</h2>
             <div class="fnx-help-grid">

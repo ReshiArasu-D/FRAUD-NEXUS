@@ -1,13 +1,15 @@
-import requests
 import os
+import re
+import requests
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('d:/KPMG/.env')
 url = os.getenv('SERVICENOW_INSTANCE_URL')
 auth = HTTPBasicAuth(os.getenv('SERVICENOW_USERNAME'), os.getenv('SERVICENOW_PASSWORD'))
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
+# Generate Complete FRAUDNEXUS Enterprise UI
 portal_html = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2071,9 +2073,7 @@ portal_html = """<!DOCTYPE html>
         function enterInvestigatorPortal() {
             showInfoModal(
                 'Investigator / Command Center Gateway',
-                'The Investigator & Command Center workspace is designated for authorized fraud officers, analysts, and managers.
-
-To access full case allocation, mule account analysis, and fraud rings, authorized officers utilize ServiceNow App Engine Studio or Polaris Next Experience Workspace (/now/nav/ui/classic/params/target/u_x_fnx_case_list.do).'
+                'The Investigator & Command Center workspace is designated for authorized fraud officers, analysts, and managers.\n\nTo access full case allocation, mule account analysis, and fraud rings, authorized officers utilize ServiceNow App Engine Studio or Polaris Next Experience Workspace (/now/nav/ui/classic/params/target/u_x_fnx_case_list.do).'
             );
         }
 
@@ -2174,13 +2174,7 @@ To access full case allocation, mule account analysis, and fraud rings, authoriz
                     updateHeaderAuth();
                     showInfoModal(
                         'FRAUDNEXUS Profile Provisioned',
-                        `Your customer profile has been registered in ServiceNow!
-
-Customer ID: ${result.customer_id}
-Name: ${result.name}
-Email: ${result.email}
-
-You can now report fraud immediately and track case milestones.`
+                        `Your customer profile has been registered in ServiceNow!\n\nCustomer ID: ${result.customer_id}\nName: ${result.name}\nEmail: ${result.email}\n\nYou can now report fraud immediately and track case milestones.`
                     );
                     loadCustomerCases();
                     switchWorkspaceTab('dash');
@@ -2648,12 +2642,7 @@ You can now report fraud immediately and track case milestones.`
             const answers = {
                 'How to report fraud': 'To report fraud, click "Report Fraud" in the left sidebar or header. Complete the 5 guided steps: select the fraud classification, detail what happened, provide location & financial transaction info (such as UTR/bank name), and upload your evidence screenshots.',
                 'Where is my case?': 'You can track all your submitted cases under the "Track Cases" tab in the left sidebar. Each case displays live progress milestones (Submitted, Review, Investigation, Resolution, Closed).',
-                'What does case status mean?': 'Milestones:
-• Submitted: Registered in ServiceNow.
-• Initial Review: Assigned triage officers verify account links.
-• Investigation: Forensic analysis and mule-account correlation active.
-• Resolution: Recovery steps executed with partner banks.
-• Closed: Final audit and case completion.',
+                'What does case status mean?': 'Milestones:\n• Submitted: Registered in ServiceNow.\n• Initial Review: Assigned triage officers verify account links.\n• Investigation: Forensic analysis and mule-account correlation active.\n• Resolution: Recovery steps executed with partner banks.\n• Closed: Final audit and case completion.',
                 'How do I upload evidence?': 'You can upload evidence during initial submission or at ANY time later! Go to "Track Cases", click "View & Add Evidence" on any case, choose your file, and click "Attach Evidence to Case".',
                 'How do I contact support?': 'For urgent financial freezing, call the 24/7 National Cyber Fraud Helpline at 1930 immediately. You can also visit cybercrime.gov.in for formal cyber complaints.'
             };
@@ -2730,21 +2719,95 @@ You can now report fraud immediately and track case milestones.`
 </html>
 """
 
+# 1. Write updated create_ui_page.py
+with open("create_ui_page.py", "w", encoding="utf-8") as f:
+    f.write(f'''import requests
+import os
+from requests.auth import HTTPBasicAuth
+from dotenv import load_dotenv
+
+load_dotenv()
+url = os.getenv('SERVICENOW_INSTANCE_URL')
+auth = HTTPBasicAuth(os.getenv('SERVICENOW_USERNAME'), os.getenv('SERVICENOW_PASSWORD'))
+headers = {{'Accept': 'application/json', 'Content-Type': 'application/json'}}
+
+portal_html = """{portal_html}"""
+
 # Check or Create sys_ui_page
-r_chk = requests.get(f"{url}/api/now/table/sys_ui_page?sysparm_query=name=fnx_portal", auth=auth, headers=headers)
+r_chk = requests.get(f"{{url}}/api/now/table/sys_ui_page?sysparm_query=name=fnx_portal", auth=auth, headers=headers)
 existing = r_chk.json().get('result', [])
 
-page_payload = {
+page_payload = {{
     "name": "fnx_portal",
     "html": portal_html,
     "description": "FRAUDNEXUS Customer Portal Foundation (Phase 1)",
     "direct": "true"
-}
+}}
 
 if existing:
     page_id = existing[0]['sys_id']
-    r_update = requests.patch(f"{url}/api/now/table/sys_ui_page/{page_id}", auth=auth, headers=headers, json=page_payload)
+    r_update = requests.patch(f"{{url}}/api/now/table/sys_ui_page/{{page_id}}", auth=auth, headers=headers, json=page_payload)
     print("Updated sys_ui_page 'fnx_portal':", r_update.status_code)
 else:
-    r_create = requests.post(f"{url}/api/now/table/sys_ui_page", auth=auth, headers=headers, json=page_payload)
+    r_create = requests.post(f"{{url}}/api/now/table/sys_ui_page", auth=auth, headers=headers, json=page_payload)
     print("Created sys_ui_page 'fnx_portal':", r_create.status_code)
+''')
+
+print("Generated create_ui_page.py successfully.")
+
+# 2. Deploy to sp_widget fnx_customer_experience
+css_match = re.search(r'<style>(.*?)</style>', portal_html, re.DOTALL)
+css_content = css_match.group(1).strip() if css_match else ""
+
+body_match = re.search(r'<body>(.*?)<script>', portal_html, re.DOTALL)
+body_html = body_match.group(1).strip() if body_match else ""
+
+js_match = re.search(r'<script>(.*?)</script>\s*</body>', portal_html, re.DOTALL)
+js_content = js_match.group(1).strip() if js_match else ""
+
+widget_client_script = f"""function($scope, $http, $window) {{
+    var c = this;
+    $window.setTimeout(function() {{
+        var scriptEl = document.createElement('script');
+        scriptEl.type = 'text/javascript';
+        scriptEl.text = {repr(js_content)};
+        document.body.appendChild(scriptEl);
+    }}, 100);
+}}"""
+
+r_w = requests.get(f"{url}/api/now/table/sp_widget?sysparm_query=id=fnx_customer_experience", auth=auth, headers=headers)
+w_id = r_w.json()['result'][0]['sys_id']
+
+payload = {
+    "template": body_html,
+    "css": css_content,
+    "client_script": widget_client_script,
+    "public": "true"
+}
+
+r_patch = requests.patch(f"{url}/api/now/table/sp_widget/{w_id}", auth=auth, headers=headers, json=payload)
+print(f"Updated sp_widget fnx_customer_experience: {r_patch.status_code}")
+
+# Update UI page redirect
+redirect_html = f"""<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide" xmlns:j2="null" xmlns:g2="null">
+    <script type="text/javascript">
+        window.location.href = "{url}/fnx";
+    </script>
+    <div style="font-family: sans-serif; text-align: center; padding: 50px;">
+        <h2>Redirecting to FRAUDNEXUS Portal...</h2>
+        <p><a href="{url}/fnx">Click here if you are not redirected automatically.</a></p>
+    </div>
+</j:jelly>
+"""
+
+r_ui = requests.get(f"{url}/api/now/table/sys_ui_page?sysparm_query=name=fnx_portal", auth=auth, headers=headers)
+if r_ui.json().get('result', []):
+    ui_id = r_ui.json()['result'][0]['sys_id']
+    requests.patch(f"{url}/api/now/table/sys_ui_page/{ui_id}", auth=auth, headers=headers, json={"html": redirect_html, "direct": "false"})
+    print("Updated fnx_portal.do redirect to /fnx: 200")
+
+# Verify /fnx
+r_fnx = requests.get(f"{url}/fnx")
+print(f"/fnx status: {r_fnx.status_code}, Length: {len(r_fnx.text)}")
+print("Verified FRAUDNEXUS in /fnx:", "FRAUDNEXUS" in r_fnx.text)

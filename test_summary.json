@@ -1,0 +1,77 @@
+{
+  "TEST 001": {
+    "name": "Customer Registration",
+    "status": "PASS",
+    "details": "sys_user ID: a59e623fc36b83d0e54832f1b40131ce, Customer ID: CNX-2026-001206"
+  },
+  "TEST 002": {
+    "name": "Duplicate Registration",
+    "status": "PASS",
+    "details": "Duplicate correctly rejected: An account with this email address already exists."
+  },
+  "TEST 003": {
+    "name": "Customer Login",
+    "status": "PASS",
+    "details": "Authenticated successfully as: Arun  (arun.fnx.1790961122@example.com)"
+  },
+  "TEST 004": {
+    "name": "Dashboard Data",
+    "status": "PASS",
+    "details": "Dashboard Stats verified: Total=0.0, Active=0, Resolved=0"
+  },
+  "TEST 005": {
+    "name": "Fraud Report",
+    "status": "PASS",
+    "details": "Fraud case created: FNX-2026-001077 (sys_id: 339ea23fc36b83d0e54832f1b40131c9)"
+  },
+  "TEST 006": {
+    "name": "Case Number",
+    "status": "PASS",
+    "details": "ServiceNow Number Maintenance verified: FNX-2026-001077"
+  },
+  "TEST 007": {
+    "name": "Evidence",
+    "status": "PASS",
+    "details": "Evidence record created: ID=EV001125, Type=Image"
+  },
+  "TEST 008": {
+    "name": "Custody",
+    "status": "PASS",
+    "details": "Custody log verified: Action=Uploaded, Performed By={'link': 'https://dev187180.service-now.com/api/now/table/sys_user/a59e623fc36b83d0e54832f1b40131ce', 'value': 'a59e623fc36b83d0e54832f1b40131ce'}"
+  },
+  "TEST 009": {
+    "name": "Audit",
+    "status": "PASS",
+    "details": "Audit log verified: Action=Created, Details=Fraud case reported through Portal by user a59e623fc36b83d0e54832f1b40131ce"
+  },
+  "TEST 010": {
+    "name": "Notification",
+    "status": "PASS",
+    "details": "Case submission notification active on u_x_fnx_case: FNX - Case Submitted"
+  },
+  "TEST 011": {
+    "name": "Case Tracking",
+    "status": "PASS",
+    "details": "Customer 1 successfully retrieved their case FNX-2026-001077"
+  },
+  "TEST 012": {
+    "name": "Security (Isolation between customers)",
+    "status": "PASS",
+    "details": "Security isolation verified: Customer 2 sees 0 cases (Customer 1's case is strictly hidden)"
+  },
+  "TEST 013": {
+    "name": "Persistence",
+    "status": "PASS",
+    "details": "Persistence verified: Case FNX-2026-001077 persisted across logout/relogin"
+  },
+  "TEST 014": {
+    "name": "Direct Record Access ACL",
+    "status": "PASS",
+    "details": "Direct unauthenticated access denied with HTTP 401"
+  },
+  "TEST 015": {
+    "name": "Evidence Security ACL",
+    "status": "PASS",
+    "details": "Direct evidence access denied with HTTP 401"
+  }
+}

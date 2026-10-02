@@ -1,0 +1,1556 @@
+<div class="fnx-app">
+ <style>
+
+/* ============================================================
+   FRAUDNEXUS HIGH CONTRAST BLUE + WHITE ENTERPRISE DESIGN
+   ============================================================ */
+.fnx-app {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    color: #0F172A !important;
+    background-color: #F8FAFC !important;
+    min-height: 100vh !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+}
+
+.fnx-app * {
+    box-sizing: border-box !important;
+}
+
+/* ==================== LANDING PAGE ==================== */
+.fnx-landing {
+    background-color: #FFFFFF !important;
+    min-height: 100vh !important;
+    color: #0F172A !important;
+}
+
+.fnx-landing-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 1.25rem 3rem !important;
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(11,31,58,0.15) !important;
+}
+
+.fnx-landing-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.8rem !important;
+}
+
+.fnx-brand-text {
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px !important;
+    color: #00B8D9 !important;
+}
+
+.fnx-landing-actions {
+    display: flex !important;
+    gap: 0.85rem !important;
+    align-items: center !important;
+}
+
+.fnx-lang-btn {
+    background-color: #123B63 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #00B8D9 !important;
+    padding: 0.45rem 1rem !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+}
+
+.fnx-hero {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 4.5rem 4rem 3.5rem !important;
+    max-width: 1240px !important;
+    margin: 0 auto !important;
+    gap: 3.5rem !important;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%) !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.fnx-hero-content {
+    flex: 1 !important;
+}
+
+.fnx-hero-badge {
+    display: inline-block !important;
+    background-color: #E0F2FE !important;
+    color: #0369A1 !important;
+    border: 1.5px solid #00B8D9 !important;
+    padding: 0.4rem 1.1rem !important;
+    border-radius: 30px !important;
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.fnx-hero h1 {
+    font-size: 2.75rem !important;
+    font-weight: 800 !important;
+    line-height: 1.18 !important;
+    color: #0B1F3A !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.fnx-hero-sub {
+    font-size: 1.35rem !important;
+    color: #0284C7 !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+}
+
+.fnx-hero-desc {
+    color: #334155 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.65 !important;
+    margin-bottom: 2rem !important;
+    max-width: 580px !important;
+}
+
+.fnx-hero-btns {
+    display: flex !important;
+    gap: 1.2rem !important;
+}
+
+.fnx-hero-visual {
+    flex: 0 0 320px !important;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.fnx-hero-graphic {
+    position: relative !important;
+    width: 260px !important;
+    height: 260px !important;
+}
+
+.fnx-hero-circle {
+    position: absolute !important;
+    border-radius: 50% !important;
+    border: 2px solid #00B8D9 !important;
+}
+
+.fnx-hero-circle.c1 { width: 260px; height: 260px; top: 0; left: 0; opacity: 0.3; }
+.fnx-hero-circle.c2 { width: 200px; height: 200px; top: 30px; left: 30px; opacity: 0.5; }
+.fnx-hero-circle.c3 { width: 140px; height: 140px; top: 60px; left: 60px; opacity: 0.7; }
+.fnx-hero-shield {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.fnx-features {
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 1.25rem !important;
+    padding: 3rem 4rem !important;
+    max-width: 1240px !important;
+    margin: 0 auto !important;
+    background-color: #FFFFFF !important;
+}
+
+.fnx-feature-card {
+    text-align: center !important;
+    padding: 1.75rem 1rem !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 10px rgba(11,31,58,0.06) !important;
+    transition: all 0.25s ease !important;
+}
+
+.fnx-feature-card:hover {
+    border-color: #00B8D9 !important;
+    box-shadow: 0 8px 20px rgba(0,184,217,0.18) !important;
+    transform: translateY(-3px) !important;
+}
+
+.fnx-feature-icon {
+    font-size: 2rem !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.fnx-feature-title {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+}
+
+/* ==================== BUTTONS ==================== */
+.fnx-btn {
+    padding: 0.7rem 1.6rem !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    cursor: pointer !important;
+    border: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+}
+
+.fnx-btn-primary {
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    border: 2px solid #0B1F3A !important;
+}
+
+.fnx-btn-primary:hover {
+    background-color: #123B63 !important;
+    border-color: #123B63 !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-btn-outline {
+    background-color: #FFFFFF !important;
+    color: #0B1F3A !important;
+    border: 2px solid #0B1F3A !important;
+}
+
+.fnx-btn-outline:hover {
+    background-color: #F1F5F9 !important;
+    color: #0B1F3A !important;
+}
+
+.fnx-btn-ghost {
+    background-color: #FFFFFF !important;
+    color: #0284C7 !important;
+    border: 2px solid #00B8D9 !important;
+}
+
+.fnx-btn-ghost:hover {
+    background-color: #E0F2FE !important;
+    color: #0369A1 !important;
+}
+
+.fnx-btn-lg {
+    padding: 0.9rem 2.2rem !important;
+    font-size: 1.05rem !important;
+}
+
+.fnx-btn-disabled {
+    background-color: #E2E8F0 !important;
+    color: #64748B !important;
+    cursor: not-allowed !important;
+    border: 2px solid #CBD5E1 !important;
+}
+
+/* ==================== PORTAL SELECT ==================== */
+.fnx-portal-select {
+    min-height: 100vh !important;
+    background-color: #F8FAFC !important;
+    padding: 3rem 2rem !important;
+}
+
+.fnx-portal-header {
+    text-align: center !important;
+    margin-bottom: 3rem !important;
+    position: relative !important;
+}
+
+.fnx-back-link {
+    position: absolute !important;
+    left: 2rem !important;
+    top: 0.5rem !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    color: #0B1F3A !important;
+    font-weight: 700 !important;
+    padding: 0.5rem 1.2rem !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+}
+
+.fnx-portal-title h2 {
+    font-size: 2.2rem !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.fnx-portal-title p {
+    color: #475569 !important;
+    font-size: 1.15rem !important;
+    font-weight: 500 !important;
+}
+
+.fnx-portal-cards {
+    display: flex !important;
+    gap: 2.5rem !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+}
+
+.fnx-portal-card {
+    flex: 1 !important;
+    max-width: 420px !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 16px !important;
+    padding: 2.75rem 2.25rem !important;
+    text-align: center !important;
+    box-shadow: 0 4px 16px rgba(11,31,58,0.06) !important;
+    transition: all 0.3s ease !important;
+}
+
+.fnx-portal-customer {
+    border-color: #00B8D9 !important;
+    cursor: pointer !important;
+}
+
+.fnx-portal-customer:hover {
+    box-shadow: 0 10px 30px rgba(0,184,217,0.2) !important;
+    transform: translateY(-4px) !important;
+}
+
+.fnx-portal-card-icon {
+    font-size: 3rem !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.fnx-portal-card h3 {
+    color: #0B1F3A !important;
+    font-size: 1.45rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.fnx-portal-card p {
+    color: #334155 !important;
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem !important;
+    font-weight: 500 !important;
+}
+
+.fnx-portal-card ul {
+    text-align: left !important;
+    padding-left: 1.5rem !important;
+    margin-bottom: 2rem !important;
+    color: #1E293B !important;
+    font-size: 0.95rem !important;
+    line-height: 1.8 !important;
+}
+
+/* ==================== AUTH (LOGIN & REGISTER) ==================== */
+.fnx-auth-page {
+    display: flex !important;
+    min-height: 100vh !important;
+    background-color: #FFFFFF !important;
+}
+
+.fnx-auth-left {
+    flex: 0 0 45% !important;
+    background: linear-gradient(135deg, #0B1F3A 0%, #123B63 100%) !important;
+    color: #FFFFFF !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    padding: 4.5rem !important;
+}
+
+.fnx-auth-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.8rem !important;
+    margin-bottom: 2.5rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-auth-brand span {
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px !important;
+    color: #00B8D9 !important;
+}
+
+.fnx-auth-left h2 {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    color: #FFFFFF !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.3 !important;
+}
+
+.fnx-auth-left p {
+    color: #E2E8F0 !important;
+    font-size: 1.05rem !important;
+    line-height: 1.6 !important;
+}
+
+.fnx-auth-right {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 3rem !important;
+    background-color: #F8FAFC !important;
+}
+
+.fnx-auth-box {
+    width: 100% !important;
+    max-width: 440px !important;
+    background-color: #FFFFFF !important;
+    padding: 2.5rem !important;
+    border-radius: 14px !important;
+    border: 2px solid #CBD5E1 !important;
+    box-shadow: 0 6px 20px rgba(11,31,58,0.06) !important;
+}
+
+.fnx-auth-tabs {
+    display: flex !important;
+    margin-bottom: 2rem !important;
+    border-bottom: 2px solid #CBD5E1 !important;
+}
+
+.fnx-auth-tabs button {
+    flex: 1 !important;
+    padding: 0.85rem !important;
+    border: none !important;
+    background: none !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    border-bottom: 3px solid transparent !important;
+    margin-bottom: -2px !important;
+}
+
+.fnx-auth-tabs button.active {
+    color: #0B1F3A !important;
+    border-bottom-color: #00B8D9 !important;
+}
+
+.fnx-auth-error {
+    background-color: #FEF2F2 !important;
+    color: #DC2626 !important;
+    padding: 0.85rem 1rem !important;
+    border-radius: 8px !important;
+    margin-bottom: 1.25rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    border: 1px solid #FECACA !important;
+}
+
+.fnx-auth-form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+}
+
+.fnx-auth-switch {
+    text-align: center !important;
+    font-size: 0.95rem !important;
+    color: #475569 !important;
+    margin-top: 1.5rem !important;
+}
+
+.fnx-auth-switch a {
+    color: #0284C7 !important;
+    cursor: pointer !important;
+    font-weight: 700 !important;
+    text-decoration: underline !important;
+}
+
+/* ==================== FORM FIELDS ==================== */
+.fnx-field {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.4rem !important;
+    flex: 1 !important;
+}
+
+.fnx-field label {
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    color: #0B1F3A !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.6px !important;
+}
+
+.fnx-field input, .fnx-field select, .fnx-textarea {
+    padding: 0.8rem 1rem !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    font-weight: 500 !important;
+    transition: border-color 0.2s !important;
+}
+
+.fnx-field input::placeholder, .fnx-textarea::placeholder {
+    color: #64748B !important;
+    opacity: 1 !important;
+}
+
+.fnx-field input:focus, .fnx-field select:focus, .fnx-textarea:focus {
+    outline: none !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 0 0 3px rgba(0,184,217,0.15) !important;
+}
+
+.fnx-form-row {
+    display: flex !important;
+    gap: 1.2rem !important;
+}
+
+/* ==================== MAIN DASHBOARD LAYOUT ==================== */
+.fnx-main-layout {
+    display: grid !important;
+    grid-template-columns: 250px 1fr !important;
+    grid-template-rows: 60px 1fr !important;
+    grid-template-areas: "header header" "sidebar content" !important;
+    min-height: 100vh !important;
+    background-color: #F8FAFC !important;
+}
+
+/* HEADER */
+.fnx-header {
+    grid-area: header !important;
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 2rem !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    border-bottom: 3px solid #00B8D9 !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+}
+
+.fnx-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+}
+
+.fnx-header-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-header-brand span {
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px !important;
+    color: #00B8D9 !important;
+}
+
+.fnx-sidebar-toggle {
+    background: none !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-size: 1.4rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-header-right {
+    display: flex !important;
+    gap: 1.2rem !important;
+    align-items: center !important;
+}
+
+.fnx-icon-btn {
+    background: none !important;
+    border: none !important;
+    font-size: 1.3rem !important;
+    color: #FFFFFF !important;
+    cursor: pointer !important;
+    position: relative !important;
+}
+
+.fnx-notif-dot {
+    position: absolute !important;
+    top: 2px !important;
+    right: 2px !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background-color: #00B8D9 !important;
+}
+
+.fnx-profile-pill {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    background-color: #123B63 !important;
+    padding: 0.35rem 0.9rem !important;
+    border-radius: 30px !important;
+    border: 1px solid rgba(0,184,217,0.4) !important;
+}
+
+.fnx-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background-color: #00B8D9 !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.9rem !important;
+}
+
+.fnx-profile-name {
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-logout-btn {
+    color: #CBD5E1 !important;
+    font-size: 1.1rem !important;
+}
+
+/* SIDEBAR */
+.fnx-sidebar {
+    grid-area: sidebar !important;
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    border-right: 1px solid #1E293B !important;
+    padding: 1.5rem 0 !important;
+}
+
+.fnx-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.4rem !important;
+}
+
+.fnx-nav-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    padding: 0.9rem 1.75rem !important;
+    color: #CBD5E1 !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    border-left: 4px solid transparent !important;
+    transition: all 0.2s ease !important;
+}
+
+.fnx-nav-item:hover {
+    color: #FFFFFF !important;
+    background-color: #123B63 !important;
+}
+
+.fnx-nav-item.active {
+    color: #FFFFFF !important;
+    background-color: #123B63 !important;
+    border-left-color: #00B8D9 !important;
+    font-weight: 800 !important;
+}
+
+.fnx-nav-icon {
+    font-size: 1.3rem !important;
+}
+
+/* CONTENT AREA */
+.fnx-content {
+    grid-area: content !important;
+    padding: 2.5rem 3rem !important;
+    background-color: #F8FAFC !important;
+    min-height: calc(100vh - 60px) !important;
+}
+
+.fnx-welcome {
+    margin-bottom: 2rem !important;
+}
+
+.fnx-welcome h2 {
+    font-size: 2rem !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.3rem !important;
+}
+
+.fnx-welcome p {
+    color: #334155 !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+}
+
+.fnx-stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1.5rem !important;
+    margin-bottom: 2.5rem !important;
+}
+
+.fnx-stat-card {
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 14px !important;
+    padding: 1.75rem !important;
+    box-shadow: 0 4px 12px rgba(11,31,58,0.05) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+}
+
+.fnx-stat-icon {
+    font-size: 2.5rem !important;
+}
+
+.fnx-stat-val {
+    font-size: 2.4rem !important;
+    font-weight: 800 !important;
+    color: #0B1F3A !important;
+    line-height: 1 !important;
+}
+
+.fnx-stat-label {
+    font-size: 0.85rem !important;
+    font-weight: 800 !important;
+    color: #475569 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    margin-top: 0.3rem !important;
+}
+
+.fnx-action-row {
+    display: flex !important;
+    gap: 1.25rem !important;
+    margin-bottom: 2.5rem !important;
+}
+
+.fnx-section h3 {
+    font-size: 1.4rem !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    margin-bottom: 1.25rem !important;
+}
+
+/* TABLES */
+.fnx-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 12px rgba(11,31,58,0.05) !important;
+}
+
+.fnx-table th {
+    background-color: #F1F5F9 !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    font-size: 0.85rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.6px !important;
+    padding: 1rem 1.25rem !important;
+    text-align: left !important;
+    border-bottom: 2px solid #CBD5E1 !important;
+}
+
+.fnx-table td {
+    padding: 1.1rem 1.25rem !important;
+    color: #0F172A !important;
+    font-weight: 600 !important;
+    font-size: 0.95rem !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.fnx-badge {
+    display: inline-block !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 20px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+}
+
+.st-new { background-color: #EFF6FF !important; color: #1D4ED8 !important; border: 1.5px solid #93C5FD !important; }
+.st-progress { background-color: #FEF3C7 !important; color: #B45309 !important; border: 1.5px solid #FCD34D !important; }
+.st-resolved { background-color: #DCFCE7 !important; color: #15803D !important; border: 1.5px solid #86EFAC !important; }
+.sev-high { background-color: #FEE2E2 !important; color: #B91C1C !important; border: 1.5px solid #FCA5A5 !important; }
+.sev-medium { background-color: #FEF3C7 !important; color: #B45309 !important; border: 1.5px solid #FCD34D !important; }
+.sev-low { background-color: #F1F5F9 !important; color: #475569 !important; border: 1.5px solid #CBD5E1 !important; }
+
+/* REPORT FRAUD WIZARD */
+.fnx-wizard {
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 14px !important;
+    padding: 2.5rem !important;
+    box-shadow: 0 4px 16px rgba(11,31,58,0.06) !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+}
+
+.fnx-wizard-steps {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 2.5rem !important;
+    border-bottom: 2px solid #CBD5E1 !important;
+    padding-bottom: 1.25rem !important;
+}
+
+.fnx-step-pill {
+    padding: 0.5rem 1rem !important;
+    border-radius: 20px !important;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    background-color: #F1F5F9 !important;
+    border: 1px solid #CBD5E1 !important;
+}
+
+.fnx-step-pill.active {
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    border-color: #0B1F3A !important;
+}
+
+.fnx-step-pill.completed {
+    background-color: #E0F2FE !important;
+    color: #0369A1 !important;
+    border-color: #00B8D9 !important;
+}
+
+.fnx-wizard-body h3 {
+    font-size: 1.4rem !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.fnx-wizard-actions {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 2.5rem !important;
+    padding-top: 1.5rem !important;
+    border-top: 1px solid #E2E8F0 !important;
+}
+
+.fnx-review-card {
+    background-color: #F8FAFC !important;
+    border: 1.5px solid #CBD5E1 !important;
+    border-radius: 10px !important;
+    padding: 1.5rem !important;
+}
+
+.fnx-review-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0.6rem 0 !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    font-size: 0.95rem !important;
+}
+
+.fnx-review-row span:first-child {
+    color: #475569 !important;
+    font-weight: 600 !important;
+}
+
+.fnx-review-row span:last-child, .fnx-review-row strong {
+    color: #0F172A !important;
+    font-weight: 700 !important;
+}
+
+/* FLOATING AI ASSISTANT */
+.fnx-ai-fab {
+    position: fixed !important;
+    bottom: 2rem !important;
+    right: 2rem !important;
+    background-color: #0B1F3A !important;
+    color: #00B8D9 !important;
+    border: 2px solid #00B8D9 !important;
+    padding: 0.85rem 1.6rem !important;
+    border-radius: 30px !important;
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    box-shadow: 0 6px 20px rgba(0,184,217,0.3) !important;
+    cursor: pointer !important;
+    z-index: 1000 !important;
+}
+
+.fnx-ai-panel {
+    position: fixed !important;
+    bottom: 5.5rem !important;
+    right: 2rem !important;
+    width: 380px !important;
+    height: 480px !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(11,31,58,0.2) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 1001 !important;
+    overflow: hidden !important;
+}
+
+.fnx-ai-header {
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    padding: 1rem 1.25rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    border-bottom: 2px solid #00B8D9 !important;
+}
+
+.fnx-ai-header button {
+    background: none !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-size: 1.4rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-ai-body {
+    flex: 1 !important;
+    padding: 1.25rem !important;
+    overflow-y: auto !important;
+    background-color: #F8FAFC !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+}
+
+.fnx-ai-msg {
+    padding: 0.75rem 1rem !important;
+    border-radius: 12px !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+}
+
+.fnx-ai-msg.ai {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1.5px solid #CBD5E1 !important;
+    align-self: flex-start !important;
+}
+
+.fnx-ai-msg.user {
+    background-color: #0B1F3A !important;
+    color: #FFFFFF !important;
+    align-self: flex-end !important;
+}
+
+.fnx-ai-input {
+    display: flex !important;
+    padding: 0.85rem !important;
+    background-color: #FFFFFF !important;
+    border-top: 1px solid #CBD5E1 !important;
+    gap: 0.5rem !important;
+}
+
+.fnx-ai-input input {
+    flex: 1 !important;
+    padding: 0.6rem 0.85rem !important;
+    border: 1.5px solid #CBD5E1 !important;
+    border-radius: 8px !important;
+    font-size: 0.95rem !important;
+    color: #0F172A !important;
+}
+
+.fnx-ai-input button {
+    background-color: #00B8D9 !important;
+    color: #0B1F3A !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0 1.1rem !important;
+    font-weight: 800 !important;
+    font-size: 1.1rem !important;
+    cursor: pointer !important;
+}
+
+/* NOTIFICATIONS DROPDOWN */
+.fnx-notif-dropdown {
+    position: absolute !important;
+    top: 60px !important;
+    right: 2rem !important;
+    width: 320px !important;
+    background-color: #FFFFFF !important;
+    border: 2px solid #CBD5E1 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(11,31,58,0.15) !important;
+    z-index: 200 !important;
+    overflow: hidden !important;
+}
+
+.fnx-notif-header {
+    background-color: #F1F5F9 !important;
+    padding: 0.85rem 1rem !important;
+    color: #0B1F3A !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid #CBD5E1 !important;
+}
+
+.fnx-notif-header button {
+    background: none !important;
+    border: none !important;
+    font-size: 1.2rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-notif-item {
+    padding: 0.85rem 1rem !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    color: #0F172A !important;
+    cursor: pointer !important;
+}
+
+.fnx-notif-item:hover {
+    background-color: #F8FAFC !important;
+}
+
+.fnx-notif-empty {
+    padding: 1.5rem !important;
+    text-align: center !important;
+    color: #64748B !important;
+}
+
+.fnx-empty {
+    padding: 2.5rem !important;
+    text-align: center !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+    background-color: #FFFFFF !important;
+    border: 2px dashed #CBD5E1 !important;
+    border-radius: 10px !important;
+}
+
+</style> <!-- ============ LANDING PAGE ============ -->
+ <div ng-if="c.currentView === 'landing'" class="fnx-landing">
+  <div class="fnx-landing-header">
+   <div class="fnx-landing-brand">
+    <svg width="36" height="36" viewbox="0 0 40 40">
+     <circle cx="20" cy="20" r="18" fill="none" stroke="#00B8D9" stroke-width="2.5" /><path d="M13 15h14M13 20h10M13 25h7" stroke="#00B8D9" stroke-width="2" stroke-linecap="round" /><circle cx="28" cy="25" r="4" fill="none" stroke="#00B8D9" stroke-width="1.5" /><line x1="31" y1="28" x2="34" y2="31" stroke="#00B8D9" stroke-width="1.5" stroke-linecap="round" />
+    </svg> <span class="fnx-brand-text">{{c.t('brand')}}</span>
+   </div>
+   <div class="fnx-landing-actions"><button class="fnx-lang-btn" ng-click="c.toggleLang()">{{c.lang === 'en' ? 'தமிழ்' : 'English'}}</button> <button class="fnx-btn fnx-btn-outline" ng-click="c.goToAuth('login')">{{c.t('login')}}</button> <button class="fnx-btn fnx-btn-primary" ng-click="c.goToAuth('register')">{{c.t('register')}}</button>
+   </div>
+  </div>
+  <div class="fnx-hero">
+   <div class="fnx-hero-content">
+    <div class="fnx-hero-badge">
+     FRAUDNEXUS
+    </div>
+    <h1>{{c.t('heroTitle')}}</h1>
+    <p class="fnx-hero-sub">{{c.t('heroSub')}}</p>
+    <p class="fnx-hero-desc">{{c.t('heroDesc')}}</p>
+    <div class="fnx-hero-btns"><button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('getStarted')}}</button> <button class="fnx-btn fnx-btn-ghost fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('learnMore')}}</button>
+    </div>
+   </div>
+   <div class="fnx-hero-visual">
+    <div class="fnx-hero-graphic">
+     <div class="fnx-hero-circle c1"></div>
+     <div class="fnx-hero-circle c2"></div>
+     <div class="fnx-hero-circle c3"></div>
+     <div class="fnx-hero-shield">
+      <svg width="84" height="84" viewbox="0 0 80 80">
+       <path d="M40 8L12 22v18c0 16.6 11.9 32.1 28 36 16.1-3.9 28-19.4 28-36V22L40 8z" fill="none" stroke="#00B8D9" stroke-width="3" /><path d="M30 40l8 8 14-14" fill="none" stroke="#00B8D9" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div class="fnx-features">
+   <div class="fnx-feature-card" ng-repeat="f in [{{icon:'🔒',t:'Secure Fraud Reporting'}},{{icon:'🔍',t:'Investigation Tracking'}},{{icon:'📄',t:'Evidence Management'}},{{icon:'🤖',t:'Intelligent Investigation'}},{{icon:'🏛️',t:'Financial Intelligence'}},{{icon:'🛡️',t:'Tamper-Evident Custody'}}]">
+    <div class="fnx-feature-icon">
+     {{f.icon}}
+    </div>
+    <div class="fnx-feature-title">
+     {{f.t}}
+    </div>
+   </div>
+  </div>
+ </div> <!-- ============ PORTAL SELECTION ============ -->
+ <div ng-if="c.currentView === 'portalSelect'" class="fnx-portal-select">
+  <div class="fnx-portal-header"><button class="fnx-back-link" ng-click="c.currentView = 'landing'">← Back</button>
+   <div class="fnx-portal-title">
+    <h2>Select Your Portal</h2>
+    <p>Choose the portal that matches your role</p>
+   </div>
+  </div>
+  <div class="fnx-portal-cards">
+   <div class="fnx-portal-card fnx-portal-customer" ng-click="c.goToAuth('login')">
+    <div class="fnx-portal-card-icon">
+     👤
+    </div>
+    <h3>{{c.t('customerPortal')}}</h3>
+    <p>{{c.t('customerPortalDesc')}}</p>
+    <ul>
+     <li>Report fraud securely</li>
+     <li>Track your cases in real-time</li>
+     <li>Submit evidence with chain of custody</li>
+     <li>Receive automated SMS/Email updates</li>
+     <li>Get intelligent assistant guidance</li>
+    </ul> <button class="fnx-btn fnx-btn-primary fnx-btn-lg">{{c.t('enterPortal')}}</button>
+   </div>
+   <div class="fnx-portal-card fnx-portal-investigator">
+    <div class="fnx-portal-card-icon">
+     🕵️
+    </div>
+    <h3>{{c.t('investigatorPortal')}}</h3>
+    <p>{{c.t('investigatorPortalDesc')}}</p>
+    <ul>
+     <li>Investigate assigned fraud cases</li>
+     <li>Analyze forensic transaction intelligence</li>
+     <li>Manage regulatory and compliance workflows</li>
+     <li>Generate multi-format case reports</li>
+     <li>Handle escalation and approvals</li>
+    </ul> <button class="fnx-btn fnx-btn-disabled">{{c.t('comingSoon')}}</button>
+   </div>
+  </div>
+ </div> <!-- ============ AUTH ============ -->
+ <div ng-if="c.currentView === 'auth'" class="fnx-auth-page">
+  <div class="fnx-auth-left">
+   <div class="fnx-auth-brand" ng-click="c.currentView = 'landing'">
+    <svg width="34" height="34" viewbox="0 0 40 40">
+     <circle cx="20" cy="20" r="18" fill="none" stroke="#00B8D9" stroke-width="2.5" /><path d="M13 15h14M13 20h10M13 25h7" stroke="#00B8D9" stroke-width="2" stroke-linecap="round" />
+    </svg> <span>FRAUDNEXUS</span>
+   </div>
+   <h2>From Fraud Report to Resolution</h2>
+   <p>One intelligent investigation workspace connecting victims, investigators, financial institutions, and law enforcement.</p>
+  </div>
+  <div class="fnx-auth-right">
+   <div class="fnx-auth-box">
+    <div class="fnx-auth-tabs"><button ng-class="{{{'active': c.authMode === 'login'}}}" ng-click="c.authMode = 'login'">{{c.t('login')}}</button> <button ng-class="{{{'active': c.authMode === 'register'}}}" ng-click="c.authMode = 'register'">{{c.t('register')}}</button>
+    </div>
+    <div class="fnx-auth-error" ng-if="c.authError">
+     {{c.authError}}
+    </div> <!-- LOGIN FORM -->
+    <form ng-if="c.authMode === 'login'" ng-submit="c.doLogin()" class="fnx-auth-form">
+     <div class="fnx-field"><label>{{c.t('email')}}</label> <input type="email" ng-model="c.authForm.email" required placeholder="user@example.com">
+     </div>
+     <div class="fnx-field"><label>{{c.t('password')}}</label> <input type="password" ng-model="c.authForm.password" required placeholder="Enter your password">
+     </div> <button type="submit" class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-disabled="c.authLoading"> {{c.authLoading ? 'Signing in...' : c.t('login')}} </button>
+     <div class="fnx-auth-switch"><span>{{c.t('noAccount')}} </span> <a ng-click="c.authMode = 'register'">{{c.t('register')}}</a>
+     </div>
+    </form> <!-- REGISTER FORM -->
+    <form ng-if="c.authMode === 'register'" ng-submit="c.doRegister()" class="fnx-auth-form">
+     <div class="fnx-field"><label>{{c.t('fullName')}}</label> <input type="text" ng-model="c.authForm.name" required placeholder="John Doe">
+     </div>
+     <div class="fnx-field"><label>{{c.t('email')}}</label> <input type="email" ng-model="c.authForm.email" required placeholder="john@example.com">
+     </div>
+     <div class="fnx-field"><label>{{c.t('mobile')}}</label> <input type="tel" ng-model="c.authForm.mobile" required placeholder="9876543210">
+     </div>
+     <div class="fnx-field"><label>{{c.t('password')}}</label> <input type="password" ng-model="c.authForm.password" required placeholder="Create password">
+     </div>
+     <div class="fnx-field"><label>{{c.t('confirmPassword')}}</label> <input type="password" ng-model="c.authForm.confirmPassword" required placeholder="Confirm password">
+     </div> <button type="submit" class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-disabled="c.authLoading"> {{c.authLoading ? 'Creating Account...' : c.t('register')}} </button>
+     <div class="fnx-auth-switch"><span>{{c.t('hasAccount')}} </span> <a ng-click="c.authMode = 'login'">{{c.t('login')}}</a>
+     </div>
+    </form>
+   </div>
+  </div>
+ </div> <!-- ============ MAIN APP LAYOUT (post-auth) ============ -->
+ <div ng-if="c.user &amp;&amp; c.currentView !== 'landing' &amp;&amp; c.currentView !== 'portalSelect' &amp;&amp; c.currentView !== 'auth' &amp;&amp; c.currentView !== 'submitSuccess'" class="fnx-main-layout"><!-- HEADER -->
+  <header class="fnx-header">
+   <div class="fnx-header-left"><button class="fnx-sidebar-toggle" ng-click="c.sidebarCollapsed = !c.sidebarCollapsed">☰</button>
+    <div class="fnx-header-brand" ng-click="c.navigate('dashboard')">
+     <svg width="28" height="28" viewbox="0 0 40 40">
+      <circle cx="20" cy="20" r="18" fill="none" stroke="#00B8D9" stroke-width="2.5" /><path d="M13 15h14M13 20h10M13 25h7" stroke="#00B8D9" stroke-width="2" stroke-linecap="round" />
+     </svg> <span>FRAUDNEXUS</span>
+    </div>
+   </div>
+   <div class="fnx-header-right"><button class="fnx-lang-btn" ng-click="c.toggleLang()">{{c.lang === 'en' ? 'தமிழ்' : 'EN'}}</button> <button class="fnx-icon-btn" ng-click="c.showNotifications = !c.showNotifications" title="Notifications">🔔<span class="fnx-notif-dot" ng-if="c.cases.length > 0"></span></button>
+    <div class="fnx-profile-pill"><span class="fnx-avatar">{{c.user.name.charAt(0)}}</span> <span class="fnx-profile-name">{{c.user.name}}</span> <button class="fnx-icon-btn fnx-logout-btn" ng-click="c.logout()" title="Logout">➔</button>
+    </div>
+   </div> <!-- Notifications Dropdown -->
+   <div class="fnx-notif-dropdown" ng-if="c.showNotifications">
+    <div class="fnx-notif-header">
+     <strong>Notifications</strong><button ng-click="c.showNotifications = false">×</button>
+    </div>
+    <div class="fnx-notif-empty" ng-if="c.cases.length === 0">
+     No notifications
+    </div>
+    <div class="fnx-notif-item" ng-repeat="cs in c.cases | limitTo:5" ng-click="c.viewCase(cs); c.showNotifications = false"><strong>{{cs.number}}</strong> - {{cs.type}}<br><small>Status: {{cs.status}}</small>
+    </div>
+   </div>
+  </header> <!-- SIDEBAR -->
+  <aside class="fnx-sidebar" ng-class="{{{'collapsed': c.sidebarCollapsed}}}">
+   <nav class="fnx-nav"><a class="fnx-nav-item" ng-class="{{{'active': c.currentView === 'dashboard'}}}" ng-click="c.navigate('dashboard')"><span class="fnx-nav-icon">📊</span><span class="fnx-nav-label">{{c.t('dashboard')}}</span></a> <a class="fnx-nav-item" ng-class="{{{'active': c.currentView === 'reportFraud'}}}" ng-click="c.navigate('reportFraud')"><span class="fnx-nav-icon">🚨</span><span class="fnx-nav-label">{{c.t('reportFraud')}}</span></a> <a class="fnx-nav-item" ng-class="{{{'active': c.currentView === 'trackCases'}}}" ng-click="c.navigate('trackCases')"><span class="fnx-nav-icon">🔍</span><span class="fnx-nav-label">{{c.t('trackCases')}}</span></a> <a class="fnx-nav-item" ng-class="{{{'active': c.currentView === 'evidenceVault'}}}" ng-click="c.navigate('evidenceVault')"><span class="fnx-nav-icon">📁</span><span class="fnx-nav-label">{{c.t('evidence')}}</span></a> <a class="fnx-nav-item" ng-class="{{{'active': c.currentView === 'help'}}}" ng-click="c.navigate('help')"><span class="fnx-nav-icon">❓</span><span class="fnx-nav-label">{{c.t('helpSupport')}}</span></a>
+   </nav>
+  </aside> <!-- CONTENT -->
+  <main class="fnx-content" ng-class="{{{'sidebar-collapsed': c.sidebarCollapsed}}}"><!-- DASHBOARD -->
+   <div ng-if="c.currentView === 'dashboard'" class="fnx-dashboard">
+    <div class="fnx-welcome">
+     <h2>{{c.t('welcome')}}, {{c.user.name}}!</h2>
+     <p ng-if="c.customer.customer_id">Customer ID: <strong>{{c.customer.customer_id}}</strong></p>
+    </div>
+    <div class="fnx-stats-row">
+     <div class="fnx-stat-card">
+      <div class="fnx-stat-icon">
+       📊
+      </div>
+      <div>
+       <div class="fnx-stat-val">
+        {{c.stats.total}}
+       </div>
+       <div class="fnx-stat-label">
+        {{c.t('totalCases')}}
+       </div>
+      </div>
+     </div>
+     <div class="fnx-stat-card">
+      <div class="fnx-stat-icon">
+       🔴
+      </div>
+      <div>
+       <div class="fnx-stat-val">
+        {{c.stats.active}}
+       </div>
+       <div class="fnx-stat-label">
+        {{c.t('activeCases')}}
+       </div>
+      </div>
+     </div>
+     <div class="fnx-stat-card">
+      <div class="fnx-stat-icon">
+       ✅
+      </div>
+      <div>
+       <div class="fnx-stat-val">
+        {{c.stats.resolved}}
+       </div>
+       <div class="fnx-stat-label">
+        {{c.t('resolvedCases')}}
+       </div>
+      </div>
+     </div>
+    </div>
+    <div class="fnx-action-row"><button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.navigate('reportFraud')">🚨 {{c.t('reportFraud')}}</button> <button class="fnx-btn fnx-btn-outline fnx-btn-lg" ng-click="c.navigate('trackCases')">🔍 {{c.t('trackCases')}}</button>
+    </div>
+    <div class="fnx-section">
+     <h3>{{c.t('recentCases')}}</h3>
+     <div class="fnx-empty" ng-if="c.cases.length === 0">
+      {{c.t('noCases')}}
+     </div>
+     <table class="fnx-table" ng-if="c.cases.length > 0">
+      <thead>
+       <tr>
+        <th>{{c.t('caseId')}}</th>
+        <th>{{c.t('incidentType')}}</th>
+        <th>{{c.t('date')}}</th>
+        <th>{{c.t('severity')}}</th>
+        <th>{{c.t('status')}}</th>
+        <th>Action</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr ng-repeat="cs in c.cases | limitTo:5">
+        <td><strong>{{cs.number}}</strong></td>
+        <td>{{cs.type}}</td>
+        <td>{{cs.incident_date}}</td>
+        <td><span class="fnx-badge" ng-class="c.getSeverityClass(cs.severity)">{{cs.severity}}</span></td>
+        <td><span class="fnx-badge" ng-class="c.getStatusClass(cs.status)">{{cs.status}}</span></td>
+        <td><button class="fnx-btn fnx-btn-outline" style="padding:0.35rem 0.8rem; font-size:0.85rem;" ng-click="c.viewCase(cs)">{{c.t('viewCase')}}</button></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div> <!-- REPORT FRAUD WIZARD -->
+   <div ng-if="c.currentView === 'reportFraud'" class="fnx-wizard">
+    <div class="fnx-wizard-steps"><span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 1, 'completed': c.wizardStep > 1}}}">1. Type</span> <span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 2, 'completed': c.wizardStep > 2}}}">2. Incident</span> <span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 3, 'completed': c.wizardStep > 3}}}">3. Financial</span> <span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 4, 'completed': c.wizardStep > 4}}}" ng-if="c.report.financial_involvement === 'Yes'">4. Transaction</span> <span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 5, 'completed': c.wizardStep > 5}}}">5. Location</span> <span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 6, 'completed': c.wizardStep > 6}}}">6. Evidence</span> <span class="fnx-step-pill" ng-class="{{{'active': c.wizardStep === 7}}}">7. Review</span>
+    </div> <!-- Step 1: Type -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 1">
+     <h3>{{c.t('selectType')}}</h3>
+     <div class="fnx-field"><label>{{c.t('incidentType')}}</label> <select ng-model="c.report.type" required> <option value="">-- Select Incident Type --</option> <option ng-repeat="ft in c.fraudTypes" value="{{ft}}">{{ft}}</option> </select>
+     </div>
+     <div class="fnx-wizard-actions">
+      <div></div> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.nextStep()">{{c.t('next')}} →</button>
+     </div>
+    </div> <!-- Step 2: Details -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 2">
+     <h3>{{c.t('whatHappened')}}</h3>
+     <div class="fnx-field"><label>{{c.t('whatHappened')}}</label> <textarea class="fnx-textarea" ng-model="c.report.description" rows="4" placeholder="{{c.t('describeIncident')}}"></textarea>
+     </div>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('incidentDate')}}</label><input type="date" ng-model="c.report.incident_date">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('incidentTime')}}</label><input type="time" ng-model="c.report.incident_time">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('severity')}}</label><select ng-model="c.report.severity"><option ng-repeat="s in c.severities" value="{{s}}">{{s}}</option></select>
+      </div>
+     </div>
+     <div class="fnx-wizard-actions"><button class="fnx-btn fnx-btn-outline" ng-click="c.prevStep()">← {{c.t('back')}}</button> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.nextStep()">{{c.t('next')}} →</button>
+     </div>
+    </div> <!-- Step 3: Financial -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 3">
+     <h3>{{c.t('financialInvolvement')}}</h3>
+     <div class="fnx-field"><label>{{c.t('financialInvolvement')}}</label> <select ng-model="c.report.financial_involvement"> <option value="No">{{c.t('no')}}</option> <option value="Yes">{{c.t('yes')}}</option> <option value="Not Sure">{{c.t('notSure')}}</option> </select>
+     </div>
+     <div ng-if="c.report.financial_involvement === 'Yes'">
+      <div class="fnx-form-row">
+       <div class="fnx-field">
+        <label>{{c.t('paymentMode')}}</label><select ng-model="c.report.payment_mode"><option value="">-- Select --</option><option ng-repeat="pm in c.paymentModes" value="{{pm}}">{{pm}}</option></select>
+       </div>
+       <div class="fnx-field">
+        <label>{{c.t('amountInvolved')}}</label><input type="number" ng-model="c.report.exposure" placeholder="e.g. 50000">
+       </div>
+      </div>
+     </div>
+     <div class="fnx-wizard-actions"><button class="fnx-btn fnx-btn-outline" ng-click="c.prevStep()">← {{c.t('back')}}</button> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.nextStep()">{{c.t('next')}} →</button>
+     </div>
+    </div> <!-- Step 4: Transaction Details (if Financial) -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 4 &amp;&amp; c.report.financial_involvement === 'Yes'">
+     <h3>Transaction &amp; Institution Information</h3>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('institution')}}</label><input type="text" ng-model="c.report.institution_name" placeholder="Bank / Wallet Name">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('institutionType')}}</label><select ng-model="c.report.institution_type"><option value="">-- Select --</option><option ng-repeat="it in c.institutionTypes" value="{{it}}">{{it}}</option></select>
+      </div>
+     </div>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('branch')}}</label><input type="text" ng-model="c.report.branch" placeholder="Branch / IFSC code">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('referenceValue')}}</label><input type="text" ng-model="c.report.transaction_reference" placeholder="UTR / Transaction ID">
+      </div>
+     </div>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('suspectName')}}</label><input type="text" ng-model="c.report.suspect_name" placeholder="Name or Phone">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('channel')}}</label><input type="text" ng-model="c.report.communication_channel" placeholder="WhatsApp / SMS / Call">
+      </div>
+     </div>
+     <div class="fnx-wizard-actions"><button class="fnx-btn fnx-btn-outline" ng-click="c.prevStep()">← {{c.t('back')}}</button> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.nextStep()">{{c.t('next')}} →</button>
+     </div>
+    </div> <!-- Step 5: Location -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 5">
+     <h3>{{c.t('location')}} &amp; {{c.t('digitalPlatform')}}</h3>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('location')}}</label><input type="text" ng-model="c.report.location" placeholder="City / Town">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('area')}}</label><input type="text" ng-model="c.report.area" placeholder="Area / Locality">
+      </div>
+     </div>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('pincode')}}</label><input type="text" ng-model="c.report.pincode" placeholder="6-digit pincode">
+      </div>
+      <div class="fnx-field">
+       <label>{{c.t('digitalPlatform')}}</label><input type="text" ng-model="c.report.digital_platform" placeholder="App / Website / URL">
+      </div>
+     </div>
+     <div class="fnx-wizard-actions"><button class="fnx-btn fnx-btn-outline" ng-click="c.prevStep()">← {{c.t('back')}}</button> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.nextStep()">{{c.t('next')}} →</button>
+     </div>
+    </div> <!-- Step 6: Evidence -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 6">
+     <h3>{{c.t('evidence')}}</h3>
+     <div class="fnx-form-row">
+      <div class="fnx-field">
+       <label>{{c.t('evidenceType')}}</label><select ng-model="c.report.evidence_type"><option value="">-- Select --</option><option ng-repeat="et in c.evidenceTypes" value="{{et}}">{{et}}</option></select>
+      </div>
+      <div class="fnx-field">
+       <label>File Name / Description</label><input type="text" ng-model="c.report.attachment_name" placeholder="screenshot.png or statement.pdf">
+      </div>
+     </div>
+     <div class="fnx-field">
+      <label>{{c.t('evidenceDesc')}}</label><textarea class="fnx-textarea" ng-model="c.report.evidence_description" rows="3" placeholder="Describe the supporting evidence..."></textarea>
+     </div>
+     <div class="fnx-wizard-actions"><button class="fnx-btn fnx-btn-outline" ng-click="c.prevStep()">← {{c.t('back')}}</button> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.nextStep()">{{c.t('review')}} →</button>
+     </div>
+    </div> <!-- Step 7: Review -->
+    <div class="fnx-wizard-body" ng-if="c.wizardStep === 7">
+     <h3>{{c.t('review')}}</h3>
+     <div class="fnx-review-card">
+      <div class="fnx-review-row">
+       <span>Incident Type:</span><strong>{{c.report.type}}</strong>
+      </div>
+      <div class="fnx-review-row">
+       <span>Description:</span><span>{{c.report.description}}</span>
+      </div>
+      <div class="fnx-review-row">
+       <span>Date:</span><span>{{c.report.incident_date}} {{c.report.incident_time}}</span>
+      </div>
+      <div class="fnx-review-row">
+       <span>Financial:</span><span>{{c.report.financial_involvement}}</span>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.payment_mode">
+       <span>Payment Mode:</span><span>{{c.report.payment_mode}}</span>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.exposure">
+       <span>Amount:</span><strong>INR {{c.report.exposure}}</strong>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.institution_name">
+       <span>Institution:</span><span>{{c.report.institution_name}}</span>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.branch">
+       <span>Branch:</span><span>{{c.report.branch}}</span>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.transaction_reference">
+       <span>Reference:</span><span>{{c.report.transaction_reference}}</span>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.suspect_name">
+       <span>Suspect:</span><span>{{c.report.suspect_name}}</span>
+      </div>
+      <div class="fnx-review-row" ng-if="c.report.evidence_type">
+       <span>Evidence:</span><span>{{c.report.evidence_type}} - {{c.report.evidence_description}}</span>
+      </div>
+     </div>
+     <div class="fnx-wizard-actions"><button class="fnx-btn fnx-btn-outline" ng-click="c.prevStep()">← {{c.t('back')}}</button> <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.submitReport()" ng-disabled="c.isSubmitting"> {{c.isSubmitting ? c.t('submitting') : c.t('submit')}} </button>
+     </div>
+    </div>
+   </div> <!-- TRACK CASES -->
+   <div ng-if="c.currentView === 'trackCases'" class="fnx-track">
+    <h2>🔍 {{c.t('trackCases')}}</h2>
+    <div class="fnx-empty" ng-if="c.cases.length === 0">
+     {{c.t('noCases')}}
+    </div>
+    <div class="fnx-case-list" ng-if="c.cases.length > 0">
+     <div class="fnx-stat-card" style="margin-bottom:1.5rem; justify-content:space-between;" ng-repeat="cs in c.cases">
+      <div>
+       <div style="font-size:1.25rem; font-weight:800; color:#0B1F3A; margin-bottom:0.3rem;">
+        {{cs.number}} <span class="fnx-badge" ng-class="c.getStatusClass(cs.status)" style="margin-left:0.75rem;">{{cs.status}}</span>
+       </div>
+       <div style="color:#475569; font-weight:600;">
+        {{cs.type}} | Date: {{cs.incident_date}} | Severity: <span class="fnx-badge" ng-class="c.getSeverityClass(cs.severity)">{{cs.severity}}</span>
+       </div>
+      </div>
+      <div><button class="fnx-btn fnx-btn-primary" ng-click="c.viewCase(cs)">View Investigation Timeline</button>
+      </div>
+     </div>
+    </div>
+   </div> <!-- CASE DETAIL -->
+   <div ng-if="c.currentView === 'caseDetail' &amp;&amp; c.selectedCase" class="fnx-wizard"><button class="fnx-btn fnx-btn-outline" style="margin-bottom:1.5rem;" ng-click="c.navigate('trackCases')">← Back to Cases</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+     <h2 style="font-size:1.8rem; color:#0B1F3A; font-weight:800; margin:0;">Case {{c.selectedCase.number}}</h2> <span class="fnx-badge" ng-class="c.getStatusClass(c.selectedCase.status)" style="font-size:1rem; padding:0.5rem 1.25rem;">{{c.selectedCase.status}}</span>
+    </div>
+    <div class="fnx-review-card" style="margin-bottom:2rem;">
+     <div class="fnx-review-row">
+      <span>Incident Type:</span><strong>{{c.selectedCase.type}}</strong>
+     </div>
+     <div class="fnx-review-row">
+      <span>Reported On:</span><span>{{c.selectedCase.sys_created_on}}</span>
+     </div>
+     <div class="fnx-review-row">
+      <span>Severity:</span><span class="fnx-badge" ng-class="c.getSeverityClass(c.selectedCase.severity)">{{c.selectedCase.severity}}</span>
+     </div>
+     <div class="fnx-review-row">
+      <span>Investigation Stage:</span><strong>{{c.selectedCase.stage || c.selectedCase.status}}</strong>
+     </div>
+     <div class="fnx-review-row">
+      <span>Details:</span><span>{{c.selectedCase.description}}</span>
+     </div>
+    </div> <!-- Upload Additional Evidence Form -->
+    <div style="background-color:#FFFFFF; border:2px solid #00B8D9; border-radius:12px; padding:1.75rem; margin-top:2rem;">
+     <h3 style="color:#0B1F3A; font-weight:800; margin-bottom:1rem;">Add Supporting Evidence</h3>
+     <div class="fnx-form-row">
+      <div class="fnx-field"><label>Evidence Type</label> <select ng-model="c.evidenceForm.evidence_type"> <option ng-repeat="et in c.evidenceTypes" value="{{et}}">{{et}}</option> </select>
+      </div>
+      <div class="fnx-field"><label>Attachment Filename</label> <input type="text" ng-model="c.evidenceForm.attachment_name" placeholder="bank_statement.pdf">
+      </div>
+     </div>
+     <div class="fnx-field" style="margin-top:1rem;"><label>Description of Evidence</label> <textarea class="fnx-textarea" ng-model="c.evidenceForm.evidence_description" rows="2" placeholder="Details about this evidence..."></textarea>
+     </div>
+     <div style="margin-top:1.25rem; text-align:right;"><button class="fnx-btn fnx-btn-primary" ng-click="c.submitAdditionalEvidence(c.selectedCase.sys_id)" ng-disabled="c.evidenceSubmitting"> {{c.evidenceSubmitting ? 'Uploading...' : 'Submit Evidence with Chain of Custody'}} </button>
+     </div>
+    </div>
+   </div> <!-- EVIDENCE VAULT -->
+   <div ng-if="c.currentView === 'evidenceVault'" class="fnx-evidence-vault">
+    <h2>📁 {{c.t('evidence')}}</h2>
+    <div class="fnx-empty" ng-if="c.cases.length === 0">
+     No evidence found. Submit a fraud case to attach evidence.
+    </div>
+    <div ng-repeat="cs in c.cases" ng-if="cs.evidence &amp;&amp; cs.evidence.length > 0" style="margin-bottom:2rem;">
+     <h3 style="color:#0B1F3A; font-weight:800; margin-bottom:1rem;">Case {{cs.number}} - {{cs.type}}</h3>
+     <div class="fnx-stat-card" ng-repeat="ev in cs.evidence" style="margin-bottom:1rem;">
+      <div class="fnx-stat-icon">
+       📄
+      </div>
+      <div style="flex:1;">
+       <div style="font-weight:800; color:#0B1F3A; font-size:1.1rem;">
+        {{ev.number}} | {{ev.type}}
+       </div>
+       <div style="color:#334155; margin:0.3rem 0;">
+        {{ev.description}}
+       </div> <small style="color:#64748B;">Uploaded: {{ev.uploaded_on}} | Status: {{ev.status}}</small>
+      </div>
+     </div>
+    </div>
+   </div> <!-- HELP -->
+   <div ng-if="c.currentView === 'help'" class="fnx-help">
+    <h2>❓ {{c.t('helpSupport')}}</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+     <div class="fnx-stat-card" style="flex-direction:column; align-items:flex-start;">
+      <h4 style="color:#0B1F3A; font-weight:800; margin-bottom:0.5rem;">How do I report fraud?</h4>
+      <p style="color:#334155;">Click "Report Fraud" in the sidebar and follow the 7-step wizard. You can report payment fraud, UPI scams, identity theft, and more.</p>
+     </div>
+     <div class="fnx-stat-card" style="flex-direction:column; align-items:flex-start;">
+      <h4 style="color:#0B1F3A; font-weight:800; margin-bottom:0.5rem;">How does Chain of Custody work?</h4>
+      <p style="color:#334155;">Every piece of evidence uploaded to FRAUDNEXUS is logged in an immutable, append-only custody ledger with timestamps and user identification.</p>
+     </div>
+     <div class="fnx-stat-card" style="flex-direction:column; align-items:flex-start;">
+      <h4 style="color:#0B1F3A; font-weight:800; margin-bottom:0.5rem;">What is the National Cybercrime Helpline?</h4>
+      <p style="color:#334155;">In India, call 1930 immediately to report active financial cyber fraud and request a freeze on fraudulent transactions.</p>
+     </div>
+     <div class="fnx-stat-card" style="flex-direction:column; align-items:flex-start;">
+      <h4 style="color:#0B1F3A; font-weight:800; margin-bottom:0.5rem;">How is my data isolated?</h4>
+      <p style="color:#334155;">Your records are protected with ServiceNow Access Control Lists (ACLs). Only you and assigned investigators can access your case.</p>
+     </div>
+    </div>
+   </div>
+  </main>
+ </div> <!-- ============ SUBMIT SUCCESS ============ -->
+ <div ng-if="c.currentView === 'submitSuccess'" class="fnx-portal-select">
+  <div class="fnx-wizard" style="text-align:center;">
+   <div style="font-size:3.5rem; margin-bottom:1rem;">
+    ✅
+   </div>
+   <h2 style="color:#0B1F3A; font-size:2rem; font-weight:800; margin-bottom:0.5rem;">{{c.t('caseSubmitted')}}</h2>
+   <div style="background-color:#E0F2FE; border:2px solid #00B8D9; border-radius:10px; padding:1.25rem; max-width:320px; margin:1.5rem auto; font-size:1.6rem; font-weight:800; color:#0B1F3A;">
+    {{c.submitResult.number}}
+   </div>
+   <p style="color:#334155; font-size:1.1rem; margin-bottom:2rem;">Your investigation case has been initiated. Our forensic team has been notified.</p>
+   <div style="display:flex; justify-content:center; gap:1.2rem;"><button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.navigate('trackCases')">🔍 Track This Case</button> <button class="fnx-btn fnx-btn-outline fnx-btn-lg" ng-click="c.startNewReport()">Report Another</button>
+   </div>
+  </div>
+ </div> <!-- ============ FLOATING AI ASSISTANT ============ -->
+ <div ng-if="c.user" class="fnx-ai-fab" ng-click="c.showAI = !c.showAI">
+  ✨ {{c.t('askAI')}}
+ </div>
+ <div ng-if="c.showAI" class="fnx-ai-panel">
+  <div class="fnx-ai-header"><strong>✨ FRAUDNEXUS AI Assistant</strong> <button ng-click="c.showAI = false">×</button>
+  </div>
+  <div class="fnx-ai-body">
+   <div class="fnx-ai-msg ai" ng-if="c.aiMessages.length === 0">
+    Hello! I am your FRAUDNEXUS AI Assistant. How can I assist you with fraud reporting, evidence submission, or case tracking today?
+   </div>
+   <div class="fnx-ai-msg" ng-repeat="m in c.aiMessages" ng-class="m.role">
+    {{m.text}}
+   </div>
+  </div>
+  <div class="fnx-ai-input"><input type="text" ng-model="c.aiInput" placeholder="{{c.t('aiPlaceholder')}}" ng-keypress="$event.keyCode === 13 &amp;&amp; c.sendAIMessage()"> <button ng-click="c.sendAIMessage()">➔</button>
+  </div>
+ </div>
+</div>

@@ -4811,149 +4811,141 @@ css = r"""
 .fnx-profile-dropdown-cid { font-size:0.75rem !important; color:#7AADCC !important; padding:0.3rem 1.1rem 0.5rem !important; font-family:monospace !important; }
 .fnx-edit-profile-view { padding:0 !important; }
 
-/* ==================== CARD & ICON HOVER ANIMATIONS ==================== */
-/* 1. Feature Cards & Icons (Landing Page) */
-.fnx-feature-card {
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease !important;
-    cursor: pointer !important;
+/* ==================== GLOBAL CARD & ICON CONTAINMENT ==================== */
+/* 1. Global Card Rules: strict clipping so NO child or icon can ever breach the card boundary */
+.fnx-card,
+.fnx-stat-card,
+.fnx-feature-card,
+.fnx-portal-card,
+.fnx-case-card,
+.fnx-side-card,
+.fnx-evidence-item-card,
+.fnx-profile-info-card,
+.fnx-kyc-card,
+.fnx-step-card,
+.fnx-stepper-card,
+.fnx-subcard-section {
     position: relative !important;
-    overflow: hidden !important;
-}
-.fnx-feature-card:hover {
-    transform: translateY(-8px) scale(1.02) !important;
-    border-color: #00B8D9 !important;
-    box-shadow: 0 20px 35px -10px rgba(0, 184, 217, 0.25), 0 0 0 1px rgba(0, 184, 217, 0.2) !important;
-}
-.fnx-feature-icon {
-    display: inline-block !important;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease !important;
-}
-.fnx-feature-card:hover .fnx-feature-icon {
-    transform: scale(1.3) translateY(-4px) rotate(8deg) !important;
-    filter: drop-shadow(0 4px 8px rgba(0, 184, 217, 0.4)) !important;
+    overflow: hidden !important; /* STRICT GLOBAL CONTAINMENT: nothing escapes card bounds */
+    contain: layout paint !important;
 }
 
-/* 2. Portal Cards & Icons (Portal Select) */
+/* 2. Global Icon Base Rules: icons always stay centered, upright, and strictly inside padding */
+.fnx-stat-icon,
+.fnx-feature-icon,
+.fnx-portal-card-icon,
+.fnx-ev-icon,
+.fnx-side-card-icon,
+.fnx-dropzone-icon,
+.fnx-nav-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transform-origin: center center !important;
+    pointer-events: none !important; /* Card handles hover; icon stays anchored */
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    line-height: 1 !important;
+}
+
+/* 3. Feature Cards (Landing Page) */
+.fnx-feature-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease !important;
+    cursor: pointer !important;
+}
+.fnx-feature-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 14px 28px -4px rgba(0, 184, 217, 0.2), 0 0 0 1px rgba(0, 184, 217, 0.2) !important;
+}
+.fnx-feature-card:hover .fnx-feature-icon {
+    transform: scale(1.08) !important;
+}
+
+/* 4. Portal Cards (Portal Select) */
 .fnx-portal-card {
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease !important;
     cursor: pointer !important;
 }
 .fnx-portal-card:hover {
-    transform: translateY(-8px) scale(1.02) !important;
+    transform: translateY(-4px) !important;
     border-color: #00B8D9 !important;
-    box-shadow: 0 22px 40px -10px rgba(0, 184, 217, 0.28) !important;
-}
-.fnx-portal-card-icon {
-    display: inline-block !important;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease !important;
+    box-shadow: 0 14px 28px -4px rgba(0, 184, 217, 0.2) !important;
 }
 .fnx-portal-card:hover .fnx-portal-card-icon {
-    transform: scale(1.28) translateY(-3px) rotate(-6deg) !important;
-    filter: drop-shadow(0 4px 10px rgba(0, 184, 217, 0.35)) !important;
+    transform: scale(1.08) !important;
 }
 
-/* 3. Stat Cards & Icons (Dashboard) */
+/* 5. Stat Cards (Dashboard) */
 .fnx-stat-card {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease !important;
     cursor: pointer !important;
 }
 .fnx-stat-card:hover {
-    transform: translateY(-6px) scale(1.02) !important;
-    border-color: #00B8D9 !important;
-    box-shadow: 0 14px 28px -6px rgba(11, 31, 58, 0.12), 0 0 0 1px rgba(0, 184, 217, 0.3) !important;
-}
-.fnx-stat-icon {
-    display: inline-block !important;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-.fnx-stat-card:hover .fnx-stat-icon {
-    transform: scale(1.25) rotate(6deg) !important;
-}
-
-/* 4. Case Cards & Case Icons */
-.fnx-case-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
-}
-.fnx-case-card:hover {
     transform: translateY(-4px) !important;
     border-color: #00B8D9 !important;
-    box-shadow: 0 16px 32px -8px rgba(11, 31, 58, 0.12), 0 0 0 1px rgba(0, 184, 217, 0.25) !important;
+    box-shadow: 0 12px 24px -4px rgba(11, 31, 58, 0.1), 0 0 0 1px rgba(0, 184, 217, 0.3) !important;
+}
+.fnx-stat-card:hover .fnx-stat-icon {
+    transform: scale(1.08) !important; /* Scales strictly within padding, never touches border */
 }
 
-/* 5. Evidence Item Cards & Icons */
+/* 6. Case Cards */
+.fnx-case-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease !important;
+}
+.fnx-case-card:hover {
+    transform: translateY(-3px) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 10px 20px -4px rgba(11, 31, 58, 0.08) !important;
+}
+
+/* 7. Evidence Item Cards */
 .fnx-evidence-item-card {
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease !important;
     cursor: pointer !important;
 }
 .fnx-evidence-item-card:hover {
-    transform: translateY(-3px) scale(1.01) !important;
+    transform: translateY(-2px) !important;
     border-color: #00B8D9 !important;
-    box-shadow: 0 8px 20px -4px rgba(11, 31, 58, 0.1) !important;
-}
-.fnx-ev-icon {
-    display: inline-block !important;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    box-shadow: 0 6px 14px -3px rgba(11, 31, 58, 0.08) !important;
 }
 .fnx-evidence-item-card:hover .fnx-ev-icon {
-    transform: scale(1.25) rotate(-6deg) !important;
+    transform: scale(1.08) !important;
 }
 
-/* 6. Side Cards (AI Assistant, User Profile Card) & Icons */
+/* 8. Side Cards */
 .fnx-side-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease !important;
 }
 .fnx-side-card:hover {
-    transform: translateY(-4px) !important;
-    border-color: rgba(0, 184, 217, 0.5) !important;
-    box-shadow: 0 12px 28px -6px rgba(0, 184, 217, 0.18) !important;
-}
-.fnx-side-card-icon {
-    display: inline-block !important;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    transform: translateY(-3px) !important;
+    border-color: rgba(0, 184, 217, 0.4) !important;
+    box-shadow: 0 10px 20px -4px rgba(0, 184, 217, 0.12) !important;
 }
 .fnx-side-card:hover .fnx-side-card-icon {
-    transform: scale(1.22) rotate(8deg) !important;
+    transform: scale(1.08) !important;
 }
 
-/* 7. Stepper & Step Cards */
-.fnx-step-card, .fnx-stepper-card, .fnx-card, .fnx-profile-info-card, .fnx-kyc-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
-}
+/* 9. Stepper & Step Cards */
 .fnx-step-card:hover, .fnx-profile-info-card:hover, .fnx-kyc-card:hover {
-    box-shadow: 0 10px 24px -6px rgba(11, 31, 58, 0.08) !important;
+    box-shadow: 0 8px 18px -4px rgba(11, 31, 58, 0.08) !important;
     border-color: #CBD5E1 !important;
 }
 
-/* 8. Interactive Icons & Dropzone */
-.fnx-nav-icon {
-    display: inline-block !important;
-    transition: transform 0.25s ease !important;
-}
+/* 10. Navigation & Action Icons */
 .fnx-nav-item:hover .fnx-nav-icon {
-    transform: scale(1.2) translateY(-1px) !important;
-}
-.fnx-dropzone-icon {
-    display: inline-block !important;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    transform: scale(1.1) !important;
 }
 .fnx-dropzone:hover .fnx-dropzone-icon {
-    transform: scale(1.3) translateY(-6px) !important;
-}
-.fnx-icon-btn {
-    transition: transform 0.25s ease, background 0.2s ease !important;
+    transform: scale(1.1) !important;
 }
 .fnx-icon-btn:hover {
-    transform: scale(1.15) !important;
-}
-.fnx-hero-stat {
-    transition: transform 0.3s ease !important;
-    cursor: default !important;
+    transform: scale(1.1) !important;
 }
 .fnx-hero-stat:hover {
-    transform: translateY(-3px) !important;
-}
-.fnx-hero-stat:hover .fnx-hs-num {
-    text-shadow: 0 0 12px rgba(0, 184, 217, 0.6) !important;
+    transform: translateY(-2px) !important;
 }
 
 /* ==================== NOW ASSIST GENAI STYLES ==================== */

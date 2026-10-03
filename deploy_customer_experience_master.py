@@ -1008,28 +1008,6 @@ template = r"""<div class="fnx-app">
         </div>
     </section>
 
-    <!-- Security -->
-    <section class="fnx-security-section">
-        <h2>SECURE BY DESIGN</h2>
-        <div class="fnx-security-grid">
-            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Evidence Integrity</div>
-            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Immutable Audit Trail</div>
-            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Chain of Custody</div>
-            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Role-Based Access</div>
-            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Sensitive Data Protection</div>
-            <div class="fnx-sec-item"><span class="fnx-sec-check">&#10003;</span> Investigation Traceability</div>
-        </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="fnx-final-cta">
-        <h2>READY TO REPORT OR INVESTIGATE FRAUD?</h2>
-        <p>One intelligent workspace. Complete investigation pipeline.</p>
-        <div class="fnx-hero-btns">
-            <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('getStarted')}}</button>
-            <button class="fnx-btn fnx-btn-ghost fnx-btn-lg" ng-click="c.goToPortalSelect()">Customer Portal</button>
-        </div>
-    </section>
 </div>
 
 <!-- ============ 2. PORTAL SELECTION ============ -->
@@ -4735,6 +4713,151 @@ css = r"""
 .fnx-ev-tag { background:#F1F5F9 !important; border:1px solid #E2E8F0 !important; color:#475569 !important; font-size:0.8rem !important; padding:0.3rem 0.7rem !important; border-radius:20px !important; }
 .fnx-profile-dropdown-cid { font-size:0.75rem !important; color:#7AADCC !important; padding:0.3rem 1.1rem 0.5rem !important; font-family:monospace !important; }
 .fnx-edit-profile-view { padding:0 !important; }
+
+/* ==================== CARD & ICON HOVER ANIMATIONS ==================== */
+/* 1. Feature Cards & Icons (Landing Page) */
+.fnx-feature-card {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+.fnx-feature-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 20px 35px -10px rgba(0, 184, 217, 0.25), 0 0 0 1px rgba(0, 184, 217, 0.2) !important;
+}
+.fnx-feature-icon {
+    display: inline-block !important;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease !important;
+}
+.fnx-feature-card:hover .fnx-feature-icon {
+    transform: scale(1.3) translateY(-4px) rotate(8deg) !important;
+    filter: drop-shadow(0 4px 8px rgba(0, 184, 217, 0.4)) !important;
+}
+
+/* 2. Portal Cards & Icons (Portal Select) */
+.fnx-portal-card {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.3s ease !important;
+    cursor: pointer !important;
+}
+.fnx-portal-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 22px 40px -10px rgba(0, 184, 217, 0.28) !important;
+}
+.fnx-portal-card-icon {
+    display: inline-block !important;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease !important;
+}
+.fnx-portal-card:hover .fnx-portal-card-icon {
+    transform: scale(1.28) translateY(-3px) rotate(-6deg) !important;
+    filter: drop-shadow(0 4px 10px rgba(0, 184, 217, 0.35)) !important;
+}
+
+/* 3. Stat Cards & Icons (Dashboard) */
+.fnx-stat-card {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+    cursor: pointer !important;
+}
+.fnx-stat-card:hover {
+    transform: translateY(-6px) scale(1.02) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 14px 28px -6px rgba(11, 31, 58, 0.12), 0 0 0 1px rgba(0, 184, 217, 0.3) !important;
+}
+.fnx-stat-icon {
+    display: inline-block !important;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.fnx-stat-card:hover .fnx-stat-icon {
+    transform: scale(1.25) rotate(6deg) !important;
+}
+
+/* 4. Case Cards & Case Icons */
+.fnx-case-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+.fnx-case-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 16px 32px -8px rgba(11, 31, 58, 0.12), 0 0 0 1px rgba(0, 184, 217, 0.25) !important;
+}
+
+/* 5. Evidence Item Cards & Icons */
+.fnx-evidence-item-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
+    cursor: pointer !important;
+}
+.fnx-evidence-item-card:hover {
+    transform: translateY(-3px) scale(1.01) !important;
+    border-color: #00B8D9 !important;
+    box-shadow: 0 8px 20px -4px rgba(11, 31, 58, 0.1) !important;
+}
+.fnx-ev-icon {
+    display: inline-block !important;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.fnx-evidence-item-card:hover .fnx-ev-icon {
+    transform: scale(1.25) rotate(-6deg) !important;
+}
+
+/* 6. Side Cards (AI Assistant, User Profile Card) & Icons */
+.fnx-side-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+.fnx-side-card:hover {
+    transform: translateY(-4px) !important;
+    border-color: rgba(0, 184, 217, 0.5) !important;
+    box-shadow: 0 12px 28px -6px rgba(0, 184, 217, 0.18) !important;
+}
+.fnx-side-card-icon {
+    display: inline-block !important;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.fnx-side-card:hover .fnx-side-card-icon {
+    transform: scale(1.22) rotate(8deg) !important;
+}
+
+/* 7. Stepper & Step Cards */
+.fnx-step-card, .fnx-stepper-card, .fnx-card, .fnx-profile-info-card, .fnx-kyc-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+.fnx-step-card:hover, .fnx-profile-info-card:hover, .fnx-kyc-card:hover {
+    box-shadow: 0 10px 24px -6px rgba(11, 31, 58, 0.08) !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* 8. Interactive Icons & Dropzone */
+.fnx-nav-icon {
+    display: inline-block !important;
+    transition: transform 0.25s ease !important;
+}
+.fnx-nav-item:hover .fnx-nav-icon {
+    transform: scale(1.2) translateY(-1px) !important;
+}
+.fnx-dropzone-icon {
+    display: inline-block !important;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+.fnx-dropzone:hover .fnx-dropzone-icon {
+    transform: scale(1.3) translateY(-6px) !important;
+}
+.fnx-icon-btn {
+    transition: transform 0.25s ease, background 0.2s ease !important;
+}
+.fnx-icon-btn:hover {
+    transform: scale(1.15) !important;
+}
+.fnx-hero-stat {
+    transition: transform 0.3s ease !important;
+    cursor: default !important;
+}
+.fnx-hero-stat:hover {
+    transform: translateY(-3px) !important;
+}
+.fnx-hero-stat:hover .fnx-hs-num {
+    text-shadow: 0 0 12px rgba(0, 184, 217, 0.6) !important;
+}
 """
 
 print("--- Uploading Master Widget Components to ServiceNow ---")

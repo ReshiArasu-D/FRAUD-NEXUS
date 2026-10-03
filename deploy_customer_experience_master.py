@@ -41,7 +41,11 @@ client_script = r"""api.controller = function($scope, $http, $timeout, $window) 
     c.selectedCase = null;
     c.showAI = false;
     c.aiMessages = [
-        { sender: 'ai', text: 'Hello! I am your FRAUDNEXUS AI Assistant. How can I help guide your fraud report or answer your security questions today?' }
+        {
+            sender: 'ai',
+            text: 'Hello! I am Now Assist for FRAUDNEXUS, your intelligent triage assistant powered by ServiceNow Generative AI.\n\nI can look up your active cases, guide your fraud evidence collection, and provide immediate incident response.',
+            suggestions: ['Check my case status', 'Emergency UPI steps', 'How to upload evidence', 'KYC guidelines']
+        }
     ];
     c.aiInput = '';
     c.showNotifications = false;
@@ -819,26 +823,81 @@ client_script = r"""api.controller = function($scope, $http, $timeout, $window) 
         });
     };
 
-    // ========== AI ASSISTANT ==========
-    c.sendAIMessage = function() {
-        if (!c.aiInput || !c.aiInput.trim()) return;
-        var text = c.aiInput.trim();
+    // ========== NOW ASSIST GENAI INTEGRATION ==========
+    c.aiLoading = false;
+    c.sendAIMessage = function(overrideText) {
+        var text = (overrideText || c.aiInput || '').trim();
+        if (!text) return;
         c.aiMessages.push({ sender: 'user', text: text });
         c.aiInput = '';
+        c.aiLoading = true;
+        c.scrollAIChat();
 
-        var reply = "Thank you for reaching out. Based on your inquiry, remember that legitimate institutions never request your OTP, PIN, or banking passwords. If you suspect fraud, immediately freeze your account via your bank's official app or call 1930 (National Cyber Crime Helpline), and proceed with submitting a detailed report in FRAUDNEXUS.";
-        var lower = text.toLowerCase();
-        if (lower.includes('status') || lower.includes('case')) {
-            reply = "You can track real-time progress on all your reported fraud cases under the 'Track Cases' tab in your sidebar. Each stage from Initial Review to Resolution includes cryptographic chain of custody.";
-        } else if (lower.includes('kyc')) {
-            reply = "KYC verification is completely optional for emergency fraud reporting. You can submit your case immediately, and complete your KYC under your Customer Profile whenever you are ready.";
-        } else if (lower.includes('upi') || lower.includes('payment')) {
-            reply = "For UPI and unauthorized digital transactions, always record the 12-digit UTR/Reference number and suspect UPI handle/phone number. Our system directly logs these into the investigation chain.";
-        }
+        var payload = {
+            query: text,
+            user_id: (c.user && c.user.sys_id) ? c.user.sys_id : '',
+            customer_id: (c.customer && (c.customer.sys_id || c.customer.customer_id)) ? (c.customer.sys_id || c.customer.customer_id) : ''
+        };
 
+        $http.post(API + '/ai_assist', payload).then(function(resp) {
+            c.aiLoading = false;
+            var d = resp.data.result || resp.data;
+            if (d && d.reply) {
+                c.aiMessages.push({
+                    sender: 'ai',
+                    text: d.reply,
+                    action: d.action,
+                    suggestions: d.suggestions || []
+                });
+            } else {
+                c.fallbackAIResponse(text);
+            }
+            c.scrollAIChat();
+        }, function() {
+            c.aiLoading = false;
+            c.fallbackAIResponse(text);
+            c.scrollAIChat();
+        });
+    };
+
+    c.scrollAIChat = function() {
         $timeout(function() {
-            c.aiMessages.push({ sender: 'ai', text: reply });
-        }, 500);
+            var el = document.getElementById('fnx-ai-chat-body');
+            if (el) el.scrollTop = el.scrollHeight;
+        }, 120);
+    };
+
+    c.fallbackAIResponse = function(text) {
+        var lower = text.toLowerCase();
+        var reply = "Thank you for reaching out to Now Assist for FRAUDNEXUS. For security inquiries, remember that banks never request OTPs, PINs, or remote screen-sharing permissions. If you suspect fraud, immediately freeze your account via your bank's official app or call 1930 (National Cyber Crime Helpline), and proceed with submitting a detailed report in FRAUDNEXUS.";
+        var action = null;
+        var suggestions = ["Check my case status", "Emergency UPI steps", "How to upload evidence", "KYC guidelines"];
+
+        if (lower.indexOf('status') !== -1 || lower.indexOf('case') !== -1 || lower.indexOf('track') !== -1) {
+            if (c.cases && c.cases.length > 0) {
+                reply = "Here is the real-time status of your cases on ServiceNow:\n• Case " + c.cases[0].number + " (" + c.cases[0].type + ") — Status: " + c.cases[0].status + ", Stage: " + (c.cases[0].stage || 'Initial Review') + "\n\nAll records maintain a tamper-evident audit trail with immutable custody logs.";
+                action = { label: "Track Cases", view: "track" };
+            } else {
+                reply = "You do not have any active fraud cases registered under your profile yet. Click 'Report Fraud' to start a secure 7-step guided intake with SHA-256 evidence hashing.";
+                action = { label: "Report Fraud", view: "stepper" };
+            }
+        } else if (lower.indexOf('kyc') !== -1) {
+            var kyc = (c.customer && c.customer.kyc_status) ? c.customer.kyc_status : 'Pending';
+            reply = "Your current Identity Verification (KYC) status is " + kyc.toUpperCase() + ". In FRAUDNEXUS, emergency fraud reporting is ALWAYS prioritized—KYC verification is optional for submitting urgent fraud reports.";
+            action = { label: "Customer Profile", view: "profile" };
+        } else if (lower.indexOf('upi') !== -1 || lower.indexOf('payment') !== -1) {
+            reply = "IMMEDIATE PROTOCOL FOR UPI / PAYMENT FRAUD:\n1. Golden Hour: Unauthorized debits can often be reversed within 2-4 hours.\n2. Note 12-Digit UTR: Record the transaction Reference/UTR number from bank SMS.\n3. Freeze Channel: Block UPI immediately via banking app.\n4. Call 1930: National Cyber Crime Helpline.\n5. File Report: Register in FRAUDNEXUS with financial details.";
+            action = { label: "Report UPI Fraud", view: "stepper" };
+        }
+        c.aiMessages.push({ sender: 'ai', text: reply, action: action, suggestions: suggestions });
+    };
+
+    c.executeAIAction = function(act) {
+        if (!act || !act.view) return;
+        c.currentView = act.view;
+        if (act.view === 'stepper') {
+            c.currentStep = 1;
+        }
     };
 
     // ========== DEMO LOGIN ==========
@@ -2525,30 +2584,68 @@ template = r"""<div class="fnx-app">
     </div>
 </div>
 
-<!-- ============ 5. FLOATING AI ASSISTANT (BOTTOM-RIGHT) ============ -->
+<!-- ============ 5. FLOATING NOW ASSIST AI (BOTTOM-RIGHT) ============ -->
 <div class="fnx-ai-widget">
     <!-- Floating Trigger Button -->
-    <button class="fnx-ai-trigger" ng-click="c.showAI = !c.showAI" title="Ask FRAUDNEXUS AI">
-        <span>&#10024;</span> {{c.t('askAI')}}
+    <button class="fnx-ai-trigger" ng-click="c.showAI = !c.showAI" title="Now Assist for FRAUDNEXUS">
+        <span>&#10024;</span> Now Assist AI
     </button>
 
     <!-- Slide-out AI Chat Panel -->
     <div class="fnx-ai-panel" ng-if="c.showAI">
         <div class="fnx-ai-header">
-            <div>
-                <strong>&#10024; FRAUDNEXUS AI</strong>
-                <span class="fnx-ai-badge">Triage Assistant</span>
+            <div class="fnx-ai-header-left">
+                <div class="fnx-ai-title-row">
+                    <span class="fnx-ai-sparkle-icon">&#10024;</span>
+                    <strong>Now Assist</strong>
+                    <span class="fnx-ai-now-badge">ServiceNow GenAI</span>
+                </div>
+                <div class="fnx-ai-subtitle">FRAUDNEXUS Intelligent Triage</div>
             </div>
-            <button class="fnx-ai-close" ng-click="c.showAI = false">&times;</button>
+            <button class="fnx-ai-close" ng-click="c.showAI = false" aria-label="Close Now Assist">&times;</button>
         </div>
-        <div class="fnx-ai-body">
-            <div ng-repeat="m in c.aiMessages" class="fnx-ai-msg" ng-class="{'ai': m.sender === 'ai', 'user': m.sender === 'user'}">
-                <div class="fnx-ai-bubble">{{m.text}}</div>
+        
+        <div class="fnx-ai-body" id="fnx-ai-chat-body">
+            <div ng-repeat="m in c.aiMessages track by $index" class="fnx-ai-msg-group">
+                <div class="fnx-ai-msg" ng-class="{'ai': m.sender === 'ai', 'user': m.sender === 'user'}">
+                    <div class="fnx-ai-bubble" style="white-space: pre-line;">
+                        <div class="fnx-ai-sender-label" ng-if="m.sender === 'ai'">
+                            <span>&#10024;</span> Now Assist GenAI
+                        </div>
+                        {{m.text}}
+                        <!-- Action button if provided -->
+                        <div class="fnx-ai-action-btn-row" ng-if="m.action">
+                            <button class="fnx-btn fnx-btn-primary fnx-btn-xs" ng-click="c.executeAIAction(m.action)">
+                                {{m.action.label}} &rarr;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Suggested prompt chips -->
+                <div class="fnx-ai-suggestions" ng-if="m.suggestions && m.suggestions.length > 0 && $last">
+                    <button class="fnx-ai-chip" ng-repeat="s in m.suggestions" ng-click="c.sendAIMessage(s)">
+                        {{s}}
+                    </button>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="fnx-ai-msg ai" ng-if="c.aiLoading">
+                <div class="fnx-ai-bubble fnx-ai-typing">
+                    <span class="fnx-ai-typing-label">Now Assist is thinking</span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
             </div>
         </div>
+
         <div class="fnx-ai-footer">
-            <input type="text" ng-model="c.aiInput" placeholder="Ask about fraud reporting, status, or help..." ng-keydown="$event.keyCode === 13 && c.sendAIMessage()">
-            <button class="fnx-btn fnx-btn-primary fnx-btn-sm" ng-click="c.sendAIMessage()">{{c.t('send')}}</button>
+            <input type="text" ng-model="c.aiInput" placeholder="Ask Now Assist about cases, UPI fraud, KYC..." ng-keydown="$event.keyCode === 13 && c.sendAIMessage()" ng-disabled="c.aiLoading">
+            <button class="fnx-btn fnx-btn-primary fnx-btn-sm" ng-click="c.sendAIMessage()" ng-disabled="c.aiLoading || !c.aiInput.trim()">
+                <span ng-if="!c.aiLoading">{{c.t('send')}}</span>
+                <span ng-if="c.aiLoading">...</span>
+            </button>
         </div>
     </div>
 </div>
@@ -4857,6 +4954,111 @@ css = r"""
 }
 .fnx-hero-stat:hover .fnx-hs-num {
     text-shadow: 0 0 12px rgba(0, 184, 217, 0.6) !important;
+}
+
+/* ==================== NOW ASSIST GENAI STYLES ==================== */
+.fnx-ai-now-badge {
+    background: linear-gradient(135deg, #7C3AED, #00B8D9) !important;
+    color: #FFFFFF !important;
+    font-size: 0.65rem !important;
+    font-weight: 800 !important;
+    padding: 0.15rem 0.5rem !important;
+    border-radius: 12px !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    margin-left: 0.5rem !important;
+}
+.fnx-ai-header {
+    background: linear-gradient(135deg, #0B1F3A, #123B63) !important;
+    border-bottom: 2px solid rgba(0, 184, 217, 0.4) !important;
+    padding: 0.85rem 1.25rem !important;
+}
+.fnx-ai-title-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+}
+.fnx-ai-sparkle-icon {
+    color: #00B8D9 !important;
+    font-size: 1.1rem !important;
+}
+.fnx-ai-subtitle {
+    font-size: 0.75rem !important;
+    color: #7AADCC !important;
+    margin-top: 0.15rem !important;
+}
+.fnx-ai-sender-label {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    color: #00B8D9 !important;
+    margin-bottom: 0.35rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.25rem !important;
+}
+.fnx-ai-msg-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.4rem !important;
+}
+.fnx-ai-action-btn-row {
+    margin-top: 0.65rem !important;
+    padding-top: 0.5rem !important;
+    border-top: 1px solid rgba(0, 184, 217, 0.15) !important;
+}
+.fnx-btn-xs {
+    padding: 0.35rem 0.85rem !important;
+    font-size: 0.78rem !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+}
+.fnx-ai-suggestions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.4rem !important;
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.4rem !important;
+}
+.fnx-ai-chip {
+    background: rgba(0, 184, 217, 0.08) !important;
+    border: 1px solid rgba(0, 184, 217, 0.35) !important;
+    color: #0B1F3A !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    padding: 0.3rem 0.75rem !important;
+    border-radius: 14px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+.fnx-ai-chip:hover {
+    background: #00B8D9 !important;
+    color: #0B1F3A !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 10px rgba(0, 184, 217, 0.3) !important;
+}
+.fnx-ai-typing {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+    padding: 0.65rem 1rem !important;
+}
+.fnx-ai-typing-label {
+    font-size: 0.78rem !important;
+    color: #64748B !important;
+    margin-right: 0.25rem !important;
+}
+.fnx-ai-typing .dot {
+    width: 6px !important;
+    height: 6px !important;
+    background: #00B8D9 !important;
+    border-radius: 50% !important;
+    animation: fnxBounce 1.4s infinite ease-in-out both !important;
+}
+.fnx-ai-typing .dot:nth-child(2) { animation-delay: -0.32s !important; }
+.fnx-ai-typing .dot:nth-child(3) { animation-delay: -0.16s !important; }
+@keyframes fnxBounce {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
 }
 """
 

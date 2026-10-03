@@ -980,7 +980,11 @@ client_script = r"""api.controller = function($scope, $http, $timeout, $window) 
 """
 
 # 3. HTML TEMPLATE (Separate views: Landing, PortalSelect, Auth, Dashboard, ReportFraud, TrackCases, EvidenceVault, Profile, Help)
-template = r"""<div class="fnx-app">
+template = r"""<!-- Google Fonts: Plus Jakarta Sans, Outfit, Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<div class="fnx-app">
 
 <!-- ============ 1. LANDING PAGE ============ -->
 <div ng-if="c.currentView === 'landing'" class="fnx-landing">
@@ -1007,19 +1011,16 @@ template = r"""<div class="fnx-app">
                 <button class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.goToPortalSelect()">{{c.t('getStarted')}}</button>
                 <button class="fnx-btn fnx-btn-ghost fnx-btn-lg" ng-click="c.currentView = 'landing'">{{c.t('learnMore')}}</button>
             </div>
-            <div class="fnx-hero-stats">
-                <div class="fnx-hero-stat"><span class="fnx-hs-num">13+</span><span class="fnx-hs-label">Languages</span></div>
-                <div class="fnx-hero-stat-div"></div>
-                <div class="fnx-hero-stat"><span class="fnx-hs-num">7-Step</span><span class="fnx-hs-label">Guided Wizard</span></div>
-                <div class="fnx-hero-stat-div"></div>
-                <div class="fnx-hero-stat"><span class="fnx-hs-num">SHA-256</span><span class="fnx-hs-label">Evidence Integrity</span></div>
-            </div>
+
         </div>
         <div class="fnx-hero-visual">
             <div class="fnx-hero-graphic">
                 <div class="fnx-hero-circle c1"></div>
                 <div class="fnx-hero-circle c2"></div>
                 <div class="fnx-hero-circle c3"></div>
+                <div class="fnx-hero-orbit">
+                    <div class="fnx-orbit-beacon"></div>
+                </div>
                 <div class="fnx-hero-shield">
                     <svg width="72" height="72" viewBox="0 0 80 80"><path d="M40 8L12 22v18c0 16.6 11.9 32.1 28 36 16.1-3.9 28-19.4 28-36V22L40 8z" fill="none" stroke="#00B8D9" stroke-width="2.5"/><path d="M30 40l8 8 14-14" fill="none" stroke="#00B8D9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
@@ -2655,11 +2656,17 @@ template = r"""<div class="fnx-app">
 
 # 4. CSS (Enterprise Blue + White, high-contrast, fully styled)
 css = r"""
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap');
+
 /* ============================================================
    FRAUDNEXUS HIGH CONTRAST BLUE + WHITE ENTERPRISE DESIGN
    ============================================================ */
 .fnx-app {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+    letter-spacing: -0.012em !important;
     color: #0F172A !important;
     background-color: #F8FAFC !important;
     min-height: 100vh !important;
@@ -2740,40 +2747,62 @@ css = r"""
     flex: 1 !important;
 }
 
+/* Professional Website Typography */
+.fnx-hero h1,
+.fnx-features-title,
+.fnx-features-header h2,
+.fnx-portal-title h2,
+.fnx-auth-form-title,
+.fnx-success-title,
+.fnx-top-bar-title,
+.fnx-brand-name,
+h1, h2, h3 {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif !important;
+    letter-spacing: -0.03em !important;
+}
+
 .fnx-hero-badge {
     display: inline-block !important;
     background-color: #E0F2FE !important;
     color: #0369A1 !important;
     border: 1.5px solid #00B8D9 !important;
-    padding: 0.4rem 1.1rem !important;
+    padding: 0.45rem 1.2rem !important;
     border-radius: 30px !important;
-    font-size: 0.85rem !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 0.82rem !important;
     font-weight: 800 !important;
-    letter-spacing: 2px !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
     margin-bottom: 1.25rem !important;
 }
 
 .fnx-hero h1 {
-    font-size: 2.75rem !important;
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 3.3rem !important;
     font-weight: 800 !important;
-    line-height: 1.18 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.035em !important;
     color: #0B1F3A !important;
-    margin-bottom: 0.85rem !important;
+    margin-bottom: 0.9rem !important;
 }
 
 .fnx-hero-sub {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-size: 1.35rem !important;
     font-weight: 700 !important;
     color: #0284C7 !important;
+    letter-spacing: -0.02em !important;
     margin-bottom: 1rem !important;
 }
 
 .fnx-hero-desc {
-    font-size: 1.05rem !important;
-    line-height: 1.65 !important;
-    color: #334155 !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-size: 1.08rem !important;
+    line-height: 1.7 !important;
+    color: #475569 !important;
     margin-bottom: 2.2rem !important;
-    max-width: 600px !important;
+    max-width: 580px !important;
+    letter-spacing: -0.01em !important;
 }
 
 .fnx-hero-btns {
@@ -2781,35 +2810,164 @@ css = r"""
     gap: 1.2rem !important;
 }
 
+/* ==================== HERO CONCENTRIC CIRCLES ANIMATION ==================== */
 .fnx-hero-visual {
-    flex: 0 0 380px !important;
+    flex: 0 0 420px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    position: relative !important;
 }
 
 .fnx-hero-graphic {
     position: relative !important;
-    width: 320px !important;
-    height: 320px !important;
+    width: 360px !important;
+    height: 360px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    cursor: pointer !important;
 }
 
 .fnx-hero-circle {
     position: absolute !important;
     border-radius: 50% !important;
-    border: 2px solid #BAE6FD !important;
+    box-sizing: border-box !important;
+    pointer-events: none !important;
 }
 
-.fnx-hero-circle.c1 { width: 320px !important; height: 320px !important; border-color: #E0F2FE !important; }
-.fnx-hero-circle.c2 { width: 250px !important; height: 250px !important; border-color: #BAE6FD !important; }
-.fnx-hero-circle.c3 { width: 180px !important; height: 180px !important; border-color: #7DD3FC !important; }
+/* Outer Circle (c1): Sonar expand & breathing glow */
+.fnx-hero-circle.c1 {
+    width: 360px !important;
+    height: 360px !important;
+    border: 1.5px solid rgba(0, 184, 217, 0.28) !important;
+    animation: fnxPulseOuter 4.5s ease-in-out infinite !important;
+}
 
+/* Middle Circle (c2): Resonant pulse with accent cyan border */
+.fnx-hero-circle.c2 {
+    width: 270px !important;
+    height: 270px !important;
+    border: 2px solid rgba(0, 184, 217, 0.48) !important;
+    animation: fnxPulseMid 3.2s ease-in-out infinite 0.6s !important;
+}
+
+/* Inner Circle (c3): High-energy shield ring with radial gradient */
+.fnx-hero-circle.c3 {
+    width: 185px !important;
+    height: 185px !important;
+    border: 2px solid #00B8D9 !important;
+    background: radial-gradient(circle, rgba(0, 184, 217, 0.08) 0%, rgba(0, 184, 217, 0) 70%) !important;
+    animation: fnxPulseInner 2.5s ease-in-out infinite 1.2s !important;
+}
+
+/* Orbit ring & revolving cyber beacon dot */
+.fnx-hero-orbit {
+    position: absolute !important;
+    width: 270px !important;
+    height: 270px !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+    animation: fnxOrbit 8s linear infinite !important;
+}
+.fnx-orbit-beacon {
+    position: absolute !important;
+    top: -6px !important;
+    left: calc(50% - 6px) !important;
+    width: 12px !important;
+    height: 12px !important;
+    border-radius: 50% !important;
+    background: #00B8D9 !important;
+    box-shadow: 0 0 14px 3px rgba(0, 184, 217, 0.8), 0 0 25px 6px rgba(0, 184, 217, 0.4) !important;
+}
+
+/* Central Shield Icon floating with gentle glow */
 .fnx-hero-shield {
     position: relative !important;
     z-index: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: fnxShieldFloat 3.6s ease-in-out infinite !important;
+}
+.fnx-hero-shield svg {
+    filter: drop-shadow(0 4px 12px rgba(0, 184, 217, 0.45)) !important;
+    transition: filter 0.3s ease !important;
+}
+
+/* Hover effect on entire graphic */
+.fnx-hero-graphic:hover .fnx-hero-circle.c1 {
+    border-color: rgba(0, 184, 217, 0.6) !important;
+    box-shadow: 0 0 35px rgba(0, 184, 217, 0.25) !important;
+}
+.fnx-hero-graphic:hover .fnx-hero-circle.c2 {
+    border-color: rgba(0, 184, 217, 0.8) !important;
+    box-shadow: 0 0 25px rgba(0, 184, 217, 0.35) !important;
+}
+.fnx-hero-graphic:hover .fnx-hero-circle.c3 {
+    border-color: #00B8D9 !important;
+    box-shadow: 0 0 35px rgba(0, 184, 217, 0.5) !important;
+}
+.fnx-hero-graphic:hover .fnx-hero-shield svg {
+    filter: drop-shadow(0 8px 24px rgba(0, 184, 217, 0.8)) !important;
+}
+
+@keyframes fnxPulseOuter {
+    0%, 100% {
+        transform: scale(0.96);
+        opacity: 0.35;
+        box-shadow: 0 0 0 rgba(0, 184, 217, 0);
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+        border-color: rgba(0, 184, 217, 0.5);
+        box-shadow: 0 0 30px rgba(0, 184, 217, 0.2);
+    }
+}
+
+@keyframes fnxPulseMid {
+    0%, 100% {
+        transform: scale(0.97);
+        opacity: 0.45;
+    }
+    50% {
+        transform: scale(1.06);
+        opacity: 0.9;
+        border-color: #00B8D9;
+        box-shadow: 0 0 24px rgba(0, 184, 217, 0.3);
+    }
+}
+
+@keyframes fnxPulseInner {
+    0%, 100% {
+        transform: scale(0.98);
+        opacity: 0.65;
+        box-shadow: 0 0 15px rgba(0, 184, 217, 0.2);
+    }
+    50% {
+        transform: scale(1.08);
+        opacity: 1;
+        box-shadow: 0 0 35px rgba(0, 184, 217, 0.5);
+    }
+}
+
+@keyframes fnxOrbit {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fnxShieldFloat {
+    0%, 100% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-6px) scale(1.05);
+    }
 }
 
 .fnx-features {

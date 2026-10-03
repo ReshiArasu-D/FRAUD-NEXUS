@@ -1008,59 +1008,6 @@ template = r"""<div class="fnx-app">
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="fnx-how-it-works">
-        <div class="fnx-hiw-header">
-            <h2>HOW FRAUDNEXUS WORKS</h2>
-            <p>A structured, end-to-end investigation workflow</p>
-        </div>
-        <div class="fnx-hiw-steps">
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">1</div><div class="fnx-hiw-label">Report Fraud</div></div>
-            <div class="fnx-hiw-arrow">&#8594;</div>
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">2</div><div class="fnx-hiw-label">Collect Evidence</div></div>
-            <div class="fnx-hiw-arrow">&#8594;</div>
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">3</div><div class="fnx-hiw-label">Classify &amp; Prioritize</div></div>
-            <div class="fnx-hiw-arrow">&#8594;</div>
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">4</div><div class="fnx-hiw-label">Caseworker Allocation</div></div>
-            <div class="fnx-hiw-arrow">&#8594;</div>
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">5</div><div class="fnx-hiw-label">Investigate</div></div>
-            <div class="fnx-hiw-arrow">&#8594;</div>
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">6</div><div class="fnx-hiw-label">Resolve</div></div>
-            <div class="fnx-hiw-arrow">&#8594;</div>
-            <div class="fnx-hiw-step"><div class="fnx-hiw-circle">7</div><div class="fnx-hiw-label">Close</div></div>
-        </div>
-    </section>
-
-    <!-- For Customers & Investigators -->
-    <section class="fnx-audience-section">
-        <div class="fnx-audience-card fnx-audience-customer">
-            <div class="fnx-audience-icon">&#128100;</div>
-            <h3>FOR CUSTOMERS</h3>
-            <ul>
-                <li>&#10003; Secure Fraud Reporting</li>
-                <li>&#10003; Evidence Submission</li>
-                <li>&#10003; Case Tracking</li>
-                <li>&#10003; Real-time Notifications</li>
-                <li>&#10003; Multilingual UI (13 languages)</li>
-                <li>&#10003; FRAUDNEXUS AI Assistant</li>
-            </ul>
-            <button class="fnx-btn fnx-btn-primary" ng-click="c.goToPortalSelect()">Access Customer Portal</button>
-        </div>
-        <div class="fnx-audience-card fnx-audience-investigator">
-            <div class="fnx-audience-icon">&#128373;</div>
-            <h3>FOR INVESTIGATORS</h3>
-            <ul>
-                <li>&#128312; Case Management</li>
-                <li>&#128312; Caseworker Allocation</li>
-                <li>&#128312; Evidence Investigation</li>
-                <li>&#128312; Fraud Ring Analysis</li>
-                <li>&#128312; Risk Intelligence</li>
-                <li>&#128312; Compliance &amp; Regulatory Reporting</li>
-            </ul>
-            <div class="fnx-coming-soon-badge">COMING SOON</div>
-        </div>
-    </section>
-
     <!-- Security -->
     <section class="fnx-security-section">
         <h2>SECURE BY DESIGN</h2>

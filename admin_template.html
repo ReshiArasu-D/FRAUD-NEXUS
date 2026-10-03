@@ -1,0 +1,1366 @@
+<!-- ============================================================
+     FRAUDNEXUS ADMIN / INVESTIGATOR PORTAL TEMPLATES
+     ============================================================ -->
+
+<!-- 1. ADMIN LOGIN VIEW -->
+<div ng-if="c.currentView === 'adminLogin'" class="fnx-admin-login-page">
+    <div class="fnx-admin-login-left">
+        <div class="fnx-admin-login-brand">
+            <svg width="38" height="38" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="18" fill="none" stroke="#00B8D9" stroke-width="2.5"/>
+                <path d="M13 15h14M13 20h10M13 25h7" stroke="#00B8D9" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="28" cy="25" r="4" fill="none" stroke="#00B8D9" stroke-width="1.5"/>
+                <line x1="31" y1="28" x2="34" y2="31" stroke="#00B8D9" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span>FRAUDNEXUS</span>
+        </div>
+        <p class="fnx-admin-login-tagline">FINANCIAL &amp; CYBER FRAUD INVESTIGATION HUB</p>
+        <h2 class="fnx-admin-login-title">From Fraud Report to Resolution &mdash;<br>One Intelligent Investigation Workspace</h2>
+        <p class="fnx-admin-login-desc">Securely manage fraud cases, evidence, investigations, assignments and operational resolution from one workspace.</p>
+        
+        <!-- Network nodes visualization -->
+        <div class="fnx-network-nodes-graphic">
+            <svg width="340" height="180" viewBox="0 0 340 180">
+                <defs>
+                    <linearGradient id="netGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00B8D9" stop-opacity="0.8"/>
+                        <stop offset="100%" stop-color="#123B63" stop-opacity="0.3"/>
+                    </linearGradient>
+                </defs>
+                <line x1="50" y1="90" x2="130" y2="40" stroke="#00B8D9" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>
+                <line x1="50" y1="90" x2="130" y2="140" stroke="#00B8D9" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>
+                <line x1="130" y1="40" x2="220" y2="70" stroke="#00B8D9" stroke-width="1.8" opacity="0.7"/>
+                <line x1="130" y1="140" x2="220" y2="110" stroke="#00B8D9" stroke-width="1.8" opacity="0.7"/>
+                <line x1="220" y1="70" x2="290" y2="90" stroke="#00B8D9" stroke-width="2"/>
+                <line x1="220" y1="110" x2="290" y2="90" stroke="#00B8D9" stroke-width="2"/>
+                <line x1="130" y1="40" x2="130" y2="140" stroke="#123B63" stroke-width="1"/>
+                <line x1="220" y1="70" x2="220" y2="110" stroke="#123B63" stroke-width="1"/>
+                
+                <!-- Nodes -->
+                <circle cx="50" cy="90" r="10" fill="#123B63" stroke="#00B8D9" stroke-width="2"/>
+                <circle cx="130" cy="40" r="14" fill="#0B1F3A" stroke="#00B8D9" stroke-width="2"/>
+                <circle cx="130" cy="140" r="12" fill="#0B1F3A" stroke="#00B8D9" stroke-width="2"/>
+                <circle cx="220" cy="70" r="15" fill="#123B63" stroke="#00B8D9" stroke-width="2.5"/>
+                <circle cx="220" cy="110" r="13" fill="#0B1F3A" stroke="#00B8D9" stroke-width="2"/>
+                <circle cx="290" cy="90" r="18" fill="#00B8D9" opacity="0.9"/>
+                <circle cx="290" cy="90" r="8" fill="#0B1F3A"/>
+                
+                <!-- Node Labels -->
+                <text x="50" y="115" text-anchor="middle" fill="#94A3B8" font-size="10" font-family="'Plus Jakarta Sans', sans-serif">Citizen</text>
+                <text x="130" y="22" text-anchor="middle" fill="#94A3B8" font-size="10" font-family="'Plus Jakarta Sans', sans-serif">Evidence</text>
+                <text x="130" y="165" text-anchor="middle" fill="#94A3B8" font-size="10" font-family="'Plus Jakarta Sans', sans-serif">Transaction</text>
+                <text x="220" y="52" text-anchor="middle" fill="#00B8D9" font-size="10" font-weight="700" font-family="'Plus Jakarta Sans', sans-serif">Investigation</text>
+                <text x="290" y="125" text-anchor="middle" fill="#00B8D9" font-size="11" font-weight="800" font-family="'Plus Jakarta Sans', sans-serif">Resolution</text>
+            </svg>
+        </div>
+
+        <div style="margin-top: 2.5rem;">
+            <button class="fnx-btn fnx-btn-outline" style="color:rgba(255,255,255,0.85);border-color:rgba(255,255,255,0.35);font-size:0.9rem;" ng-click="c.goToPortalSelect()">&larr; Back to Portals</button>
+        </div>
+    </div>
+
+    <div class="fnx-admin-login-right">
+        <div class="fnx-admin-login-card">
+            <div class="fnx-admin-login-header">
+                <h2>WELCOME BACK</h2>
+                <p>Sign in to FRAUDNEXUS Investigation Workspace</p>
+            </div>
+
+            <!-- Error Banner -->
+            <div ng-if="c.adminError" class="fnx-alert fnx-alert-error" style="margin-bottom: 1.25rem;">
+                {{c.adminError}}
+            </div>
+
+            <form ng-submit="c.doAdminLogin()">
+                <div class="fnx-form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="fnx-input" ng-model="c.adminForm.email" placeholder="investigator@fraudnexus.com" required>
+                </div>
+
+                <div class="fnx-form-group">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <label>Password</label>
+                        <a href="javascript:void(0)" class="fnx-link-sm" style="color:#00B8D9; font-size:0.85rem;" ng-click="c.adminError = 'Password reset instructions have been logged for this investigator account.'">Forgot Password?</a>
+                    </div>
+                    <div class="fnx-input-pwd-wrap">
+                        <input type="{{c.adminForm.showPassword ? 'text' : 'password'}}" class="fnx-input" ng-model="c.adminForm.password" placeholder="Enter your password" required>
+                        <button type="button" class="fnx-pwd-toggle" ng-click="c.toggleAdminPassword()" title="Toggle password visibility">
+                            <span ng-if="!c.adminForm.showPassword">&#128065;</span>
+                            <span ng-if="c.adminForm.showPassword">&#128584;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:0.85rem; margin-top:1.5rem;">
+                    <button type="submit" class="fnx-btn fnx-btn-primary fnx-btn-full" style="height:48px; font-size:1rem; font-weight:700; letter-spacing:0.5px;" ng-disabled="c.adminLoading">
+                        <span ng-if="!c.adminLoading">SIGN IN</span>
+                        <span ng-if="c.adminLoading">Signing In...</span>
+                    </button>
+
+                    <button type="button" class="fnx-btn fnx-btn-demo fnx-btn-full" style="height:48px; font-size:0.95rem; font-weight:700;" ng-click="c.doAdminDemoLogin()" ng-disabled="c.adminLoading">
+                        <span>&#127917; TRY DEMO &mdash; QUICK LOGIN (Alex Morgan)</span>
+                    </button>
+                </div>
+
+                <div class="fnx-demo-note" style="margin-top:1.5rem; text-align:center; font-size:0.82rem; color:#64748B;">
+                    <span>Legitimate seeded session with role: <strong>fnx_investigator</strong></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- 2. ADMIN WORKSPACE SHELL -->
+<div ng-if="c.currentView === 'adminWorkspace'" class="fnx-admin-layout">
+
+    <!-- ADMIN TOP HEADER -->
+    <header class="fnx-admin-topbar">
+        <div class="fnx-admin-topbar-left">
+            <div class="fnx-admin-topbar-brand" ng-click="c.setAdminModule('commandCenter')">
+                <svg width="28" height="28" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="18" fill="none" stroke="#00B8D9" stroke-width="2.5"/>
+                    <path d="M13 15h14M13 20h10M13 25h7" stroke="#00B8D9" stroke-width="2" stroke-linecap="round"/>
+                    <circle cx="28" cy="25" r="4" fill="none" stroke="#00B8D9" stroke-width="1.5"/>
+                    <line x1="31" y1="28" x2="34" y2="31" stroke="#00B8D9" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                <span class="fnx-admin-topbar-title">FRAUDNEXUS</span>
+            </div>
+
+            <!-- Demo Environment Indicator -->
+            <span ng-if="c.isAdminDemo" class="fnx-demo-badge">
+                <span class="fnx-demo-dot"></span> DEMO ENVIRONMENT
+            </span>
+        </div>
+
+        <!-- Global Search -->
+        <div class="fnx-admin-global-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" placeholder="Search cases, customers, transactions, evidence..." ng-model="c.casesSearch" ng-change="c.loadAdminCases(c.casesFilter)">
+        </div>
+
+        <div class="fnx-admin-topbar-right">
+            <!-- Notifications Bell -->
+            <div class="fnx-topbar-action-icon" ng-click="c.showNotifications = !c.showNotifications" title="Notifications">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F172A" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="fnx-badge-count">5</span>
+            </div>
+
+            <!-- Global Language Selector -->
+            <select class="fnx-admin-lang-select" ng-model="c.lang" ng-change="c.changeLang(c.lang)" aria-label="Select Language">
+                <option ng-repeat="l in c.supportedLanguages" value="{{l.code}}">{{l.name}}</option>
+            </select>
+
+            <!-- Admin Profile -->
+            <div class="fnx-admin-profile" ng-click="c.showProfileMenu = !c.showProfileMenu">
+                <div class="fnx-admin-avatar">{{c.adminUser.initials || 'AM'}}</div>
+                <div class="fnx-admin-profile-info">
+                    <span class="fnx-admin-name">{{c.adminUser.name || 'Alex Morgan'}}</span>
+                    <span class="fnx-admin-role">{{c.adminUser.title || 'Investigator'}}</span>
+                </div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2.5">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+
+            <!-- Profile Dropdown -->
+            <div ng-if="c.showProfileMenu" class="fnx-admin-profile-menu">
+                <div class="fnx-profile-menu-header">
+                    <strong>{{c.adminUser.name || 'Alex Morgan'}}</strong>
+                    <span>{{c.adminUser.email || 'alex.morgan@fraudnexus.com'}}</span>
+                </div>
+                <a href="javascript:void(0)" class="fnx-profile-menu-item" ng-click="c.setAdminModule('settings'); c.showProfileMenu = false;">
+                    <span>&#128100;</span> My Profile
+                </a>
+                <a href="javascript:void(0)" class="fnx-profile-menu-item" ng-click="c.setAdminModule('settings'); c.showProfileMenu = false;">
+                    <span>&#9881;</span> Preferences
+                </a>
+                <div class="fnx-menu-divider"></div>
+                <a href="javascript:void(0)" class="fnx-profile-menu-item fnx-menu-logout" ng-click="c.logoutAdmin()">
+                    <span>&#128682;</span> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- WORKSPACE BODY WITH SIDEBAR AND MAIN CONTENT -->
+    <div class="fnx-admin-body">
+        
+        <!-- SIDEBAR: EXACTLY 7 MODULES -->
+        <aside class="fnx-admin-sidebar">
+            <div class="fnx-sidebar-nav">
+                <!-- 1. Command Center -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'commandCenter'}" ng-click="c.setAdminModule('commandCenter')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('commandCenter')}}</span>
+                </button>
+
+                <!-- 2. Customers -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'customers'}" ng-click="c.setAdminModule('customers')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('customers')}}</span>
+                </button>
+
+                <!-- 3. Cases -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'cases'}" ng-click="c.setAdminModule('cases')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('cases')}}</span>
+                </button>
+
+                <!-- 4. Investigation -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'investigation'}" ng-click="c.setAdminModule('investigation')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('investigation')}}</span>
+                </button>
+
+                <!-- 5. Intelligence Workspace (Shell) -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'intelligence'}" ng-click="c.setAdminModule('intelligence')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('intelligenceWorkspace')}}</span>
+                    <span class="fnx-sidebar-pill">Phase 2</span>
+                </button>
+
+                <!-- 6. Analytics (Shell) -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'analytics'}" ng-click="c.setAdminModule('analytics')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('analytics')}}</span>
+                    <span class="fnx-sidebar-pill">Phase 2</span>
+                </button>
+
+                <!-- 7. Settings -->
+                <button class="fnx-sidebar-item" ng-class="{'active': c.adminModule === 'settings'}" ng-click="c.setAdminModule('settings')">
+                    <span class="fnx-sidebar-icon">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    </span>
+                    <span class="fnx-sidebar-label">{{c.t('settings')}}</span>
+                </button>
+            </div>
+
+            <!-- Sidebar Bottom Branding -->
+            <div class="fnx-sidebar-footer">
+                <div class="fnx-sidebar-globe">
+                    <svg width="180" height="90" viewBox="0 0 180 90">
+                        <circle cx="90" cy="80" r="70" fill="none" stroke="#123B63" stroke-width="1"/>
+                        <ellipse cx="90" cy="80" rx="70" ry="25" fill="none" stroke="#00B8D9" stroke-width="1" opacity="0.6"/>
+                        <ellipse cx="90" cy="80" rx="70" ry="50" fill="none" stroke="#123B63" stroke-width="1"/>
+                        <line x1="90" y1="10" x2="90" y2="80" stroke="#00B8D9" stroke-width="1" opacity="0.4"/>
+                        <circle cx="70" cy="65" r="3" fill="#00B8D9"/>
+                        <circle cx="115" cy="55" r="3" fill="#00B8D9"/>
+                        <circle cx="95" cy="75" r="3" fill="#00B8D9"/>
+                        <line x1="70" y1="65" x2="95" y2="75" stroke="#00B8D9" stroke-width="1" opacity="0.7"/>
+                        <line x1="95" y1="75" x2="115" y2="55" stroke="#00B8D9" stroke-width="1" opacity="0.7"/>
+                    </svg>
+                </div>
+                <div class="fnx-sidebar-footer-text">
+                    <strong>From Fraud Report<br>to Resolution</strong>
+                    <p>One Investigation Workspace</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="fnx-admin-main-content">
+
+            <!-- ==========================================
+                 VIEW 1: COMMAND CENTER (Default Dashboard)
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'commandCenter'" class="fnx-command-center">
+                
+                <!-- Command Center Header -->
+                <div class="fnx-cc-header">
+                    <div>
+                        <h1 class="fnx-cc-title">COMMAND CENTER</h1>
+                        <p class="fnx-cc-subtitle">Fraud investigation operations overview</p>
+                    </div>
+                    <div class="fnx-cc-meta">
+                        <span>Last updated: {{c.adminDash.last_updated || 'Just now'}}</span>
+                        <button class="fnx-btn-icon-refresh" ng-click="c.loadAdminDashboard()" title="Refresh Dashboard">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 6 KPI CARDS (Matching mockup) -->
+                <div class="fnx-kpi-grid">
+                    <!-- 1. NEW CASES -->
+                    <div class="fnx-kpi-card kpi-blue">
+                        <div class="fnx-kpi-top">
+                            <div class="fnx-kpi-icon-wrap icon-blue">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </div>
+                            <span class="fnx-kpi-label">NEW CASES</span>
+                        </div>
+                        <div class="fnx-kpi-value">{{c.adminDash.stats.newCases || 17}}</div>
+                        <div class="fnx-kpi-trend trend-up">
+                            <span>&uarr; +6 vs last 7 days</span>
+                            <svg class="fnx-sparkline" width="60" height="20" viewBox="0 0 60 20"><path d="M0 15 Q15 18 30 10 T60 5" fill="none" stroke="#00B8D9" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- 2. ACTIVE CASES -->
+                    <div class="fnx-kpi-card kpi-cyan">
+                        <div class="fnx-kpi-top">
+                            <div class="fnx-kpi-icon-wrap icon-cyan">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                            </div>
+                            <span class="fnx-kpi-label">ACTIVE CASES</span>
+                        </div>
+                        <div class="fnx-kpi-value">{{c.adminDash.stats.activeCases || 48}}</div>
+                        <div class="fnx-kpi-trend trend-up">
+                            <span>&uarr; +12 vs last 7 days</span>
+                            <svg class="fnx-sparkline" width="60" height="20" viewBox="0 0 60 20"><path d="M0 16 Q15 8 30 14 T60 4" fill="none" stroke="#0284C7" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- 3. CRITICAL CASES -->
+                    <div class="fnx-kpi-card kpi-red">
+                        <div class="fnx-kpi-top">
+                            <div class="fnx-kpi-icon-wrap icon-red">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </div>
+                            <span class="fnx-kpi-label">CRITICAL CASES</span>
+                        </div>
+                        <div class="fnx-kpi-value text-red">{{c.adminDash.stats.criticalCases || 6}}</div>
+                        <div class="fnx-kpi-trend trend-crit">
+                            <span>&uarr; +3 vs last 7 days</span>
+                            <svg class="fnx-sparkline" width="60" height="20" viewBox="0 0 60 20"><path d="M0 12 Q20 18 35 15 T60 3" fill="none" stroke="#DC2626" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- 4. ESCALATED CASES -->
+                    <div class="fnx-kpi-card kpi-orange">
+                        <div class="fnx-kpi-top">
+                            <div class="fnx-kpi-icon-wrap icon-orange">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </div>
+                            <span class="fnx-kpi-label">ESCALATED CASES</span>
+                        </div>
+                        <div class="fnx-kpi-value text-orange">{{c.adminDash.stats.escalatedCases || 9}}</div>
+                        <div class="fnx-kpi-trend trend-warn">
+                            <span>&uarr; +2 vs last 7 days</span>
+                            <svg class="fnx-sparkline" width="60" height="20" viewBox="0 0 60 20"><path d="M0 15 Q25 15 40 8 T60 4" fill="none" stroke="#F59E0B" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- 5. PENDING APPROVALS -->
+                    <div class="fnx-kpi-card kpi-amber">
+                        <div class="fnx-kpi-top">
+                            <div class="fnx-kpi-icon-wrap icon-amber">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <span class="fnx-kpi-label">PENDING APPROVALS</span>
+                        </div>
+                        <div class="fnx-kpi-value">{{c.adminDash.stats.pendingApprovals || 11}}</div>
+                        <div class="fnx-kpi-trend trend-up">
+                            <span>&uarr; +4 vs last 7 days</span>
+                            <svg class="fnx-sparkline" width="60" height="20" viewBox="0 0 60 20"><path d="M0 14 Q20 16 35 11 T60 6" fill="none" stroke="#F59E0B" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- 6. FINANCIAL EXPOSURE -->
+                    <div class="fnx-kpi-card kpi-green">
+                        <div class="fnx-kpi-top">
+                            <div class="fnx-kpi-icon-wrap icon-green">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                            </div>
+                            <span class="fnx-kpi-label">FINANCIAL EXPOSURE</span>
+                        </div>
+                        <div class="fnx-kpi-value">&pound; 2.8M</div>
+                        <div class="fnx-kpi-trend trend-down">
+                            <span style="color:#16A34A;">&darr; -18% vs last 7 days</span>
+                            <svg class="fnx-sparkline" width="60" height="20" viewBox="0 0 60 20"><path d="M0 5 Q20 8 35 14 T60 18" fill="none" stroke="#16A34A" stroke-width="2"/></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MIDDLE SECTION: PRIORITY QUEUE + ACTION CENTER -->
+                <div class="fnx-cc-grid-middle">
+                    
+                    <!-- PRIORITY INVESTIGATION QUEUE -->
+                    <div class="fnx-card fnx-priority-queue-card">
+                        <div class="fnx-card-header">
+                            <div class="fnx-card-header-left">
+                                <span class="fnx-star-badge">&#9733;</span>
+                                <div>
+                                    <h2 class="fnx-card-title">PRIORITY INVESTIGATION QUEUE</h2>
+                                    <p class="fnx-card-sub">Cases requiring immediate attention</p>
+                                </div>
+                            </div>
+
+                            <!-- Filter Pills -->
+                            <div class="fnx-queue-filters">
+                                <button class="fnx-filter-pill" ng-class="{'active': c.queueFilter === 'all'}" ng-click="c.filterQueue('all')">All (48)</button>
+                                <button class="fnx-filter-pill" ng-class="{'active': c.queueFilter === 'critical'}" ng-click="c.filterQueue('critical')">Critical (6)</button>
+                                <button class="fnx-filter-pill" ng-class="{'active': c.queueFilter === 'high_risk'}" ng-click="c.filterQueue('high_risk')">High Risk (12)</button>
+                                <button class="fnx-filter-pill" ng-class="{'active': c.queueFilter === 'near_sla'}" ng-click="c.filterQueue('near_sla')">Near SLA (8)</button>
+                                <button class="fnx-filter-pill" ng-class="{'active': c.queueFilter === 'unassigned'}" ng-click="c.filterQueue('unassigned')">Unassigned (11)</button>
+                                <button class="fnx-filter-pill" ng-class="{'active': c.queueFilter === 'escalated'}" ng-click="c.filterQueue('escalated')">Escalated (9)</button>
+                                <a href="javascript:void(0)" class="fnx-view-all-link" ng-click="c.setAdminModule('cases')">View All &rsaquo;</a>
+                            </div>
+                        </div>
+
+                        <!-- Priority Table -->
+                        <div class="fnx-table-responsive">
+                            <table class="fnx-admin-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:36px;"><input type="checkbox"></th>
+                                        <th>Case ID</th>
+                                        <th>Incident Type</th>
+                                        <th>Severity</th>
+                                        <th>Risk</th>
+                                        <th>Financial Exposure</th>
+                                        <th>Handler</th>
+                                        <th>SLA</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cs in c.getFilteredQueue()">
+                                        <td><input type="checkbox"></td>
+                                        <td>
+                                            <a href="javascript:void(0)" class="fnx-case-id-link" ng-click="c.openInvestigation(cs)">{{cs.number}}</a>
+                                        </td>
+                                        <td class="fnx-text-bold">{{cs.type}}</td>
+                                        <td>
+                                            <span class="fnx-badge" ng-class="'sev-' + (cs.severity || 'Medium').toLowerCase()">{{cs.severity}}</span>
+                                        </td>
+                                        <td>
+                                            <span class="fnx-risk-pill" ng-class="{'risk-crit': cs.risk >= 85, 'risk-high': cs.risk >= 70 && cs.risk < 85, 'risk-med': cs.risk < 70}">
+                                                {{cs.risk}}
+                                            </span>
+                                        </td>
+                                        <td class="fnx-exposure-cell">&pound; {{cs.exposure | number:0}}</td>
+                                        <td>
+                                            <div class="fnx-handler-cell">
+                                                <span class="fnx-handler-avatar" ng-class="{'unassigned': cs.handler === 'Unassigned'}">{{cs.handler_initials || 'NA'}}</span>
+                                                <span class="fnx-handler-name">{{cs.handler}}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="fnx-sla-badge" ng-class="{'sla-crit': cs.sla.indexOf('1') !== -1, 'sla-warn': cs.sla.indexOf('2') !== -1 || cs.sla.indexOf('3') !== -1, 'sla-ok': cs.sla.indexOf('4') !== -1 || cs.sla.indexOf('5') !== -1}">
+                                                {{cs.sla}}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="fnx-status-pill" ng-class="'st-' + (cs.status || 'New').toLowerCase()">{{cs.status}}</span>
+                                        </td>
+                                        <td>
+                                            <div class="fnx-action-btns">
+                                                <button class="fnx-btn-xs fnx-btn-view" ng-click="c.viewCaseDetail(cs)">View</button>
+                                                <button class="fnx-btn-xs fnx-btn-open" ng-click="cs.handler === 'Unassigned' ? c.openAssignModal(cs) : c.openInvestigation(cs)">
+                                                    {{cs.handler === 'Unassigned' ? 'Assign' : 'Open'}}
+                                                </button>
+                                                <button class="fnx-btn-dots" ng-click="c.openInvestigation(cs)">&bull;&bull;&bull;</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ACTION CENTER -->
+                    <div class="fnx-card fnx-action-center-card">
+                        <div class="fnx-card-header">
+                            <div class="fnx-card-header-left">
+                                <span class="fnx-bell-red">&#128276;</span>
+                                <div>
+                                    <h2 class="fnx-card-title">ACTION CENTER <span class="fnx-count-badge">5</span></h2>
+                                </div>
+                            </div>
+                            <a href="javascript:void(0)" class="fnx-view-all-link" ng-click="c.setAdminModule('cases')">View All &rsaquo;</a>
+                        </div>
+
+                        <div class="fnx-action-items-list">
+                            <!-- 1. Critical Case -->
+                            <div class="fnx-action-item">
+                                <div class="fnx-action-icon action-icon-red">&#9888;</div>
+                                <div class="fnx-action-content">
+                                    <div class="fnx-action-title">Critical case requires review</div>
+                                    <div class="fnx-action-sub">FNX-2026-001234 &bull; 2 hours ago</div>
+                                </div>
+                                <button class="fnx-btn-sm fnx-btn-outline-blue" ng-click="c.setAdminModule('investigation')">Open</button>
+                            </div>
+
+                            <!-- 2. Unassigned Case -->
+                            <div class="fnx-action-item">
+                                <div class="fnx-action-icon action-icon-orange">&#128100;</div>
+                                <div class="fnx-action-content">
+                                    <div class="fnx-action-title">Unassigned case</div>
+                                    <div class="fnx-action-sub">FNX-2026-001220 &bull; 4 hours ago</div>
+                                </div>
+                                <button class="fnx-btn-sm fnx-btn-outline-blue" ng-click="c.openAssignModal(c.adminDash.priority_queue[0])">Assign</button>
+                            </div>
+
+                            <!-- 3. Case Approaching SLA -->
+                            <div class="fnx-action-item">
+                                <div class="fnx-action-icon action-icon-amber">&#9200;</div>
+                                <div class="fnx-action-content">
+                                    <div class="fnx-action-title">Case approaching SLA</div>
+                                    <div class="fnx-action-sub">FNX-2026-001218 &bull; 6 hours ago</div>
+                                </div>
+                                <button class="fnx-btn-sm fnx-btn-outline-blue" ng-click="c.setAdminModule('investigation')">Review</button>
+                            </div>
+
+                            <!-- 4. Evidence Request Pending -->
+                            <div class="fnx-action-item">
+                                <div class="fnx-action-icon action-icon-blue">&#128196;</div>
+                                <div class="fnx-action-content">
+                                    <div class="fnx-action-title">Evidence request pending</div>
+                                    <div class="fnx-action-sub">FNX-2026-001200 &bull; 8 hours ago</div>
+                                </div>
+                                <button class="fnx-btn-sm fnx-btn-outline-blue" ng-click="c.setAdminModule('investigation')">View</button>
+                            </div>
+
+                            <!-- 5. Approval Pending -->
+                            <div class="fnx-action-item">
+                                <div class="fnx-action-icon action-icon-green">&#10003;</div>
+                                <div class="fnx-action-content">
+                                    <div class="fnx-action-title">Approval pending</div>
+                                    <div class="fnx-action-sub">FNX-2026-001198 &bull; 12 hours ago</div>
+                                </div>
+                                <button class="fnx-btn-sm fnx-btn-outline-blue" ng-click="c.setAdminModule('investigation')">Open</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM ROW: FRAUD TRENDS + FINANCIAL EXPOSURE + RECENT ACTIVITY -->
+                <div class="fnx-cc-grid-bottom">
+                    
+                    <!-- FRAUD CASE TRENDS -->
+                    <div class="fnx-card fnx-trends-card">
+                        <div class="fnx-card-header">
+                            <div class="fnx-card-header-left">
+                                <span class="fnx-chart-icon">&#128200;</span>
+                                <h2 class="fnx-card-title">FRAUD CASE TRENDS</h2>
+                            </div>
+                            <select class="fnx-select-sm">
+                                <option>Last 30 Days</option>
+                                <option>Last 7 Days</option>
+                                <option>Last 90 Days</option>
+                            </select>
+                        </div>
+
+                        <!-- SVG Multi-Wave Chart -->
+                        <div class="fnx-chart-wrap">
+                            <svg width="100%" height="160" viewBox="0 0 500 160" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="gradPayment" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#0284C7" stop-opacity="0.3"/>
+                                        <stop offset="100%" stop-color="#0284C7" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                    <linearGradient id="gradPhishing" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="0%" stop-color="#00B8D9" stop-opacity="0.3"/>
+                                        <stop offset="100%" stop-color="#00B8D9" stop-opacity="0.0"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Grid Lines -->
+                                <line x1="0" y1="30" x2="500" y2="30" stroke="#F1F5F9" stroke-width="1"/>
+                                <line x1="0" y1="70" x2="500" y2="70" stroke="#F1F5F9" stroke-width="1"/>
+                                <line x1="0" y1="110" x2="500" y2="110" stroke="#F1F5F9" stroke-width="1"/>
+                                <line x1="0" y1="150" x2="500" y2="150" stroke="#E2E8F0" stroke-width="1"/>
+
+                                <!-- Payment Fraud Curve (Blue) -->
+                                <path d="M0 130 Q50 140 100 100 T200 70 T300 60 T400 65 T500 100 L500 160 L0 160 Z" fill="url(#gradPayment)"/>
+                                <path d="M0 130 Q50 140 100 100 T200 70 T300 60 T400 65 T500 100" fill="none" stroke="#0284C7" stroke-width="2.5"/>
+
+                                <!-- Phishing Curve (Cyan) -->
+                                <path d="M0 145 Q50 130 100 115 T200 95 T300 85 T400 80 T500 120 L500 160 L0 160 Z" fill="url(#gradPhishing)"/>
+                                <path d="M0 145 Q50 130 100 115 T200 95 T300 85 T400 80 T500 120" fill="none" stroke="#00B8D9" stroke-width="2.5"/>
+
+                                <!-- Account Compromise (Orange) -->
+                                <path d="M0 155 Q60 140 120 130 T240 115 T360 110 T500 140" fill="none" stroke="#F59E0B" stroke-width="2"/>
+
+                                <!-- Identity Theft (Purple) -->
+                                <path d="M0 140 Q40 110 80 145 T200 125 T350 105 T500 110" fill="none" stroke="#8B5CF6" stroke-width="2"/>
+
+                                <!-- Cyber Fraud (Red) -->
+                                <path d="M0 158 Q80 155 160 145 T320 135 T500 150" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+                            </svg>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="fnx-chart-legend">
+                            <span><i style="background:#0284C7;"></i> Payment Fraud</span>
+                            <span><i style="background:#00B8D9;"></i> Phishing</span>
+                            <span><i style="background:#F59E0B;"></i> Account Compromise</span>
+                            <span><i style="background:#8B5CF6;"></i> Identity Theft</span>
+                            <span><i style="background:#DC2626;"></i> Cyber Fraud</span>
+                            <span><i style="background:#10B981;"></i> Money Laundering</span>
+                            <span><i style="background:#64748B;"></i> Others</span>
+                        </div>
+                    </div>
+
+                    <!-- FINANCIAL EXPOSURE SUMMARY -->
+                    <div class="fnx-card fnx-exposure-summary-card">
+                        <div class="fnx-card-header">
+                            <div class="fnx-card-header-left">
+                                <span class="fnx-vault-icon">&#127974;</span>
+                                <h2 class="fnx-card-title">FINANCIAL EXPOSURE SUMMARY</h2>
+                            </div>
+                        </div>
+
+                        <div class="fnx-exposure-grid">
+                            <!-- Card 1: Total Exposure -->
+                            <div class="fnx-expo-tile expo-tile-blue">
+                                <div class="fnx-expo-icon icon-blue">&#128176;</div>
+                                <div class="fnx-expo-content">
+                                    <span class="fnx-expo-label">Total Exposure</span>
+                                    <div class="fnx-expo-value">&pound; 2,800,000</div>
+                                    <span class="fnx-expo-sub text-green">&uarr; 18% vs last 30 days</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Blocked Amount -->
+                            <div class="fnx-expo-tile expo-tile-amber">
+                                <div class="fnx-expo-icon icon-amber">&#128274;</div>
+                                <div class="fnx-expo-content">
+                                    <span class="fnx-expo-label">Blocked Amount</span>
+                                    <div class="fnx-expo-value">&pound; 620,000</div>
+                                    <span class="fnx-expo-sub text-green">&uarr; 12%</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Recovered Amount -->
+                            <div class="fnx-expo-tile expo-tile-green">
+                                <div class="fnx-expo-icon icon-green">&#10003;</div>
+                                <div class="fnx-expo-content">
+                                    <span class="fnx-expo-label">Recovered Amount</span>
+                                    <div class="fnx-expo-value">&pound; 380,000</div>
+                                    <span class="fnx-expo-sub text-green">&uarr; 25%</span>
+                                </div>
+                            </div>
+
+                            <!-- Card 4: Outstanding Amount -->
+                            <div class="fnx-expo-tile expo-tile-red">
+                                <div class="fnx-expo-icon icon-red">&#9200;</div>
+                                <div class="fnx-expo-content">
+                                    <span class="fnx-expo-label">Outstanding Amount</span>
+                                    <div class="fnx-expo-value">&pound; 1,800,000</div>
+                                    <span class="fnx-expo-sub text-red">&uarr; 8%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RECENT ACTIVITY -->
+                    <div class="fnx-card fnx-activity-card">
+                        <div class="fnx-card-header">
+                            <div class="fnx-card-header-left">
+                                <span class="fnx-clock-icon">&#9200;</span>
+                                <h2 class="fnx-card-title">RECENT ACTIVITY</h2>
+                            </div>
+                            <a href="javascript:void(0)" class="fnx-view-all-link" ng-click="c.setAdminModule('investigation')">View All &rsaquo;</a>
+                        </div>
+
+                        <div class="fnx-activity-timeline">
+                            <div class="fnx-activity-item">
+                                <div class="fnx-activity-bullet bullet-purple">&#128190;</div>
+                                <div class="fnx-activity-text">
+                                    <div class="fnx-activity-title">Evidence uploaded <span class="fnx-activity-time">10:42 AM</span></div>
+                                    <div class="fnx-activity-desc">FNX-2026-001233 &bull; Customer uploaded 3 files</div>
+                                </div>
+                            </div>
+
+                            <div class="fnx-activity-item">
+                                <div class="fnx-activity-bullet bullet-blue">&#128100;</div>
+                                <div class="fnx-activity-text">
+                                    <div class="fnx-activity-title">Case assigned <span class="fnx-activity-time">10:31 AM</span></div>
+                                    <div class="fnx-activity-desc">FNX-2026-001229 &bull; Assigned to James D.</div>
+                                </div>
+                            </div>
+
+                            <div class="fnx-activity-item">
+                                <div class="fnx-activity-bullet bullet-green">&#8635;</div>
+                                <div class="fnx-activity-text">
+                                    <div class="fnx-activity-title">Case status updated <span class="fnx-activity-time">10:15 AM</span></div>
+                                    <div class="fnx-activity-desc">FNX-2026-001225 &bull; Status changed to Investigating</div>
+                                </div>
+                            </div>
+
+                            <div class="fnx-activity-item">
+                                <div class="fnx-activity-bullet bullet-slate">&#128196;</div>
+                                <div class="fnx-activity-text">
+                                    <div class="fnx-activity-title">New case submitted <span class="fnx-activity-time">09:58 AM</span></div>
+                                    <div class="fnx-activity-desc">FNX-2026-001234 &bull; New fraud report by customer</div>
+                                </div>
+                            </div>
+
+                            <div class="fnx-activity-item">
+                                <div class="fnx-activity-bullet bullet-red">&#8593;</div>
+                                <div class="fnx-activity-text">
+                                    <div class="fnx-activity-title">Case escalated <span class="fnx-activity-time">09:42 AM</span></div>
+                                    <div class="fnx-activity-desc">FNX-2026-001220 &bull; Escalated to senior investigator</div>
+                                </div>
+                            </div>
+
+                            <div class="fnx-activity-item">
+                                <div class="fnx-activity-bullet bullet-cyan">&#9776;</div>
+                                <div class="fnx-activity-text">
+                                    <div class="fnx-activity-title">Task created <span class="fnx-activity-time">09:20 AM</span></div>
+                                    <div class="fnx-activity-desc">FNX-2026-001215 &bull; New task assigned to Ava P.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================================
+                 VIEW 2: CUSTOMERS MODULE
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'customers'" class="fnx-admin-page-view">
+                <div class="fnx-view-header">
+                    <div>
+                        <h1>CUSTOMER MANAGEMENT</h1>
+                        <p>Citizens, victims and entity KYC records</p>
+                    </div>
+                    <div class="fnx-search-box">
+                        <input type="text" placeholder="Search customer ID, name, email, phone..." ng-model="c.custSearch" ng-change="c.loadAdminCustomers()">
+                    </div>
+                </div>
+
+                <div class="fnx-card" style="margin-top:1.5rem;">
+                    <div class="fnx-table-responsive">
+                        <table class="fnx-admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Customer Name</th>
+                                    <th>Email Address</th>
+                                    <th>Mobile</th>
+                                    <th>KYC Status</th>
+                                    <th>Account Status</th>
+                                    <th>Cases Reported</th>
+                                    <th>Registered Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cust in c.adminCustList">
+                                    <td><strong style="color:#0284C7;">{{cust.customer_id}}</strong></td>
+                                    <td class="fnx-text-bold">{{cust.name}}</td>
+                                    <td>{{cust.email}}</td>
+                                    <td>{{cust.mobile}}</td>
+                                    <td>
+                                        <span class="fnx-badge" ng-class="{'sev-low': cust.kyc_status === 'Verified', 'sev-medium': cust.kyc_status === 'Pending'}">{{cust.kyc_status}}</span>
+                                    </td>
+                                    <td><span class="fnx-status-pill st-active">{{cust.status}}</span></td>
+                                    <td><strong style="color:#0F172A;">{{cust.cases_count || 1}}</strong></td>
+                                    <td>{{cust.created_on | limitTo:10}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 VIEW 3: CASES MODULE
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'cases'" class="fnx-admin-page-view">
+                <div class="fnx-view-header">
+                    <div>
+                        <h1>CASE MANAGEMENT</h1>
+                        <p>Complete register of reported cyber &amp; financial fraud cases</p>
+                    </div>
+                    <div style="display:flex; gap:0.75rem;">
+                        <input type="text" class="fnx-input-filter" placeholder="Search cases..." ng-model="c.casesSearch" ng-change="c.loadAdminCases(c.casesFilter)">
+                        <select class="fnx-select-filter" ng-model="c.casesFilter" ng-change="c.loadAdminCases(c.casesFilter)">
+                            <option value="all">All Cases</option>
+                            <option value="new">New</option>
+                            <option value="active">Active</option>
+                            <option value="critical">Critical</option>
+                            <option value="escalated">Escalated</option>
+                            <option value="unassigned">Unassigned</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="fnx-card" style="margin-top:1.5rem;">
+                    <div class="fnx-table-responsive">
+                        <table class="fnx-admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Case ID</th>
+                                    <th>Incident Type</th>
+                                    <th>Severity</th>
+                                    <th>Risk</th>
+                                    <th>Financial Exposure</th>
+                                    <th>Assigned Handler</th>
+                                    <th>SLA Window</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cs in c.adminCasesList">
+                                    <td><a href="javascript:void(0)" class="fnx-case-id-link" ng-click="c.openInvestigation(cs)">{{cs.number}}</a></td>
+                                    <td class="fnx-text-bold">{{cs.type}}</td>
+                                    <td><span class="fnx-badge" ng-class="'sev-' + (cs.severity || 'Medium').toLowerCase()">{{cs.severity}}</span></td>
+                                    <td><span class="fnx-risk-pill" ng-class="{'risk-crit': cs.risk >= 85, 'risk-high': cs.risk >= 70, 'risk-med': cs.risk < 70}">{{cs.risk}}</span></td>
+                                    <td class="fnx-exposure-cell">&pound; {{cs.exposure | number:0}}</td>
+                                    <td>{{cs.handler}}</td>
+                                    <td><span class="fnx-sla-badge" ng-class="{'sla-crit': cs.sla.indexOf('1') !== -1, 'sla-warn': cs.sla.indexOf('2') !== -1}">{{cs.sla}}</span></td>
+                                    <td><span class="fnx-status-pill" ng-class="'st-' + (cs.status || 'New').toLowerCase()">{{cs.status}}</span></td>
+                                    <td>
+                                        <div class="fnx-action-btns">
+                                            <button class="fnx-btn-xs fnx-btn-view" ng-click="c.viewCaseDetail(cs)">View</button>
+                                            <button class="fnx-btn-xs fnx-btn-open" ng-click="c.openInvestigation(cs)">Workspace</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 VIEW 4: INVESTIGATION WORKSPACE (Phase 1 Shell)
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'investigation'" class="fnx-investigation-workspace">
+                
+                <!-- Investigation Header -->
+                <div class="fnx-inv-header">
+                    <div class="fnx-inv-header-meta">
+                        <div class="fnx-inv-case-num">{{c.activeInvestigationCase.number || 'FNX-2026-001234'}}</div>
+                        <span class="fnx-badge" ng-class="'sev-' + (c.activeInvestigationCase.severity || 'Critical').toLowerCase()">{{c.activeInvestigationCase.severity || 'Critical'}}</span>
+                        <span class="fnx-status-pill" ng-class="'st-' + (c.activeInvestigationCase.status || 'New').toLowerCase()">{{c.activeInvestigationCase.status || 'New'}}</span>
+                        <span class="fnx-inv-exposure-tag">&pound; {{c.activeInvestigationCase.exposure || '250000' | number:0}}</span>
+                    </div>
+
+                    <!-- Fast Operational Actions -->
+                    <div class="fnx-inv-actions-bar">
+                        <button class="fnx-btn-op" ng-click="c.openAssignModal(c.activeInvestigationCase)">&#128100; Assign</button>
+                        <button class="fnx-btn-op" ng-click="c.openTaskModal(c.activeInvestigationCase)">&#9776; Add Task</button>
+                        <button class="fnx-btn-op" ng-click="c.openEvidenceReqModal(c.activeInvestigationCase)">&#128196; Request Evidence</button>
+                        <button class="fnx-btn-op btn-op-warn" ng-click="c.openEscalateModal(c.activeInvestigationCase)">&#9888; Escalate</button>
+                        <button class="fnx-btn-op btn-op-success" ng-click="c.openResolveModal(c.activeInvestigationCase)">&#10003; Resolve</button>
+                        <button class="fnx-btn-op btn-op-danger" ng-click="c.executeClose(c.activeInvestigationCase)">&#10006; Close</button>
+                    </div>
+                </div>
+
+                <!-- 3-Column Layout -->
+                <div class="fnx-inv-3col">
+                    
+                    <!-- Left Column: Case Navigator -->
+                    <div class="fnx-inv-col-nav">
+                        <div class="fnx-inv-nav-header">
+                            <strong>ACTIVE INVESTIGATIONS</strong>
+                        </div>
+                        <div class="fnx-inv-nav-list">
+                            <div class="fnx-inv-nav-item" ng-repeat="cs in c.adminDash.priority_queue" ng-class="{'selected': cs.sys_id === c.activeInvestigationCase.sys_id}" ng-click="c.openInvestigation(cs)">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <strong>{{cs.number}}</strong>
+                                    <span class="fnx-badge-dot" ng-class="'sev-' + cs.severity.toLowerCase()"></span>
+                                </div>
+                                <div style="font-size:0.85rem; color:#475569; margin:3px 0;">{{cs.type}}</div>
+                                <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#64748B;">
+                                    <span>&pound; {{cs.exposure | number:0}}</span>
+                                    <span>{{cs.handler_initials}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Column: Workspace Tabs -->
+                    <div class="fnx-inv-col-center">
+                        <div class="fnx-inv-tabs">
+                            <button class="fnx-inv-tab" ng-class="{'active': c.investigationTab === 'overview'}" ng-click="c.setInvestigationTab('overview')">Overview</button>
+                            <button class="fnx-inv-tab" ng-class="{'active': c.investigationTab === 'evidence'}" ng-click="c.setInvestigationTab('evidence')">Evidence ({{c.activeInvestigationCase.evidence.length || 1}})</button>
+                            <button class="fnx-inv-tab" ng-class="{'active': c.investigationTab === 'tasks'}" ng-click="c.setInvestigationTab('tasks')">Tasks ({{c.activeInvestigationCase.tasks.length || 1}})</button>
+                            <button class="fnx-inv-tab" ng-class="{'active': c.investigationTab === 'timeline'}" ng-click="c.setInvestigationTab('timeline')">Timeline</button>
+                        </div>
+
+                        <!-- TAB 1: OVERVIEW -->
+                        <div ng-if="c.investigationTab === 'overview'" class="fnx-inv-tab-content">
+                            <div class="fnx-card" style="margin-bottom:1.25rem;">
+                                <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin-bottom:1rem;">Incident Details</h3>
+                                <p style="line-height:1.6; color:#334155;">{{c.activeInvestigationCase.description}}</p>
+                                
+                                <div class="fnx-grid-2col" style="margin-top:1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                    <div><strong>Incident Type:</strong> {{c.activeInvestigationCase.type}}</div>
+                                    <div><strong>Digital Platform:</strong> {{c.activeInvestigationCase.digital_platform || 'NetBanking / UPI'}}</div>
+                                    <div><strong>Incident Date:</strong> {{c.activeInvestigationCase.incident_date || '2026-01-12'}}</div>
+                                    <div><strong>Incident Location:</strong> {{c.activeInvestigationCase.location || 'Chennai, India'}}</div>
+                                    <div><strong>Reported Financial Exposure:</strong> &pound; {{c.activeInvestigationCase.exposure | number:0}}</div>
+                                    <div><strong>Blocked Amount:</strong> &pound; {{c.activeInvestigationCase.blocked_amount || '0' | number:0}}</div>
+                                </div>
+                            </div>
+
+                            <div class="fnx-card">
+                                <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin-bottom:1rem;">Customer &amp; Victim Summary</h3>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                                    <div><strong>Victim Name:</strong> {{c.activeInvestigationCase.customer.name || 'Verified Citizen'}}</div>
+                                    <div><strong>Customer ID:</strong> {{c.activeInvestigationCase.customer.customer_id || 'CNX-2026-001000'}}</div>
+                                    <div><strong>Email:</strong> {{c.activeInvestigationCase.customer.email || 'customer@gmail.com'}}</div>
+                                    <div><strong>Phone:</strong> {{c.activeInvestigationCase.customer.mobile || '+91 9876543210'}}</div>
+                                    <div><strong>KYC Status:</strong> <span class="fnx-badge sev-low">{{c.activeInvestigationCase.customer.kyc_status || 'Verified'}}</span></div>
+                                    <div><strong>Account Status:</strong> <span class="fnx-status-pill st-active">{{c.activeInvestigationCase.customer.status || 'Active'}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: EVIDENCE -->
+                        <div ng-if="c.investigationTab === 'evidence'" class="fnx-inv-tab-content">
+                            <div class="fnx-card">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+                                    <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin:0;">Evidence Vault &amp; Chain of Custody</h3>
+                                    <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.openEvidenceReqModal(c.activeInvestigationCase)">+ Request Evidence</button>
+                                </div>
+
+                                <div class="fnx-evidence-item" ng-repeat="ev in c.activeInvestigationCase.evidence">
+                                    <div class="fnx-evidence-icon">&#128196;</div>
+                                    <div class="fnx-evidence-body">
+                                        <div style="display:flex; justify-content:space-between;">
+                                            <strong>{{ev.number}} &mdash; {{ev.type}}</strong>
+                                            <span class="fnx-badge sev-low">{{ev.verification_status}}</span>
+                                        </div>
+                                        <p style="margin:4px 0; color:#475569;">{{ev.description}}</p>
+                                        <div style="font-size:0.8rem; color:#64748B; font-family:monospace;">
+                                            SHA-256: {{ev.sha256}}
+                                        </div>
+                                        <div style="font-size:0.8rem; color:#64748B; margin-top:4px;">
+                                            Uploaded on {{ev.uploaded_on}} via {{ev.source}} &bull; Status: {{ev.processing_status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: TASKS -->
+                        <div ng-if="c.investigationTab === 'tasks'" class="fnx-inv-tab-content">
+                            <div class="fnx-card">
+                                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+                                    <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin:0;">Investigation Operational Tasks</h3>
+                                    <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.openTaskModal(c.activeInvestigationCase)">+ Add Task</button>
+                                </div>
+
+                                <div class="fnx-task-item" ng-repeat="tsk in c.activeInvestigationCase.tasks">
+                                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                        <div>
+                                            <strong>{{tsk.number}}: {{tsk.short_description}}</strong>
+                                            <p style="margin:4px 0; color:#475569;">{{tsk.description}}</p>
+                                            <div style="font-size:0.82rem; color:#64748B;">
+                                                Assignee: {{tsk.assigned_to}} &bull; Priority: {{tsk.priority}}
+                                            </div>
+                                        </div>
+                                        <span class="fnx-status-pill st-progress">{{tsk.state}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: TIMELINE -->
+                        <div ng-if="c.investigationTab === 'timeline'" class="fnx-inv-tab-content">
+                            <div class="fnx-card">
+                                <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin-bottom:1.25rem;">Audit &amp; Forensic Timeline</h3>
+                                <div class="fnx-timeline-full">
+                                    <div class="fnx-tl-item" ng-repeat="tl in c.activeInvestigationCase.timeline">
+                                        <div class="fnx-tl-point"></div>
+                                        <div class="fnx-tl-content">
+                                            <strong>{{tl.action}}</strong>
+                                            <p>{{tl.details}}</p>
+                                            <span class="fnx-tl-time">{{tl.timestamp}} &bull; By {{tl.performed_by}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Column: Operational Summary -->
+                    <div class="fnx-inv-col-summary">
+                        <div class="fnx-card" style="margin-bottom:1.25rem;">
+                            <h4 style="font-size:0.95rem; font-weight:700; color:#0B1F3A; margin-bottom:0.85rem;">OPERATIONAL SUMMARY</h4>
+                            <div class="fnx-summary-stat">
+                                <span class="lbl">Assigned Handler</span>
+                                <strong class="val">{{c.activeInvestigationCase.handler}}</strong>
+                            </div>
+                            <div class="fnx-summary-stat">
+                                <span class="lbl">SLA Window</span>
+                                <strong class="val text-red">24 Hours (Active)</strong>
+                            </div>
+                            <div class="fnx-summary-stat">
+                                <span class="lbl">Financial Exposure</span>
+                                <strong class="val text-blue">&pound; {{c.activeInvestigationCase.exposure | number:0}}</strong>
+                            </div>
+                            <div class="fnx-summary-stat">
+                                <span class="lbl">Investigation Stage</span>
+                                <strong class="val">{{c.activeInvestigationCase.stage}}</strong>
+                            </div>
+                        </div>
+
+                        <div class="fnx-card">
+                            <h4 style="font-size:0.95rem; font-weight:700; color:#0B1F3A; margin-bottom:0.85rem;">STATUTORY COMPLIANCE</h4>
+                            <p style="font-size:0.85rem; color:#64748B; line-height:1.5;">Section 91 Notice dispatched to intermediary clearing house for beneficiary freeze.</p>
+                            <button class="fnx-btn fnx-btn-sm fnx-btn-outline fnx-btn-full" style="margin-top:0.75rem;" ng-click="c.openTaskModal(c.activeInvestigationCase)">+ Issue Statutory Task</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ==========================================
+                 VIEW 5: INTELLIGENCE WORKSPACE (Phase 1 Shell)
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'intelligence'" class="fnx-admin-page-view">
+                <div class="fnx-view-header">
+                    <div>
+                        <h1>INTELLIGENCE WORKSPACE</h1>
+                        <p>Forensic Graph Analytics &amp; Cross-Border Entity Intelligence</p>
+                    </div>
+                    <span class="fnx-badge" style="background:#E0F2FE; color:#0369A1; font-weight:700; font-size:0.85rem;">Phase 2 Core Engine</span>
+                </div>
+
+                <div class="fnx-card fnx-placeholder-shell">
+                    <div class="fnx-placeholder-graphic">
+                        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#00B8D9" stroke-width="1.5">
+                            <circle cx="18" cy="5" r="3"></circle>
+                            <circle cx="6" cy="12" r="3"></circle>
+                            <circle cx="18" cy="19" r="3"></circle>
+                            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                        </svg>
+                    </div>
+                    <h2>Investigation Intelligence Engine &mdash; Phase 2 Foundation</h2>
+                    <p style="max-width:620px; margin:0 auto 1.5rem auto; line-height:1.6; color:#475569;">
+                        The operational foundation for Fraud Case Management, Chain of Custody, and Customer-to-Admin workflows is active. Advanced entity correlation, fraud ring graph clustering, predictive mule account detection, and AML pattern extraction are being prepared for Phase 2.
+                    </p>
+                    <div style="display:flex; justify-content:center; gap:1rem;">
+                        <button class="fnx-btn fnx-btn-primary" ng-click="c.setAdminModule('commandCenter')">Return to Command Center</button>
+                        <button class="fnx-btn fnx-btn-outline" ng-click="c.setAdminModule('cases')">View Active Cases</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 VIEW 6: ANALYTICS MODULE (Phase 1 Foundation)
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'analytics'" class="fnx-admin-page-view">
+                <div class="fnx-view-header">
+                    <div>
+                        <h1>INVESTIGATION ANALYTICS</h1>
+                        <p>Operational statistics &amp; financial fraud recovery metrics</p>
+                    </div>
+                </div>
+
+                <div class="fnx-analytics-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem;">
+                    <div class="fnx-card">
+                        <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin-bottom:1rem;">Cases by Fraud Category</h3>
+                        <div style="padding:1rem 0;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;"><span>Payment Fraud</span><strong>35%</strong></div>
+                            <div style="height:8px; background:#F1F5F9; border-radius:4px; overflow:hidden; margin-bottom:1rem;"><div style="width:35%; height:100%; background:#0284C7;"></div></div>
+                            
+                            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;"><span>Phishing &amp; Social Engineering</span><strong>28%</strong></div>
+                            <div style="height:8px; background:#F1F5F9; border-radius:4px; overflow:hidden; margin-bottom:1rem;"><div style="width:28%; height:100%; background:#00B8D9;"></div></div>
+
+                            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;"><span>Account Compromise</span><strong>18%</strong></div>
+                            <div style="height:8px; background:#F1F5F9; border-radius:4px; overflow:hidden; margin-bottom:1rem;"><div style="width:18%; height:100%; background:#F59E0B;"></div></div>
+
+                            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;"><span>Cyber Extortion &amp; Ransomware</span><strong>12%</strong></div>
+                            <div style="height:8px; background:#F1F5F9; border-radius:4px; overflow:hidden; margin-bottom:1rem;"><div style="width:12%; height:100%; background:#DC2626;"></div></div>
+
+                            <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem;"><span>Mule Accounts &amp; Laundering</span><strong>7%</strong></div>
+                            <div style="height:8px; background:#F1F5F9; border-radius:4px; overflow:hidden;"><div style="width:7%; height:100%; background:#10B981;"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="fnx-card">
+                        <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin-bottom:1rem;">Operational Resolution Rate</h3>
+                        <div style="padding:1rem 0; text-align:center;">
+                            <div style="font-size:3rem; font-weight:800; color:#16A34A; margin-bottom:0.5rem;">92.4%</div>
+                            <p style="color:#64748B;">Investigations concluded within statutory 7-day SLA window</p>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; text-align:left;">
+                                <div class="fnx-stat-box" style="background:#F8FAFC; padding:1rem; border-radius:8px;">
+                                    <div style="color:#64748B; font-size:0.85rem;">Avg Resolution Time</div>
+                                    <strong style="font-size:1.3rem; color:#0F172A;">3.2 Days</strong>
+                                </div>
+                                <div class="fnx-stat-box" style="background:#F8FAFC; padding:1rem; border-radius:8px;">
+                                    <div style="color:#64748B; font-size:0.85rem;">Fund Recovery Rate</div>
+                                    <strong style="font-size:1.3rem; color:#16A34A;">38.6%</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==========================================
+                 VIEW 7: SETTINGS MODULE
+                 ========================================== -->
+            <div ng-if="c.adminModule === 'settings'" class="fnx-admin-page-view">
+                <div class="fnx-view-header">
+                    <div>
+                        <h1>INVESTIGATION SETTINGS</h1>
+                        <p>Investigator profile, statutory preferences and workspace configuration</p>
+                    </div>
+                </div>
+
+                <div class="fnx-card" style="margin-top:1.5rem; max-width:800px;">
+                    <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin-bottom:1.25rem;">Investigator Profile</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
+                        <div>
+                            <label style="font-size:0.85rem; font-weight:600; color:#475569;">Full Name</label>
+                            <input type="text" class="fnx-input" value="Alex Morgan" readonly>
+                        </div>
+                        <div>
+                            <label style="font-size:0.85rem; font-weight:600; color:#475569;">Official Title</label>
+                            <input type="text" class="fnx-input" value="Senior Fraud Investigator" readonly>
+                        </div>
+                        <div>
+                            <label style="font-size:0.85rem; font-weight:600; color:#475569;">Department</label>
+                            <input type="text" class="fnx-input" value="Financial Crimes Investigation Bureau" readonly>
+                        </div>
+                        <div>
+                            <label style="font-size:0.85rem; font-weight:600; color:#475569;">Assigned Role</label>
+                            <input type="text" class="fnx-input" value="fnx_investigator, fnx_admin" readonly>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size:1.1rem; font-weight:700; color:#0B1F3A; margin:2rem 0 1.25rem 0;">Notification &amp; SLA Preferences</h3>
+                    <div style="display:flex; flex-direction:column; gap:0.85rem;">
+                        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                            <input type="checkbox" checked> Instant notification on Critical severity case intake
+                        </label>
+                        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                            <input type="checkbox" checked> Alert on SLA breaches approaching 4 hours
+                        </label>
+                        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+                            <input type="checkbox" checked> Customer evidence upload real-time dispatch
+                        </label>
+                    </div>
+
+                    <div style="margin-top:2.5rem; padding-top:1.5rem; border-top:1px solid #E2E8F0; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:0.85rem; color:#64748B;">FRAUDNEXUS Enterprise Platform &bull; Release 2026.1 &bull; Connected to ServiceNow Native Instance</span>
+                        <button class="fnx-btn fnx-btn-primary" ng-click="c.setAdminModule('commandCenter')">Save Preferences</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- FLOATING ADMIN AI BUTTON (Bottom Right) -->
+    <div class="fnx-admin-ai-floating-btn" ng-click="c.showAI = !c.showAI" title="Ask FRAUDNEXUS AI">
+        <span class="fnx-ai-sparkle">&#10024;</span>
+        <span>Ask FRAUDNEXUS AI</span>
+    </div>
+
+    <!-- ADMIN AI RIGHT DRAWER CHAT -->
+    <div ng-if="c.showAI" class="fnx-admin-ai-drawer">
+        <div class="fnx-ai-drawer-header">
+            <div style="display:flex; align-items:center; gap:0.6rem;">
+                <span class="fnx-ai-avatar">&#10024;</span>
+                <div>
+                    <strong>FRAUDNEXUS Operational AI</strong>
+                    <div style="font-size:0.75rem; color:#00B8D9;">Investigator Assistant &bull; Live ServiceNow Data</div>
+                </div>
+            </div>
+            <button class="fnx-btn-close-ai" ng-click="c.showAI = false">&times;</button>
+        </div>
+
+        <div class="fnx-ai-drawer-body">
+            <div class="fnx-ai-msg" ng-repeat="msg in c.adminAIMessages" ng-class="'msg-' + msg.sender">
+                <div class="fnx-ai-msg-bubble">{{msg.text}}</div>
+                <div ng-if="msg.suggestions && msg.suggestions.length > 0" class="fnx-ai-suggestions">
+                    <button class="fnx-ai-sug-btn" ng-repeat="sug in msg.suggestions" ng-click="c.sendAdminAI(sug)">
+                        {{sug}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="fnx-ai-drawer-footer">
+            <form ng-submit="c.sendAdminAI()">
+                <div style="display:flex; gap:0.5rem;">
+                    <input type="text" class="fnx-input" placeholder="Ask about unassigned cases, SLA, or current case..." ng-model="c.adminAIInput">
+                    <button type="submit" class="fnx-btn fnx-btn-primary" style="padding:0 1rem;">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: QUICK ASSIGN -->
+    <div ng-if="c.showAssignModal" class="fnx-modal-backdrop">
+        <div class="fnx-modal-card">
+            <div class="fnx-modal-header">
+                <h3>Assign Case {{c.targetCaseForModal.number}}</h3>
+                <button class="fnx-modal-close" ng-click="c.showAssignModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body">
+                <p style="color:#475569; margin-bottom:1rem;">Select investigator to assign responsibility for this case:</p>
+                <div class="fnx-form-group">
+                    <label>Investigator / Handler</label>
+                    <select class="fnx-input" ng-model="c.assigneeSelect">
+                        <option value="alex.morgan@fraudnexus.com">Alex Morgan (Senior Fraud Investigator)</option>
+                        <option value="sophia.r@fraudnexus.com">Sophia Reynolds (Cyber Fraud Specialist)</option>
+                        <option value="james.d@fraudnexus.com">James Davis (Senior AML Analyst)</option>
+                        <option value="maria.k@fraudnexus.com">Maria Kumar (Forensic Investigator)</option>
+                        <option value="liam.t@fraudnexus.com">Liam Taylor (Payment Fraud Specialist)</option>
+                        <option value="ava.p@fraudnexus.com">Ava Patel (Intelligence Analyst)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="fnx-modal-footer">
+                <button class="fnx-btn fnx-btn-ghost" ng-click="c.showAssignModal = false">Cancel</button>
+                <button class="fnx-btn fnx-btn-primary" ng-click="c.executeAssign()">Confirm Assignment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD TASK -->
+    <div ng-if="c.showTaskModal" class="fnx-modal-backdrop">
+        <div class="fnx-modal-card">
+            <div class="fnx-modal-header">
+                <h3>Add Investigation Task</h3>
+                <button class="fnx-modal-close" ng-click="c.showTaskModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body">
+                <div class="fnx-form-group">
+                    <label>Task Title</label>
+                    <input type="text" class="fnx-input" ng-model="c.taskForm.title" placeholder="e.g. Issue Section 91 notice to Bank">
+                </div>
+                <div class="fnx-form-group">
+                    <label>Description &amp; Action Notes</label>
+                    <textarea class="fnx-textarea" rows="3" ng-model="c.taskForm.desc" placeholder="Operational details..."></textarea>
+                </div>
+                <div class="fnx-form-group">
+                    <label>Priority</label>
+                    <select class="fnx-input" ng-model="c.taskForm.priority">
+                        <option>Critical</option>
+                        <option>High</option>
+                        <option>Moderate</option>
+                        <option>Low</option>
+                    </select>
+                </div>
+            </div>
+            <div class="fnx-modal-footer">
+                <button class="fnx-btn fnx-btn-ghost" ng-click="c.showTaskModal = false">Cancel</button>
+                <button class="fnx-btn fnx-btn-primary" ng-click="c.executeTaskCreation()">Create Task</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REQUEST EVIDENCE -->
+    <div ng-if="c.showEvidenceReqModal" class="fnx-modal-backdrop">
+        <div class="fnx-modal-card">
+            <div class="fnx-modal-header">
+                <h3>Request Evidence from Customer</h3>
+                <button class="fnx-modal-close" ng-click="c.showEvidenceReqModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body">
+                <p style="color:#475569; margin-bottom:1rem;">A request will be dispatched to the customer portal and recorded in the audit trail:</p>
+                <div class="fnx-form-group">
+                    <label>Evidence Required &amp; Instructions</label>
+                    <textarea class="fnx-textarea" rows="3" ng-model="c.evidenceReqNotes" placeholder="e.g. Please upload original PDF bank statement covering Jan 10 - Jan 12 showing the disputed IMPS debit."></textarea>
+                </div>
+            </div>
+            <div class="fnx-modal-footer">
+                <button class="fnx-btn fnx-btn-ghost" ng-click="c.showEvidenceReqModal = false">Cancel</button>
+                <button class="fnx-btn fnx-btn-primary" ng-click="c.executeEvidenceRequest()">Dispatch Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ESCALATE -->
+    <div ng-if="c.showEscalateModal" class="fnx-modal-backdrop">
+        <div class="fnx-modal-card">
+            <div class="fnx-modal-header">
+                <h3>Escalate Case to Senior Investigation</h3>
+                <button class="fnx-modal-close" ng-click="c.showEscalateModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body">
+                <div class="fnx-alert fnx-alert-warn" style="margin-bottom:1rem;">
+                    Escalation raises case severity to Critical and alerts Senior Fraud Management.
+                </div>
+                <div class="fnx-form-group">
+                    <label>Escalation Justification</label>
+                    <textarea class="fnx-textarea" rows="3" ng-model="c.escalateReason" placeholder="State reason (e.g. Cross-border syndicate, high financial loss, or organized ring activity)..."></textarea>
+                </div>
+            </div>
+            <div class="fnx-modal-footer">
+                <button class="fnx-btn fnx-btn-ghost" ng-click="c.showEscalateModal = false">Cancel</button>
+                <button class="fnx-btn fnx-btn-primary btn-op-warn" ng-click="c.executeEscalate()">Confirm Escalation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: RESOLVE CASE -->
+    <div ng-if="c.showResolveModal" class="fnx-modal-backdrop">
+        <div class="fnx-modal-card">
+            <div class="fnx-modal-header">
+                <h3>Resolve Fraud Investigation</h3>
+                <button class="fnx-modal-close" ng-click="c.showResolveModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body">
+                <div class="fnx-form-group">
+                    <label>Investigation Outcome</label>
+                    <select class="fnx-input" ng-model="c.resolveOutcome">
+                        <option>Confirmed Fraud</option>
+                        <option>False Positive</option>
+                        <option>Suspicious – Inconclusive</option>
+                        <option>No Fraud</option>
+                    </select>
+                </div>
+                <div class="fnx-form-group">
+                    <label>Resolution &amp; Recovery Summary</label>
+                    <textarea class="fnx-textarea" rows="3" ng-model="c.resolveNotes" placeholder="Summary of investigation findings and recovered amounts..."></textarea>
+                </div>
+            </div>
+            <div class="fnx-modal-footer">
+                <button class="fnx-btn fnx-btn-ghost" ng-click="c.showResolveModal = false">Cancel</button>
+                <button class="fnx-btn fnx-btn-primary btn-op-success" ng-click="c.executeResolve()">Mark Resolved</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: CASE DETAIL (Quick View) -->
+    <div ng-if="c.showCaseDetailModal" class="fnx-modal-backdrop">
+        <div class="fnx-modal-card" style="max-width:700px;">
+            <div class="fnx-modal-header">
+                <h3>Case Details: {{c.activeAdminCase.number}}</h3>
+                <button class="fnx-modal-close" ng-click="c.showCaseDetailModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                    <div><strong>Incident Type:</strong> {{c.activeAdminCase.type}}</div>
+                    <div><strong>Severity:</strong> <span class="fnx-badge" ng-class="'sev-' + (c.activeAdminCase.severity||'Medium').toLowerCase()">{{c.activeAdminCase.severity}}</span></div>
+                    <div><strong>Risk Score:</strong> <span class="fnx-risk-pill risk-high">{{c.activeAdminCase.risk}}</span></div>
+                    <div><strong>Status:</strong> <span class="fnx-status-pill st-new">{{c.activeAdminCase.status}}</span></div>
+                    <div><strong>Financial Exposure:</strong> &pound; {{c.activeAdminCase.exposure | number:0}}</div>
+                    <div><strong>Assigned Handler:</strong> {{c.activeAdminCase.handler}}</div>
+                </div>
+                <p><strong>Description:</strong> {{c.activeAdminCase.description}}</p>
+            </div>
+            <div class="fnx-modal-footer">
+                <button class="fnx-btn fnx-btn-ghost" ng-click="c.showCaseDetailModal = false">Close</button>
+                <button class="fnx-btn fnx-btn-primary" ng-click="c.showCaseDetailModal = false; c.openInvestigation(c.activeAdminCase)">Open Investigation Workspace</button>
+            </div>
+        </div>
+    </div>
+
+</div>

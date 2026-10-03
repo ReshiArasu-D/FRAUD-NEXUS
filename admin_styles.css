@@ -1,0 +1,1406 @@
+/* ============================================================
+   FRAUDNEXUS ADMIN / INVESTIGATOR PORTAL ENTERPRISE CSS
+   ============================================================ */
+
+/* ---------- 1. ADMIN LOGIN ---------- */
+.fnx-admin-login-page {
+    display: flex !important;
+    min-height: 100vh !important;
+    background-color: #F5F7FA !important;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+.fnx-admin-login-left {
+    flex: 1.1 !important;
+    background-color: #0B1F3A !important;
+    padding: 4.5rem 4rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    color: #FFFFFF !important;
+    position: relative !important;
+    border-right: 1px solid #123B63 !important;
+}
+
+.fnx-admin-login-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.85rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.fnx-admin-login-brand span {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    color: #00B8D9 !important;
+}
+
+.fnx-admin-login-tagline {
+    font-size: 0.8rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    color: #00B8D9 !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.fnx-admin-login-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 2.2rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    color: #FFFFFF !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.fnx-admin-login-desc {
+    font-size: 1rem !important;
+    color: #94A3B8 !important;
+    line-height: 1.6 !important;
+    max-width: 520px !important;
+    margin-bottom: 2rem !important;
+}
+
+.fnx-network-nodes-graphic {
+    background: rgba(18, 59, 99, 0.35) !important;
+    border: 1px solid rgba(0, 184, 217, 0.25) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    max-width: 440px !important;
+}
+
+.fnx-admin-login-right {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 2.5rem !important;
+    background-color: #F8FAFC !important;
+}
+
+.fnx-admin-login-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 10px 30px rgba(11, 31, 58, 0.08) !important;
+    padding: 3rem 2.8rem !important;
+    width: 100% !important;
+    max-width: 480px !important;
+}
+
+.fnx-admin-login-header h2 {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    color: #0B1F3A !important;
+    margin-bottom: 0.35rem !important;
+}
+
+.fnx-admin-login-header p {
+    font-size: 0.95rem !important;
+    color: #64748B !important;
+    margin-bottom: 1.75rem !important;
+}
+
+.fnx-btn-demo {
+    background-color: #E0F2FE !important;
+    color: #0369A1 !important;
+    border: 1.5px solid #00B8D9 !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.fnx-btn-demo:hover {
+    background-color: #00B8D9 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(0, 184, 217, 0.3) !important;
+}
+
+/* ---------- 2. ADMIN SHELL ---------- */
+.fnx-admin-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+    background-color: #F5F7FA !important;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    color: #0F172A !important;
+}
+
+.fnx-admin-topbar {
+    height: 64px !important;
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 1.75rem !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+}
+
+.fnx-admin-topbar-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+}
+
+.fnx-admin-topbar-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-admin-topbar-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px !important;
+    color: #0B1F3A !important;
+}
+
+.fnx-demo-badge {
+    background: #E0F2FE !important;
+    color: #0284C7 !important;
+    border: 1px solid #BAE6FD !important;
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    padding: 0.25rem 0.65rem !important;
+    border-radius: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+}
+
+.fnx-demo-dot {
+    width: 6px !important;
+    height: 6px !important;
+    background: #0284C7 !important;
+    border-radius: 50% !important;
+}
+
+.fnx-admin-global-search {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    background: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+    padding: 0.45rem 1rem !important;
+    width: 440px !important;
+}
+
+.fnx-admin-global-search input {
+    border: none !important;
+    background: transparent !important;
+    outline: none !important;
+    font-size: 0.88rem !important;
+    width: 100% !important;
+    color: #0F172A !important;
+}
+
+.fnx-admin-topbar-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.25rem !important;
+    position: relative !important;
+}
+
+.fnx-topbar-action-icon {
+    position: relative !important;
+    cursor: pointer !important;
+    padding: 0.4rem !important;
+    border-radius: 6px !important;
+    color: #0F172A !important;
+}
+
+.fnx-topbar-action-icon:hover {
+    background-color: #F1F5F9 !important;
+}
+
+.fnx-badge-count {
+    position: absolute !important;
+    top: 0px !important;
+    right: 0px !important;
+    background: #DC2626 !important;
+    color: #FFFFFF !important;
+    font-size: 0.7rem !important;
+    font-weight: 800 !important;
+    padding: 2px 5px !important;
+    border-radius: 10px !important;
+}
+
+.fnx-admin-lang-select {
+    padding: 0.35rem 0.65rem !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 6px !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    color: #0F172A !important;
+    background: #FFFFFF !important;
+    cursor: pointer !important;
+}
+
+.fnx-admin-profile {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    cursor: pointer !important;
+    padding: 0.3rem 0.5rem !important;
+    border-radius: 8px !important;
+    transition: background 0.2s ease !important;
+}
+
+.fnx-admin-profile:hover {
+    background-color: #F8FAFC !important;
+}
+
+.fnx-admin-avatar {
+    width: 36px !important;
+    height: 36px !important;
+    background: #0B1F3A !important;
+    color: #FFFFFF !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 800 !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 1px !important;
+}
+
+.fnx-admin-profile-info {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.fnx-admin-name {
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+}
+
+.fnx-admin-role {
+    font-size: 0.75rem !important;
+    color: #64748B !important;
+}
+
+.fnx-admin-profile-menu {
+    position: absolute !important;
+    top: 54px !important;
+    right: 0 !important;
+    width: 220px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 8px 24px rgba(11, 31, 58, 0.12) !important;
+    padding: 0.5rem 0 !important;
+    z-index: 200 !important;
+}
+
+.fnx-profile-menu-header {
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid #F1F5F9 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.fnx-profile-menu-header strong {
+    font-size: 0.9rem !important;
+    color: #0F172A !important;
+}
+
+.fnx-profile-menu-header span {
+    font-size: 0.78rem !important;
+    color: #64748B !important;
+}
+
+.fnx-profile-menu-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    padding: 0.6rem 1rem !important;
+    font-size: 0.88rem !important;
+    color: #334155 !important;
+    text-decoration: none !important;
+    transition: background 0.15s ease !important;
+}
+
+.fnx-profile-menu-item:hover {
+    background-color: #F8FAFC !important;
+    color: #00B8D9 !important;
+}
+
+.fnx-menu-logout {
+    color: #DC2626 !important;
+}
+
+.fnx-menu-logout:hover {
+    background-color: #FEF2F2 !important;
+    color: #DC2626 !important;
+}
+
+/* ---------- 3. SIDEBAR & BODY ---------- */
+.fnx-admin-body {
+    display: flex !important;
+    flex: 1 !important;
+    min-height: calc(100vh - 64px) !important;
+}
+
+.fnx-admin-sidebar {
+    width: 250px !important;
+    background-color: #0B1F3A !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    border-right: 1px solid #123B63 !important;
+    flex-shrink: 0 !important;
+    padding: 1.5rem 0 1rem 0 !important;
+}
+
+.fnx-sidebar-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.35rem !important;
+    padding: 0 0.85rem !important;
+}
+
+.fnx-sidebar-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.85rem !important;
+    padding: 0.75rem 1rem !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    border: none !important;
+    color: #94A3B8 !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    width: 100% !important;
+    transition: all 0.2s ease !important;
+}
+
+.fnx-sidebar-item:hover {
+    background-color: #123B63 !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-sidebar-item.active {
+    background-color: #123B63 !important;
+    color: #00B8D9 !important;
+    font-weight: 700 !important;
+    border-left: 3.5px solid #00B8D9 !important;
+}
+
+.fnx-sidebar-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.fnx-sidebar-pill {
+    margin-left: auto !important;
+    background: rgba(0, 184, 217, 0.15) !important;
+    color: #00B8D9 !important;
+    font-size: 0.68rem !important;
+    font-weight: 800 !important;
+    padding: 2px 6px !important;
+    border-radius: 10px !important;
+}
+
+.fnx-sidebar-footer {
+    padding: 1rem 1.25rem !important;
+    text-align: center !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.fnx-sidebar-globe {
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.fnx-sidebar-footer-text strong {
+    font-size: 0.85rem !important;
+    color: #00B8D9 !important;
+    display: block !important;
+    line-height: 1.3 !important;
+}
+
+.fnx-sidebar-footer-text p {
+    font-size: 0.75rem !important;
+    color: #64748B !important;
+    margin: 4px 0 0 0 !important;
+}
+
+.fnx-admin-main-content {
+    flex: 1 !important;
+    padding: 1.75rem 2rem !important;
+    overflow-y: auto !important;
+    background-color: #F5F7FA !important;
+}
+
+/* ---------- 4. COMMAND CENTER ---------- */
+.fnx-command-center {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+}
+
+.fnx-cc-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+}
+
+.fnx-cc-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.75rem !important;
+    font-weight: 800 !important;
+    color: #0B1F3A !important;
+    margin: 0 !important;
+    letter-spacing: 0.5px !important;
+}
+
+.fnx-cc-subtitle {
+    font-size: 0.95rem !important;
+    color: #64748B !important;
+    margin: 4px 0 0 0 !important;
+}
+
+.fnx-cc-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    font-size: 0.82rem !important;
+    color: #64748B !important;
+}
+
+.fnx-btn-icon-refresh {
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 6px !important;
+    padding: 4px 6px !important;
+    cursor: pointer !important;
+    color: #0B1F3A !important;
+}
+
+/* KPI Grid */
+.fnx-kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 1rem !important;
+}
+
+.fnx-kpi-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    padding: 1.1rem 1.15rem !important;
+    box-shadow: 0 2px 6px rgba(11, 31, 58, 0.04) !important;
+    position: relative !important;
+    border-top: 3.5px solid transparent !important;
+}
+
+.fnx-kpi-card.kpi-blue { border-top-color: #0284C7 !important; }
+.fnx-kpi-card.kpi-cyan { border-top-color: #00B8D9 !important; }
+.fnx-kpi-card.kpi-red { border-top-color: #DC2626 !important; }
+.fnx-kpi-card.kpi-orange { border-top-color: #F59E0B !important; }
+.fnx-kpi-card.kpi-amber { border-top-color: #D97706 !important; }
+.fnx-kpi-card.kpi-green { border-top-color: #16A34A !important; }
+
+.fnx-kpi-top {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    margin-bottom: 0.65rem !important;
+}
+
+.fnx-kpi-icon-wrap {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.icon-blue { background: #E0F2FE !important; color: #0284C7 !important; }
+.icon-cyan { background: #CFFAFE !important; color: #00B8D9 !important; }
+.icon-red { background: #FEE2E2 !important; color: #DC2626 !important; }
+.icon-orange { background: #FEF3C7 !important; color: #D97706 !important; }
+.icon-amber { background: #FEF9C3 !important; color: #B45309 !important; }
+.icon-green { background: #DCFCE7 !important; color: #16A34A !important; }
+
+.fnx-kpi-label {
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.8px !important;
+    color: #475569 !important;
+}
+
+.fnx-kpi-value {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    color: #0B1F3A !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.text-red { color: #DC2626 !important; }
+.text-orange { color: #F59E0B !important; }
+.text-green { color: #16A34A !important; }
+.text-blue { color: #0284C7 !important; }
+
+.fnx-kpi-trend {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    font-size: 0.74rem !important;
+    font-weight: 600 !important;
+}
+
+.trend-up { color: #00B8D9 !important; }
+.trend-crit { color: #DC2626 !important; }
+.trend-warn { color: #F59E0B !important; }
+.trend-down { color: #16A34A !important; }
+
+/* Middle Grid */
+.fnx-cc-grid-middle {
+    display: grid !important;
+    grid-template-columns: 2.2fr 1fr !important;
+    gap: 1.25rem !important;
+}
+
+.fnx-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(11, 31, 58, 0.04) !important;
+    padding: 1.5rem !important;
+}
+
+.fnx-card-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 1.25rem !important;
+    border-bottom: 1px solid #F1F5F9 !important;
+    padding-bottom: 0.85rem !important;
+}
+
+.fnx-card-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+}
+
+.fnx-star-badge {
+    color: #F59E0B !important;
+    font-size: 1.3rem !important;
+}
+
+.fnx-bell-red {
+    font-size: 1.2rem !important;
+}
+
+.fnx-count-badge {
+    background: #DC2626 !important;
+    color: #FFFFFF !important;
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    padding: 2px 7px !important;
+    border-radius: 10px !important;
+    margin-left: 0.4rem !important;
+}
+
+.fnx-card-title {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.05rem !important;
+    font-weight: 800 !important;
+    color: #0B1F3A !important;
+    margin: 0 !important;
+    letter-spacing: 0.5px !important;
+}
+
+.fnx-card-sub {
+    font-size: 0.8rem !important;
+    color: #64748B !important;
+    margin: 2px 0 0 0 !important;
+}
+
+.fnx-view-all-link {
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    color: #0284C7 !important;
+    text-decoration: none !important;
+}
+
+.fnx-queue-filters {
+    display: flex !important;
+    gap: 0.5rem !important;
+    align-items: center !important;
+}
+
+.fnx-filter-pill {
+    background: #F1F5F9 !important;
+    border: 1px solid transparent !important;
+    border-radius: 20px !important;
+    padding: 0.3rem 0.75rem !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.fnx-filter-pill:hover {
+    background: #E2E8F0 !important;
+}
+
+.fnx-filter-pill.active {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+}
+
+/* Tables */
+.fnx-table-responsive {
+    overflow-x: auto !important;
+}
+
+.fnx-admin-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 0.88rem !important;
+}
+
+.fnx-admin-table th {
+    text-align: left !important;
+    padding: 0.75rem 0.6rem !important;
+    color: #475569 !important;
+    font-weight: 700 !important;
+    font-size: 0.78rem !important;
+    letter-spacing: 0.5px !important;
+    background: #F8FAFC !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+}
+
+.fnx-admin-table td {
+    padding: 0.85rem 0.6rem !important;
+    border-bottom: 1px solid #F1F5F9 !important;
+    color: #1E293B !important;
+    vertical-align: middle !important;
+}
+
+.fnx-admin-table tr:hover {
+    background-color: #F8FAFC !important;
+}
+
+.fnx-case-id-link {
+    color: #0284C7 !important;
+    font-weight: 700 !important;
+    text-decoration: underline !important;
+    font-family: monospace !important;
+    font-size: 0.9rem !important;
+}
+
+.fnx-risk-pill {
+    display: inline-block !important;
+    font-weight: 800 !important;
+    font-size: 0.82rem !important;
+    padding: 0.2rem 0.55rem !important;
+    border-radius: 6px !important;
+}
+
+.risk-crit { background: #FEE2E2 !important; color: #DC2626 !important; }
+.risk-high { background: #FEF3C7 !important; color: #D97706 !important; }
+.risk-med { background: #E0F2FE !important; color: #0284C7 !important; }
+
+.fnx-exposure-cell {
+    font-weight: 700 !important;
+    color: #0F172A !important;
+}
+
+.fnx-handler-cell {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.fnx-handler-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    background: #123B63 !important;
+    color: #FFFFFF !important;
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.fnx-handler-avatar.unassigned {
+    background: #94A3B8 !important;
+}
+
+.fnx-sla-badge {
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+}
+
+.sla-crit { color: #DC2626 !important; }
+.sla-warn { color: #F59E0B !important; }
+.sla-ok { color: #16A34A !important; }
+
+.fnx-action-btns {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+}
+
+.fnx-btn-xs {
+    padding: 0.3rem 0.65rem !important;
+    border-radius: 5px !important;
+    font-size: 0.76rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    border: none !important;
+}
+
+.fnx-btn-view {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-btn-open {
+    background: #0B1F3A !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-btn-dots {
+    background: transparent !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 5px !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    cursor: pointer !important;
+    color: #64748B !important;
+}
+
+/* Action Center Items */
+.fnx-action-items-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+}
+
+.fnx-action-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.65rem 0 !important;
+    border-bottom: 1px solid #F1F5F9 !important;
+}
+
+.fnx-action-item:last-child {
+    border-bottom: none !important;
+}
+
+.fnx-action-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.95rem !important;
+    flex-shrink: 0 !important;
+}
+
+.action-icon-red { background: #FEE2E2 !important; color: #DC2626 !important; }
+.action-icon-orange { background: #FEF3C7 !important; color: #D97706 !important; }
+.action-icon-amber { background: #FEF9C3 !important; color: #B45309 !important; }
+.action-icon-blue { background: #E0F2FE !important; color: #0284C7 !important; }
+.action-icon-green { background: #DCFCE7 !important; color: #16A34A !important; }
+
+.fnx-action-content {
+    flex: 1 !important;
+}
+
+.fnx-action-title {
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+}
+
+.fnx-action-sub {
+    font-size: 0.76rem !important;
+    color: #64748B !important;
+}
+
+.fnx-btn-outline-blue {
+    background: transparent !important;
+    border: 1px solid #0284C7 !important;
+    color: #0284C7 !important;
+    padding: 0.25rem 0.65rem !important;
+    border-radius: 6px !important;
+    font-size: 0.78rem !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+}
+
+.fnx-btn-outline-blue:hover {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+}
+
+/* Bottom Grid */
+.fnx-cc-grid-bottom {
+    display: grid !important;
+    grid-template-columns: 1.2fr 1.2fr 1fr !important;
+    gap: 1.25rem !important;
+}
+
+.fnx-chart-legend {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+    font-size: 0.75rem !important;
+    color: #475569 !important;
+    margin-top: 0.85rem !important;
+}
+
+.fnx-chart-legend span {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+}
+
+.fnx-chart-legend i {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+}
+
+/* Exposure Summary Grid */
+.fnx-exposure-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.85rem !important;
+}
+
+.fnx-expo-tile {
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+    padding: 0.85rem !important;
+    display: flex !important;
+    gap: 0.75rem !important;
+    align-items: flex-start !important;
+}
+
+.fnx-expo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1rem !important;
+    flex-shrink: 0 !important;
+}
+
+.fnx-expo-label {
+    font-size: 0.74rem !important;
+    color: #64748B !important;
+    font-weight: 600 !important;
+}
+
+.fnx-expo-value {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    color: #0F172A !important;
+    margin: 2px 0 !important;
+}
+
+.fnx-expo-sub {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+}
+
+/* Recent Activity */
+.fnx-activity-timeline {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+}
+
+.fnx-activity-item {
+    display: flex !important;
+    gap: 0.75rem !important;
+    align-items: flex-start !important;
+}
+
+.fnx-activity-bullet {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.75rem !important;
+    flex-shrink: 0 !important;
+}
+
+.bullet-purple { background: #EDE9FE !important; color: #7C3AED !important; }
+.bullet-blue { background: #E0F2FE !important; color: #0284C7 !important; }
+.bullet-green { background: #DCFCE7 !important; color: #16A34A !important; }
+.bullet-slate { background: #F1F5F9 !important; color: #475569 !important; }
+.bullet-red { background: #FEE2E2 !important; color: #DC2626 !important; }
+.bullet-cyan { background: #CFFAFE !important; color: #00B8D9 !important; }
+
+.fnx-activity-title {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.fnx-activity-time {
+    font-size: 0.74rem !important;
+    font-weight: 500 !important;
+    color: #64748B !important;
+}
+
+.fnx-activity-desc {
+    font-size: 0.76rem !important;
+    color: #64748B !important;
+    margin-top: 2px !important;
+}
+
+/* ---------- 5. INVESTIGATION 3-COL WORKSPACE ---------- */
+.fnx-investigation-workspace {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+}
+
+.fnx-inv-header {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    padding: 1rem 1.5rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.fnx-inv-header-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.85rem !important;
+}
+
+.fnx-inv-case-num {
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    color: #0B1F3A !important;
+}
+
+.fnx-inv-exposure-tag {
+    background: #E0F2FE !important;
+    color: #0284C7 !important;
+    font-weight: 800 !important;
+    font-size: 0.9rem !important;
+    padding: 0.25rem 0.65rem !important;
+    border-radius: 6px !important;
+}
+
+.fnx-inv-actions-bar {
+    display: flex !important;
+    gap: 0.5rem !important;
+}
+
+.fnx-btn-op {
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    color: #0F172A !important;
+    font-weight: 700 !important;
+    font-size: 0.82rem !important;
+    padding: 0.4rem 0.85rem !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.fnx-btn-op:hover {
+    background: #F1F5F9 !important;
+}
+
+.btn-op-warn {
+    border-color: #F59E0B !important;
+    color: #D97706 !important;
+}
+
+.btn-op-success {
+    background: #16A34A !important;
+    border-color: #16A34A !important;
+    color: #FFFFFF !important;
+}
+
+.btn-op-danger {
+    background: #DC2626 !important;
+    border-color: #DC2626 !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-inv-3col {
+    display: grid !important;
+    grid-template-columns: 260px 1fr 280px !important;
+    gap: 1.25rem !important;
+}
+
+.fnx-inv-nav-header {
+    padding: 0.75rem 1rem !important;
+    background: #F8FAFC !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.5px !important;
+    color: #475569 !important;
+}
+
+.fnx-inv-nav-list {
+    display: flex !important;
+    flex-direction: column !important;
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+.fnx-inv-nav-item {
+    padding: 0.75rem 1rem !important;
+    border-bottom: 1px solid #F1F5F9 !important;
+    cursor: pointer !important;
+    transition: background 0.15s ease !important;
+}
+
+.fnx-inv-nav-item:hover {
+    background: #F8FAFC !important;
+}
+
+.fnx-inv-nav-item.selected {
+    background: #E0F2FE !important;
+    border-left: 3.5px solid #0284C7 !important;
+}
+
+.fnx-badge-dot {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+}
+
+.fnx-inv-tabs {
+    display: flex !important;
+    gap: 0.5rem !important;
+    border-bottom: 2px solid #E2E8F0 !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.fnx-inv-tab {
+    background: transparent !important;
+    border: none !important;
+    padding: 0.65rem 1.25rem !important;
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    cursor: pointer !important;
+    border-bottom: 3px solid transparent !important;
+    margin-bottom: -2px !important;
+}
+
+.fnx-inv-tab.active {
+    color: #0284C7 !important;
+    border-bottom-color: #0284C7 !important;
+}
+
+.fnx-evidence-item, .fnx-task-item {
+    padding: 0.85rem !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.85rem !important;
+    background: #F8FAFC !important;
+}
+
+.fnx-timeline-full {
+    position: relative !important;
+    padding-left: 1.5rem !important;
+}
+
+.fnx-timeline-full::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 7px !important;
+    top: 5px !important;
+    bottom: 5px !important;
+    width: 2px !important;
+    background: #CBD5E1 !important;
+}
+
+.fnx-tl-item {
+    position: relative !important;
+    margin-bottom: 1.25rem !important;
+}
+
+.fnx-tl-point {
+    position: absolute !important;
+    left: -1.5rem !important;
+    top: 3px !important;
+    width: 14px !important;
+    height: 14px !important;
+    border-radius: 50% !important;
+    background: #0284C7 !important;
+    border: 2px solid #FFFFFF !important;
+}
+
+.fnx-tl-content strong {
+    font-size: 0.9rem !important;
+    color: #0F172A !important;
+}
+
+.fnx-tl-content p {
+    font-size: 0.85rem !important;
+    color: #475569 !important;
+    margin: 3px 0 !important;
+}
+
+.fnx-tl-time {
+    font-size: 0.75rem !important;
+    color: #94A3B8 !important;
+}
+
+.fnx-summary-stat {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 0.65rem !important;
+    font-size: 0.85rem !important;
+}
+
+.fnx-summary-stat .lbl {
+    color: #64748B !important;
+}
+
+/* ---------- 6. FLOATING ADMIN AI DRAWER ---------- */
+.fnx-admin-ai-floating-btn {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 28px !important;
+    background: #0B1F3A !important;
+    color: #FFFFFF !important;
+    border: 1.5px solid #00B8D9 !important;
+    padding: 0.75rem 1.35rem !important;
+    border-radius: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.65rem !important;
+    font-weight: 700 !important;
+    font-size: 0.92rem !important;
+    cursor: pointer !important;
+    box-shadow: 0 8px 24px rgba(11, 31, 58, 0.3) !important;
+    z-index: 1000 !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.fnx-admin-ai-floating-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(0, 184, 217, 0.4) !important;
+}
+
+.fnx-admin-ai-drawer {
+    position: fixed !important;
+    bottom: 80px !important;
+    right: 28px !important;
+    width: 380px !important;
+    height: 520px !important;
+    background: #FFFFFF !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 14px !important;
+    box-shadow: 0 12px 36px rgba(11, 31, 58, 0.2) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    z-index: 1000 !important;
+    overflow: hidden !important;
+}
+
+.fnx-ai-drawer-header {
+    background: #0B1F3A !important;
+    color: #FFFFFF !important;
+    padding: 1rem 1.25rem !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.fnx-btn-close-ai {
+    background: transparent !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-size: 1.4rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-ai-drawer-body {
+    flex: 1 !important;
+    padding: 1rem !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.85rem !important;
+    background: #F8FAFC !important;
+}
+
+.fnx-ai-msg {
+    display: flex !important;
+    flex-direction: column !important;
+    max-width: 90% !important;
+}
+
+.msg-ai { align-self: flex-start !important; }
+.msg-user { align-self: flex-end !important; }
+
+.fnx-ai-msg-bubble {
+    padding: 0.75rem 1rem !important;
+    border-radius: 10px !important;
+    font-size: 0.88rem !important;
+    line-height: 1.5 !important;
+    white-space: pre-wrap !important;
+}
+
+.msg-ai .fnx-ai-msg-bubble {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    border: 1px solid #E2E8F0 !important;
+}
+
+.msg-user .fnx-ai-msg-bubble {
+    background: #0284C7 !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-ai-suggestions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.4rem !important;
+    margin-top: 0.5rem !important;
+}
+
+.fnx-ai-sug-btn {
+    background: #FFFFFF !important;
+    border: 1px solid #BAE6FD !important;
+    color: #0369A1 !important;
+    border-radius: 14px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    padding: 3px 8px !important;
+    cursor: pointer !important;
+}
+
+.fnx-ai-sug-btn:hover {
+    background: #E0F2FE !important;
+}
+
+.fnx-ai-drawer-footer {
+    padding: 0.75rem 1rem !important;
+    background: #FFFFFF !important;
+    border-top: 1px solid #E2E8F0 !important;
+}
+
+/* Modals */
+.fnx-modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(11, 31, 58, 0.6) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 2000 !important;
+}
+
+.fnx-modal-card {
+    background: #FFFFFF !important;
+    border-radius: 12px !important;
+    width: 90% !important;
+    max-width: 520px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25) !important;
+    overflow: hidden !important;
+}
+
+.fnx-modal-header {
+    padding: 1.15rem 1.5rem !important;
+    background: #0B1F3A !important;
+    color: #FFFFFF !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.fnx-modal-header h3 {
+    margin: 0 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 1.15rem !important;
+    color: #FFFFFF !important;
+}
+
+.fnx-modal-close {
+    background: transparent !important;
+    border: none !important;
+    color: #FFFFFF !important;
+    font-size: 1.3rem !important;
+    cursor: pointer !important;
+}
+
+.fnx-modal-body {
+    padding: 1.5rem !important;
+}
+
+.fnx-modal-footer {
+    padding: 1rem 1.5rem !important;
+    background: #F8FAFC !important;
+    border-top: 1px solid #E2E8F0 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    gap: 0.75rem !important;
+}
+
+.fnx-placeholder-shell {
+    text-align: center !important;
+    padding: 4rem 2rem !important;
+    margin-top: 1.5rem !important;
+}
+
+.fnx-placeholder-graphic {
+    margin-bottom: 1.5rem !important;
+}
+
+.fnx-placeholder-shell h2 {
+    font-family: 'Outfit', sans-serif !important;
+    color: #0B1F3A !important;
+    margin-bottom: 0.75rem !important;
+}

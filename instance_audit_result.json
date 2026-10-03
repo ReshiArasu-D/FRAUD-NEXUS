@@ -1,0 +1,1280 @@
+{
+  "apps": [
+    {
+      "name": "FRAUDNEXUS",
+      "scope": "x_fnx_fraudnexus",
+      "sys_id": "b4617cbfc32743d0e54832f1b40131f8"
+    }
+  ],
+  "tables": [
+    {
+      "label": "Evidence Custody Log",
+      "name": "u_x_fnx_custody_log",
+      "super_class": "",
+      "records_count": 396
+    },
+    {
+      "label": "FRAUDNEXUS Audit Log",
+      "name": "u_x_fnx_audit",
+      "super_class": "",
+      "records_count": 176
+    },
+    {
+      "label": "FRAUDNEXUS Customer",
+      "name": "u_x_fnx_customer",
+      "super_class": "",
+      "records_count": 111
+    },
+    {
+      "label": "FRAUDNEXUS Transaction",
+      "name": "u_x_fnx_transaction",
+      "super_class": "",
+      "records_count": 61
+    },
+    {
+      "label": "Fraud Case",
+      "name": "u_x_fnx_case",
+      "super_class": "Task",
+      "records_count": 83
+    },
+    {
+      "label": "Fraud Evidence",
+      "name": "u_x_fnx_evidence",
+      "super_class": "",
+      "records_count": 132
+    }
+  ],
+  "fields": {
+    "u_x_fnx_custody_log": [
+      {
+        "element": "u_notes",
+        "column_label": "Notes",
+        "internal_type": "string",
+        "max_length": "1000",
+        "reference": null
+      },
+      {
+        "element": "sys_id",
+        "column_label": "Sys ID",
+        "internal_type": "GUID",
+        "max_length": "32",
+        "reference": null
+      },
+      {
+        "element": "sys_mod_count",
+        "column_label": "Updates",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_by",
+        "column_label": "Updated by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_action",
+        "column_label": "Action",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_on",
+        "column_label": "Updated",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_evidence",
+        "column_label": "Evidence",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "u_x_fnx_evidence"
+      },
+      {
+        "element": "sys_created_by",
+        "column_label": "Created by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_timestamp",
+        "column_label": "Timestamp",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": null,
+        "column_label": null,
+        "internal_type": "collection",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_hash",
+        "column_label": "Hash",
+        "internal_type": "string",
+        "max_length": "128",
+        "reference": null
+      },
+      {
+        "element": "sys_created_on",
+        "column_label": "Created",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_performed_by",
+        "column_label": "Performed By",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      }
+    ],
+    "u_x_fnx_audit": [
+      {
+        "element": "u_details",
+        "column_label": "Details",
+        "internal_type": "string",
+        "max_length": "4000",
+        "reference": null
+      },
+      {
+        "element": "sys_mod_count",
+        "column_label": "Updates",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_id",
+        "column_label": "Sys ID",
+        "internal_type": "GUID",
+        "max_length": "32",
+        "reference": null
+      },
+      {
+        "element": "u_new_value",
+        "column_label": "New Value",
+        "internal_type": "string",
+        "max_length": "1000",
+        "reference": null
+      },
+      {
+        "element": "u_record_type",
+        "column_label": "Record Type",
+        "internal_type": "string",
+        "max_length": "50",
+        "reference": null
+      },
+      {
+        "element": "u_timestamp",
+        "column_label": "Timestamp",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_on",
+        "column_label": "Updated",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_by",
+        "column_label": "Updated by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_old_value",
+        "column_label": "Old Value",
+        "internal_type": "string",
+        "max_length": "1000",
+        "reference": null
+      },
+      {
+        "element": "sys_created_by",
+        "column_label": "Created by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_record_id",
+        "column_label": "Record ID",
+        "internal_type": "string",
+        "max_length": "50",
+        "reference": null
+      },
+      {
+        "element": "u_field",
+        "column_label": "Field",
+        "internal_type": "string",
+        "max_length": "50",
+        "reference": null
+      },
+      {
+        "element": "u_case",
+        "column_label": "Case",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "u_x_fnx_case"
+      },
+      {
+        "element": null,
+        "column_label": null,
+        "internal_type": "collection",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_performed_by",
+        "column_label": "Performed By",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "sys_created_on",
+        "column_label": "Created",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_action",
+        "column_label": "Action",
+        "internal_type": "string",
+        "max_length": "50",
+        "reference": null
+      }
+    ],
+    "u_x_fnx_customer": [
+      {
+        "element": "u_address",
+        "column_label": "Address",
+        "internal_type": "string",
+        "max_length": "500",
+        "reference": null
+      },
+      {
+        "element": "u_mobile",
+        "column_label": "Mobile",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_created_by",
+        "column_label": "Created by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_number",
+        "column_label": "Number",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": null,
+        "column_label": null,
+        "internal_type": "collection",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_email",
+        "column_label": "Email",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_occupation",
+        "column_label": "Occupation",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "sys_created_on",
+        "column_label": "Created",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_government_id_type",
+        "column_label": "Government ID Type",
+        "internal_type": "choice",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_customer_id",
+        "column_label": "Customer ID",
+        "internal_type": "string",
+        "max_length": "50",
+        "reference": null
+      },
+      {
+        "element": "u_name",
+        "column_label": "Full Name",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "sys_mod_count",
+        "column_label": "Updates",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_status",
+        "column_label": "Status",
+        "internal_type": "choice",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "sys_id",
+        "column_label": "Sys ID",
+        "internal_type": "GUID",
+        "max_length": "32",
+        "reference": null
+      },
+      {
+        "element": "u_kyc_status",
+        "column_label": "KYC Status",
+        "internal_type": "choice",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_kyc_reviewed_on",
+        "column_label": "KYC Reviewed On",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_proof_attachment",
+        "column_label": "Proof Attachment",
+        "internal_type": "string",
+        "max_length": "255",
+        "reference": null
+      },
+      {
+        "element": "u_masked_government_id",
+        "column_label": "Masked Government ID",
+        "internal_type": "string",
+        "max_length": "50",
+        "reference": null
+      },
+      {
+        "element": "u_user",
+        "column_label": "User",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "u_kyc_notes",
+        "column_label": "KYC Notes",
+        "internal_type": "string",
+        "max_length": "4000",
+        "reference": null
+      },
+      {
+        "element": "u_kyc_reviewed_by",
+        "column_label": "KYC Reviewed By",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "sys_updated_on",
+        "column_label": "Updated",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_gender",
+        "column_label": "Gender",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_by",
+        "column_label": "Updated by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_date_of_birth",
+        "column_label": "Date of Birth",
+        "internal_type": "glide_date",
+        "max_length": "100",
+        "reference": null
+      }
+    ],
+    "u_x_fnx_transaction": [
+      {
+        "element": "u_direction",
+        "column_label": "Direction",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_case",
+        "column_label": "Fraud Case",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "u_x_fnx_case"
+      },
+      {
+        "element": "sys_updated_on",
+        "column_label": "Updated",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_reference_type",
+        "column_label": "Reference Type",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_payment_mode",
+        "column_label": "Payment Mode",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_platform",
+        "column_label": "Application / Platform",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_communication_channel",
+        "column_label": "Communication Channel",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_suspect_name",
+        "column_label": "Suspect / Beneficiary Name",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_number_of_transactions",
+        "column_label": "Number of Transactions",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_institution_type",
+        "column_label": "Institution Type",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": null,
+        "column_label": null,
+        "internal_type": "collection",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_institution_name",
+        "column_label": "Institution / Organization",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_reference_value",
+        "column_label": "Reference Value",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "sys_id",
+        "column_label": "Sys ID",
+        "internal_type": "GUID",
+        "max_length": "32",
+        "reference": null
+      },
+      {
+        "element": "u_currency",
+        "column_label": "Currency",
+        "internal_type": "string",
+        "max_length": "10",
+        "reference": null
+      },
+      {
+        "element": "sys_class_name",
+        "column_label": "Class",
+        "internal_type": "sys_class_name",
+        "max_length": "80",
+        "reference": null
+      },
+      {
+        "element": "sys_created_by",
+        "column_label": "Created by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_amount",
+        "column_label": "Amount",
+        "internal_type": "decimal",
+        "max_length": "20",
+        "reference": null
+      },
+      {
+        "element": "u_reported_by",
+        "column_label": "Reported By",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "u_transaction_status",
+        "column_label": "Transaction Status",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_branch",
+        "column_label": "Branch / Service Location",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_suspect_contact",
+        "column_label": "Suspect Contact",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_notes",
+        "column_label": "Transaction Notes",
+        "internal_type": "string",
+        "max_length": "4000",
+        "reference": null
+      },
+      {
+        "element": "sys_created_on",
+        "column_label": "Created",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_transaction_date",
+        "column_label": "Transaction Date/Time",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_by",
+        "column_label": "Updated by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_mod_count",
+        "column_label": "Updates",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_suspect_identifier",
+        "column_label": "Suspect Identifier (UPI/Email/Phone)",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      }
+    ],
+    "u_x_fnx_case": [
+      {
+        "element": "u_area",
+        "column_label": "Area",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_exposure",
+        "column_label": "Exposure Amount",
+        "internal_type": "decimal",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_subtype",
+        "column_label": "Subtype",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_closure_notes",
+        "column_label": "Closure Notes",
+        "internal_type": "string",
+        "max_length": "4000",
+        "reference": null
+      },
+      {
+        "element": "u_recovered_amount",
+        "column_label": "Recovered Amount",
+        "internal_type": "decimal",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_risk_score",
+        "column_label": "Risk Score",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_source",
+        "column_label": "Source",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_severity",
+        "column_label": "Severity",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_customer_status",
+        "column_label": "Customer Status",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_customer",
+        "column_label": "Customer",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "u_x_fnx_customer"
+      },
+      {
+        "element": "u_stage",
+        "column_label": "Stage",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_status",
+        "column_label": "Status",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_reporter",
+        "column_label": "Reporter",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "u_suggested_handler",
+        "column_label": "Suggested Handler",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "u_digital_platform",
+        "column_label": "Digital Platform",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": "u_outcome",
+        "column_label": "Outcome",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_pincode",
+        "column_label": "Pincode",
+        "internal_type": "string",
+        "max_length": "20",
+        "reference": null
+      },
+      {
+        "element": "u_incident_date",
+        "column_label": "Incident Date",
+        "internal_type": "glide_date",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_id",
+        "column_label": "Sys ID",
+        "internal_type": "GUID",
+        "max_length": "32",
+        "reference": null
+      },
+      {
+        "element": "u_incident_time",
+        "column_label": "Incident Time",
+        "internal_type": "string",
+        "max_length": "20",
+        "reference": null
+      },
+      {
+        "element": "u_assigned_handler",
+        "column_label": "Assigned Handler",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "u_type",
+        "column_label": "Fraud Type",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_location",
+        "column_label": "Location",
+        "internal_type": "string",
+        "max_length": "200",
+        "reference": null
+      },
+      {
+        "element": "u_classification",
+        "column_label": "Classification",
+        "internal_type": "string",
+        "max_length": "100",
+        "reference": null
+      },
+      {
+        "element": null,
+        "column_label": null,
+        "internal_type": "collection",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_blocked_amount",
+        "column_label": "Blocked Amount",
+        "internal_type": "decimal",
+        "max_length": "40",
+        "reference": null
+      }
+    ],
+    "u_x_fnx_evidence": [
+      {
+        "element": "u_verification_status",
+        "column_label": "Verification Status",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_by",
+        "column_label": "Updated by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_created_on",
+        "column_label": "Created",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_description",
+        "column_label": "Description",
+        "internal_type": "string",
+        "max_length": "1000",
+        "reference": null
+      },
+      {
+        "element": "u_number",
+        "column_label": "Number",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_mod_count",
+        "column_label": "Updates",
+        "internal_type": "integer",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "sys_updated_on",
+        "column_label": "Updated",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_hash",
+        "column_label": "File Hash",
+        "internal_type": "string",
+        "max_length": "128",
+        "reference": null
+      },
+      {
+        "element": "u_processing_status",
+        "column_label": "Processing Status",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_evidence_type",
+        "column_label": "Evidence Type",
+        "internal_type": "choice",
+        "max_length": "50",
+        "reference": null
+      },
+      {
+        "element": "u_uploaded_on",
+        "column_label": "Uploaded On",
+        "internal_type": "glide_date_time",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": null,
+        "column_label": null,
+        "internal_type": "collection",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_case",
+        "column_label": "Case",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "u_x_fnx_case"
+      },
+      {
+        "element": "u_source",
+        "column_label": "Source",
+        "internal_type": "choice",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_attachment",
+        "column_label": "Attachment",
+        "internal_type": "string",
+        "max_length": "255",
+        "reference": null
+      },
+      {
+        "element": "sys_created_by",
+        "column_label": "Created by",
+        "internal_type": "string",
+        "max_length": "40",
+        "reference": null
+      },
+      {
+        "element": "u_uploaded_by",
+        "column_label": "Uploaded By",
+        "internal_type": "reference",
+        "max_length": "32",
+        "reference": "sys_user"
+      },
+      {
+        "element": "u_extracted_entities",
+        "column_label": "Extracted Entities",
+        "internal_type": "string",
+        "max_length": "4000",
+        "reference": null
+      },
+      {
+        "element": "sys_id",
+        "column_label": "Sys ID",
+        "internal_type": "GUID",
+        "max_length": "32",
+        "reference": null
+      }
+    ]
+  },
+  "portals": [
+    {
+      "title": "FRAUDNEXUS Customer Portal",
+      "url_suffix": "fnx",
+      "homepage": null,
+      "sys_id": "961449b3c32b43d0e54832f1b401318a"
+    }
+  ],
+  "pages": [
+    {
+      "id": "fnx_home",
+      "title": "FRAUDNEXUS Home",
+      "sys_id": "e4358577c32b43d0e54832f1b40131d0"
+    }
+  ],
+  "widgets": [
+    {
+      "name": "FRAUDNEXUS Empty Header",
+      "id": "fnx_empty_header",
+      "sys_id": "27a90e7bc3e383d0e54832f1b4013137"
+    },
+    {
+      "name": "FRAUDNEXUS Customer Experience",
+      "id": "fnx_customer_experience",
+      "sys_id": "2f258577c32b43d0e54832f1b401317f"
+    }
+  ],
+  "apis": [
+    {
+      "name": "FRAUDNEXUS Management API",
+      "service_id": "fnx_api",
+      "namespace": "2229367",
+      "operations": [
+        {
+          "name": "case_management",
+          "http_method": "GET",
+          "relative_path": "/cases"
+        },
+        {
+          "name": "customer_login",
+          "http_method": "POST",
+          "relative_path": "/login"
+        },
+        {
+          "name": "now_assist_ai",
+          "http_method": "POST",
+          "relative_path": "/ai_assist"
+        },
+        {
+          "name": "case_creation",
+          "http_method": "POST",
+          "relative_path": "/cases"
+        },
+        {
+          "name": "customer_register",
+          "http_method": "POST",
+          "relative_path": "/register"
+        },
+        {
+          "name": "exec",
+          "http_method": "POST",
+          "relative_path": "/exec"
+        }
+      ]
+    },
+    {
+      "name": "FRAUDNEXUS Global Admin API",
+      "service_id": "fnx_admin_api",
+      "namespace": "2229367",
+      "operations": [
+        {
+          "name": "exec_global",
+          "http_method": "POST",
+          "relative_path": "/exec"
+        }
+      ]
+    }
+  ],
+  "script_includes": [
+    {
+      "name": "FNX_AuditService",
+      "api_name": "global.FNX_AuditService",
+      "description": "Handles tamper-evident audit logging for fraud investigations"
+    },
+    {
+      "name": "FNX_EvidenceService",
+      "api_name": "global.FNX_EvidenceService",
+      "description": "Manages evidence creation and chain of custody"
+    },
+    {
+      "name": "FNX_CaseService",
+      "api_name": "global.FNX_CaseService",
+      "description": "Manages FRAUDNEXUS case initialization and lifecycle"
+    },
+    {
+      "name": "FNX_CustomerService",
+      "api_name": "global.FNX_CustomerService",
+      "description": "Manages FRAUDNEXUS customer registration and lookup"
+    }
+  ],
+  "business_rules": [
+    {
+      "name": "BR-FNX-002 Case Initialization",
+      "collection": "u_x_fnx_case",
+      "when": "before",
+      "action_insert": "1",
+      "action_update": "0"
+    },
+    {
+      "name": "BR-FNX-005 Case Audit",
+      "collection": "u_x_fnx_case",
+      "when": "after",
+      "action_insert": "1",
+      "action_update": "1"
+    },
+    {
+      "name": "BR-FNX-001 Customer Record Creation",
+      "collection": "sys_user",
+      "when": "after",
+      "action_insert": "1",
+      "action_update": "0"
+    },
+    {
+      "name": "BR-FNX-003 Customer Status",
+      "collection": "u_x_fnx_case",
+      "when": "before",
+      "action_insert": "1",
+      "action_update": "0"
+    },
+    {
+      "name": "BR-FNX-004 Evidence Custody",
+      "collection": "u_x_fnx_evidence",
+      "when": "after",
+      "action_insert": "1",
+      "action_update": "0"
+    }
+  ],
+  "roles": [
+    {
+      "name": "x_fnx_customer_user",
+      "description": "FRAUDNEXUS Customer Portal User"
+    }
+  ],
+  "numbers": [
+    {
+      "category": "u_x_fnx_customer",
+      "prefix": "CNX-2026-",
+      "maximum_digits": "6",
+      "number": "1000"
+    },
+    {
+      "category": "u_x_fnx_evidence",
+      "prefix": "EV",
+      "maximum_digits": "6",
+      "number": "1000"
+    },
+    {
+      "category": "u_x_fnx_case",
+      "prefix": "FNX-2026-",
+      "maximum_digits": "6",
+      "number": "1000"
+    }
+  ],
+  "choices": {
+    "u_type": [
+      {
+        "value": "Other",
+        "label": "Other"
+      },
+      {
+        "value": "Phishing",
+        "label": "Phishing"
+      },
+      {
+        "value": "Money Laundering",
+        "label": "Money Laundering"
+      },
+      {
+        "value": "Financial Crime",
+        "label": "Financial Crime"
+      },
+      {
+        "value": "Identity Theft",
+        "label": "Identity Theft"
+      },
+      {
+        "value": "Cyber Fraud",
+        "label": "Cyber Fraud"
+      },
+      {
+        "value": "Unauthorized Transaction",
+        "label": "Unauthorized Transaction"
+      },
+      {
+        "value": "Payment Fraud",
+        "label": "Payment Fraud"
+      },
+      {
+        "value": "Account Compromise",
+        "label": "Account Compromise"
+      }
+    ],
+    "u_outcome": [
+      {
+        "value": "Suspicious \u2013 Inconclusive",
+        "label": "Suspicious \u2013 Inconclusive"
+      },
+      {
+        "value": "No Fraud",
+        "label": "No Fraud"
+      },
+      {
+        "value": "Confirmed Fraud",
+        "label": "Confirmed Fraud"
+      },
+      {
+        "value": "False Positive",
+        "label": "False Positive"
+      }
+    ],
+    "u_source": [
+      {
+        "value": "Fraud Engine",
+        "label": "Fraud Engine"
+      },
+      {
+        "value": "SIEM",
+        "label": "SIEM"
+      },
+      {
+        "value": "Email",
+        "label": "Email"
+      },
+      {
+        "value": "Portal",
+        "label": "Portal"
+      },
+      {
+        "value": "AML",
+        "label": "AML"
+      }
+    ],
+    "u_status": [
+      {
+        "value": "Pending",
+        "label": "Pending"
+      },
+      {
+        "value": "New",
+        "label": "New"
+      },
+      {
+        "value": "Resolved",
+        "label": "Resolved"
+      },
+      {
+        "value": "In Progress",
+        "label": "In Progress"
+      },
+      {
+        "value": "Closed",
+        "label": "Closed"
+      },
+      {
+        "value": "Open",
+        "label": "Open"
+      }
+    ],
+    "u_stage": [
+      {
+        "value": "Initial Review",
+        "label": "Initial Review"
+      },
+      {
+        "value": "Resolved",
+        "label": "Resolved"
+      },
+      {
+        "value": "Closed",
+        "label": "Closed"
+      },
+      {
+        "value": "Investigation",
+        "label": "Investigation"
+      },
+      {
+        "value": "New",
+        "label": "New"
+      }
+    ],
+    "u_severity": [
+      {
+        "value": "Low",
+        "label": "Low"
+      },
+      {
+        "value": "Critical",
+        "label": "Critical"
+      },
+      {
+        "value": "Medium",
+        "label": "Medium"
+      },
+      {
+        "value": "High",
+        "label": "High"
+      }
+    ],
+    "u_customer_status": [
+      {
+        "value": "Unverified",
+        "label": "Unverified"
+      },
+      {
+        "value": "Unknown",
+        "label": "Unknown"
+      },
+      {
+        "value": "Known",
+        "label": "Known"
+      }
+    ]
+  }
+}

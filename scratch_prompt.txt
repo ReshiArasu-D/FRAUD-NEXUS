@@ -1,0 +1,958 @@
+<USER_REQUEST>
+FRAUDNEXUS – ADMIN PORTAL
+PARTNERS MODULE – COMPLETE IMPLEMENTATION REQUIREMENT
+
+Project:
+FRAUDNEXUS — Financial & Cyber Fraud Investigation Hub
+
+IMPORTANT:
+Do NOT create a separate application.
+Do NOT create a separate portal.
+Do NOT change the existing FRAUDNEXUS architecture.
+Add the Partners functionality inside the EXISTING FRAUDNEXUS Admin/Investigator Portal.
+
+==================================================
+1. ADMIN SIDEBAR – FINAL STRUCTURE
+==================================================
+
+Update the existing Admin Portal sidebar to exactly:
+
+1. Command Center
+2. Customers
+3. Cases
+4. Investigation
+5. Partners
+6. Intelligence Workspace
+7. Analytics
+8. Settings
+
+"Partners" must be a FIRST-CLASS SIDEBAR MODULE.
+
+It must NOT be hidden inside:
+- Investigation
+- Intelligence Workspace
+- Settings
+- Cases
+
+Clicking "Partners" must open a dedicated Partners workspace.
+
+Keep the existing sidebar visual design, spacing, icons, typography,
+colors, header and responsive behavior.
+
+Do NOT redesign the entire Admin Portal.
+
+==================================================
+2. PARTNERS MODULE PURPOSE
+==================================================
+
+Partners represents external organizations that may participate in
+fraud investigation, evidence sharing, verification, financial tracing,
+cyber investigation, AML activities, regulatory coordination, etc.
+
+Examples of partner categories:
+
+1. Banks / Financial Institutions
+2. Payment Service Providers
+3. Payment Gateways / Payment Platforms
+4. Insurance / Financial Enterprises
+5. Regulatory / Compliance Authorities
+6. Cybersecurity / SOC Partners
+7. Threat Intelligence Providers
+8. AML / Financial Crime Partners
+9. KYC / Identity Verification Partners
+10. Law Enforcement / Investigation Authorities
+
+IMPORTANT:
+
+These are PARTNER CATEGORIES.
+
+Do NOT claim that FRAUDNEXUS has real partnerships with real organizations.
+
+For demo data use clearly synthetic names such as:
+
+- Partner Bank A
+- Partner Bank B
+- Payment Provider A
+- Cybersecurity Partner A
+- Threat Intelligence Provider A
+- AML Partner A
+- KYC Provider A
+- Regulatory Partner A
+
+Display:
+
+"SIMULATED DEMO PARTNER"
+
+where appropriate.
+
+==================================================
+3. PARTNER MANAGEMENT – CRUD
+==================================================
+
+The Admin must be able to FULLY MANAGE partners.
+
+Required actions:
+
+CREATE
+- Add Partner
+
+READ
+- View Partner
+- Search Partner
+- Filter Partner
+- View Partner Details
+
+UPDATE
+- Edit Partner
+- Change Partner Status
+- Update contact details
+- Update integration information
+- Update SLA
+- Update partner category
+
+STATUS MANAGEMENT
+- Active
+- Inactive
+- Suspended
+
+REMOVE
+- Remove/Deactivate Partner
+
+IMPORTANT:
+
+Do NOT physically delete a partner if that partner is referenced by
+existing Partner Requests, Cases, Evidence, Audit Logs or historical
+records.
+
+Instead:
+
+If referenced:
+→ prevent destructive deletion
+→ show message:
+"Partner is referenced by existing records. Deactivate instead."
+
+If not referenced and the current architecture permits deletion:
+→ allow authorized admin to remove it.
+
+All destructive/deactivation actions must be audited.
+
+==================================================
+4. ADD PARTNER FORM
+==================================================
+
+Create a professional Add Partner form.
+
+Fields:
+
+Partner ID
+- Automatically generated
+- Example: PRT-000001
+
+Partner Name
+- Required
+
+Partner Category
+- Required
+
+Organization
+- Required
+
+Description
+- Optional
+
+Contact Person
+- Optional
+
+Contact Email
+- Optional
+
+Contact Phone
+- Optional
+
+Integration Type
+Options:
+
+- Manual
+- REST API
+- Webhook
+- Email
+- Import
+- Simulated API
+
+Endpoint / Integration Reference
+- Optional
+- Do NOT expose credentials or secrets
+
+SLA
+- Required where applicable
+
+Status
+- Active / Inactive / Suspended
+
+Notes
+- Optional
+
+Demo Flag
+- Boolean
+
+For demo partners:
+Demo Flag = true
+
+Display badge:
+SIMULATED DEMO PARTNER
+
+Do not store API keys, passwords, tokens or credentials in plain text.
+
+==================================================
+5. PARTNER DIRECTORY
+==================================================
+
+When Partners is opened, show a Partner Directory.
+
+Columns:
+
+Partner ID
+Partner Name
+Category
+Organization
+Status
+Integration Type
+Active Requests
+SLA
+Demo
+Actions
+
+Actions:
+
+View
+Edit
+Deactivate
+Reactivate
+Remove (only when safe)
+Create Request
+
+Add:
+
++ Add Partner
+
+button at the top-right.
+
+Also provide:
+
+Search Partners
+Filter by Category
+Filter by Status
+Filter by Integration Type
+Filter by Demo/Real configuration
+
+Use dynamic data from ServiceNow.
+
+DO NOT hardcode dashboard numbers or partner counts.
+
+==================================================
+6. PARTNER DETAILS PAGE
+==================================================
+
+Clicking View must open a detailed Partner workspace.
+
+Header:
+
+Partner Name
+Partner ID
+Category
+Status
+SIMULATED DEMO PARTNER badge where applicable
+
+Actions:
+
+Edit Partner
+Create Partner Request
+Deactivate / Reactivate
+Remove if permitted
+
+Sections:
+
+A. Partner Information
+
+B. Contact Information
+
+C. Integration Information
+
+D. SLA Information
+
+E. Active Requests
+
+F. Completed Requests
+
+G. Related Cases
+
+H. Timeline / Audit History
+
+I. Notes
+
+Display all information dynamically.
+
+==================================================
+7. PARTNER REQUEST MANAGEMENT
+==================================================
+
+Partners must be connected to fraud investigation cases.
+
+Create a dedicated Partner Requests section.
+
+Partner Request fields:
+
+Request ID
+- Automatically generated
+
+Case
+- Reference to FRAUDNEXUS Case
+
+Partner
+- Reference to Partner
+
+Request Type
+
+Examples:
+
+- Request Transaction Information
+- Request Account Information
+- Request KYC Verification
+- Request Payment Trace
+- Request Evidence
+- Request Threat Intelligence
+- Request AML Information
+- Request Regulatory Information
+- Request Investigation Assistance
+- Other
+
+Requested By
+
+Request Date
+
+Priority
+
+Description
+
+Evidence / Reference
+
+Due Date
+
+Status
+
+Statuses:
+
+- Draft
+- Submitted
+- In Progress
+- Awaiting Response
+- Response Received
+- Completed
+- Rejected
+- Cancelled
+- Overdue
+
+Response
+
+Response Date
+
+Attachments
+
+Resolution Notes
+
+==================================================
+8. PARTNER REQUEST WORKFLOW
+==================================================
+
+The workflow must be:
+
+Investigator
+    ↓
+Create Partner Request
+    ↓
+Select Case
+    ↓
+Select Partner
+    ↓
+Select Request Type
+    ↓
+Submit
+    ↓
+Flow Designer
+    ↓
+Partner Processing
+    ↓
+Response
+    ↓
+Update Partner Request
+    ↓
+Update Case Timeline
+    ↓
+Update Evidence / Transaction where applicable
+    ↓
+Recalculate Risk where applicable
+    ↓
+Audit Log
+
+Use actual ServiceNow Flow Designer where possible.
+
+Do NOT implement this as only a frontend simulation.
+
+==================================================
+9. PARTNER REQUEST TABLE
+==================================================
+
+Create/reuse:
+
+u_x_fnx_partner_request
+
+Required fields:
+
+u_request_number
+u_case
+u_partner
+u_request_type
+u_requested_by
+u_request_date
+u_priority
+u_description
+u_reference
+u_status
+u_due_date
+u_response
+u_response_date
+u_resolution_notes
+u_demo_request
+
+Use ServiceNow references instead of duplicating Case or Partner data.
+
+==================================================
+10. PARTNER TABLE
+==================================================
+
+Create/reuse:
+
+u_x_fnx_partner
+
+Required fields:
+
+u_partner_number
+u_name
+u_category
+u_organization
+u_description
+u_contact_person
+u_contact_email
+u_contact_phone
+u_status
+u_integration_type
+u_endpoint_reference
+u_sla
+u_demo_flag
+u_active
+u_notes
+
+Use ServiceNow Number Maintenance for Partner IDs where appropriate.
+
+Example:
+
+PRT-000001
+PRT-000002
+
+Do NOT generate IDs using fragile custom client-side JavaScript.
+
+==================================================
+11. PARTNERS DASHBOARD / OVERVIEW
+==================================================
+
+At the top of Partners workspace show dynamic KPI cards:
+
+Total Partners
+Active Partners
+Inactive Partners
+Pending Requests
+Awaiting Response
+Overdue Requests
+
+These values MUST come from ServiceNow records.
+
+NO hardcoded values.
+
+Below KPIs:
+
+A. Partner Directory
+
+B. Pending Partner Requests
+
+C. Overdue Requests
+
+D. Recent Partner Activity
+
+E. Partner Request Status Distribution
+
+Keep the visual style consistent with the existing FRAUDNEXUS
+Command Center.
+
+==================================================
+12. PARTNER REQUEST → CASE CONNECTION
+==================================================
+
+Every Partner Request must be linked to a FRAUDNEXUS Case.
+
+Inside Investigation Workspace:
+
+Add a Partner Requests section/tab.
+
+Show:
+
+Partner
+Request ID
+Request Type
+Status
+Due Date
+Response
+Actions
+
+Investigator must be able to:
+
+View Request
+Create Request
+Update Request
+Cancel Request
+View Partner
+Add Response
+Complete Request
+
+Partner activity should also appear in the Case Timeline.
+
+Example:
+
+CASE FNX-000123
+   ↓
+Partner Request PRTREQ-00045
+   ↓
+Partner Bank A
+   ↓
+Transaction information requested
+   ↓
+Response received
+   ↓
+Case timeline updated
+   ↓
+Audit recorded
+
+==================================================
+13. SIMULATED PARTNER INTEGRATION
+==================================================
+
+For demo purposes, implement a genuine ServiceNow integration path.
+
+Use:
+
+Partner Request
+→ Flow Designer
+→ Integration Layer
+→ Simulated Partner API / REST endpoint
+→ Response
+→ ServiceNow
+
+Clearly label this:
+
+SIMULATED DEMO INTEGRATION
+
+Do NOT claim that the system is connected to actual banks,
+law-enforcement agencies, regulators or other organizations unless
+a real integration actually exists.
+
+The simulated response should update:
+
+Partner Request
+Case Timeline
+Audit Log
+
+and where applicable:
+
+Evidence
+Transaction
+Risk Context
+
+==================================================
+14. PARTNER SECURITY
+==================================================
+
+Use ServiceNow roles and ACLs.
+
+Suggested permissions:
+
+fnx_investigator
+- View authorized partners
+- Create partner requests
+- View/update own authorized requests
+
+fnx_manager
+- Manage partner requests
+- Approve sensitive coordination
+- Reassign requests
+
+fnx_compliance
+- View compliance/regulatory partners
+- Access authorized regulatory requests
+
+fnx_admin
+- Add/Edit/Deactivate/Remove partners
+- Manage partner configuration
+
+Do NOT expose integration credentials.
+
+Do NOT store API secrets in partner records.
+
+Sensitive information must be protected using ACLs.
+
+==================================================
+15. AUDIT REQUIREMENTS
+==================================================
+
+Audit:
+
+Partner Created
+Partner Updated
+Partner Deactivated
+Partner Reactivated
+Partner Removed
+Partner Request Created
+Partner Request Updated
+Partner Request Submitted
+Partner Response Received
+Partner Request Completed
+Partner Request Cancelled
+
+Audit should capture:
+
+User
+Action
+Partner
+Partner Request where applicable
+Case where applicable
+Timestamp
+Relevant change/details
+
+Reuse the existing FRAUDNEXUS audit architecture.
+
+Do NOT create an unnecessary second audit system.
+
+==================================================
+16. NOTIFICATIONS
+==================================================
+
+Implement notifications where appropriate.
+
+Examples:
+
+Partner Request Submitted
+Partner Request Assigned
+Partner Request Awaiting Response
+Partner Request Overdue
+Partner Response Received
+Partner Request Completed
+
+Use existing FRAUDNEXUS notification architecture where possible.
+
+==================================================
+17. UI REQUIREMENTS
+==================================================
+
+Keep existing FRAUDNEXUS visual language:
+
+Deep Navy:
+#0B1F3A
+
+Secondary Navy:
+#123B63
+
+Accent Cyan:
+#00B8D9
+
+Background:
+#F5F7FA
+
+Cards:
+#FFFFFF
+
+Border:
+#E2E8F0
+
+Text:
+#0F172A
+
+The Partners page must look like the existing Admin Portal.
+
+Do NOT create a completely different design.
+
+Sidebar remains clean.
+
+Do NOT put every partner operation permanently in the sidebar.
+
+Sidebar only contains:
+
+Partners
+
+Clicking Partners opens the detailed workspace.
+
+==================================================
+18. SEARCH / FILTER / SORT
+==================================================
+
+Partners:
+
+Search by:
+- Partner ID
+- Partner Name
+- Organization
+
+Filter by:
+- Category
+- Status
+- Integration Type
+- Demo
+
+Partner Requests:
+
+Search by:
+- Request ID
+- Case ID
+- Partner
+
+Filter by:
+- Status
+- Priority
+- Request Type
+- Partner
+- Due Date
+
+Support sorting where practical.
+
+==================================================
+19. EMPTY / ERROR STATES
+==================================================
+
+Implement proper UI states.
+
+No partners:
+
+"No partners have been configured yet."
+
+No requests:
+
+"No partner requests found."
+
+Partner deletion blocked:
+
+"This partner is referenced by existing records. Deactivate the
+partner instead of deleting it."
+
+Integration failure:
+
+"Partner integration failed. The request remains open for review."
+
+Do not silently fail.
+
+==================================================
+20. RESPONSIVE DESIGN
+==================================================
+
+Partners workspace must work at:
+
+1366x768
+1440x900
+1920x1080
+
+Also handle smaller screen widths gracefully.
+
+Do not break the existing Admin Portal.
+
+==================================================
+21. DO NOT BREAK EXISTING FUNCTIONALITY
+==================================================
+
+Before modifying anything:
+
+Inspect the existing FRAUDNEXUS implementation.
+
+Reuse existing:
+
+- Admin authentication
+- Sidebar
+- Header
+- Theme
+- ServiceNow tables
+- Case table
+- Customer table
+- Evidence table
+- Transaction table
+- Audit system
+- Notification system
+- Flow Designer
+- Script Includes
+- Roles
+- ACLs
+- AI foundation
+- Multilingual foundation
+
+Do NOT duplicate existing tables or services.
+
+If a partner table already exists:
+→ inspect it
+→ extend/reuse it
+→ do NOT create a duplicate.
+
+If a Partner Request table already exists:
+→ inspect and reuse it.
+
+==================================================
+22. MULTILINGUAL
+==================================================
+
+Reuse the existing FRAUDNEXUS multilingual foundation.
+
+Add translations for the new:
+
+Partners
+Partner Directory
+Add Partner
+Edit Partner
+Partner Requests
+Request Status
+Partner Category
+Integration Type
+Active
+Inactive
+Suspended
+Simulated Demo Partner
+etc.
+
+Do NOT create Google Translate.
+
+Do NOT create a second translation mechanism.
+
+==================================================
+23. FINAL SIDEBAR
+==================================================
+
+The final Admin sidebar MUST visually show:
+
+COMMAND CENTER
+CUSTOMERS
+CASES
+INVESTIGATION
+PARTNERS
+INTELLIGENCE WORKSPACE
+ANALYTICS
+SETTINGS
+
+Partners must have its own icon and active-state highlighting.
+
+When clicked:
+
+/admin → Partners workspace
+
+Do not open Partners as a popup.
+
+==================================================
+24. ACCEPTANCE CRITERIA
+==================================================
+
+The implementation is complete only when ALL of the following work:
+
+[ ] Partners appears in Admin sidebar
+[ ] Partners opens dedicated workspace
+[ ] Partner KPI cards are dynamic
+[ ] Partner Directory works
+[ ] Add Partner works
+[ ] Partner ID is generated automatically
+[ ] View Partner works
+[ ] Edit Partner works
+[ ] Activate Partner works
+[ ] Deactivate Partner works
+[ ] Safe Remove Partner works
+[ ] Referenced partner cannot be destructively deleted
+[ ] Partner search works
+[ ] Partner filters work
+[ ] Partner Requests work
+[ ] Create Partner Request works
+[ ] Partner Request is linked to Case
+[ ] Partner Request is linked to Partner
+[ ] Flow Designer processes request
+[ ] Simulated integration works
+[ ] Simulated integration is clearly labelled
+[ ] Response updates request
+[ ] Case Timeline records partner activity
+[ ] Audit Log records partner activity
+[ ] Partner Request status lifecycle works
+[ ] Overdue request handling works
+[ ] Notifications work
+[ ] ACLs work
+[ ] Admin can manage partners
+[ ] Investigator can use partners for investigation
+[ ] Existing Case functionality is not broken
+[ ] Existing Customer Portal is not broken
+[ ] Existing multilingual system is reused
+[ ] Existing FRAUDNEXUS AI is not duplicated
+[ ] No credentials/secrets are stored in the UI or source code
+[ ] No hardcoded KPI values
+[ ] No fake claim of real external partnerships
+[ ] Responsive UI verified
+
+==================================================
+25. FINAL VALIDATION
+==================================================
+
+After implementation, perform an end-to-end test:
+
+1. Login as Admin
+2. Open Partners
+3. Add "Partner Bank A"
+4. Verify Partner ID
+5. Edit partner
+6. Change status
+7. Reactivate partner
+8. Create a Partner Request
+9. Link it to an existing FRAUDNEXUS Case
+10. Submit request
+11. Verify Flow Designer execution
+12. Verify simulated integration response
+13. Verify request status update
+14. Verify Case Timeline
+15. Verify Audit Log
+16. Verify notification
+17. Verify Partner appears in Directory
+18. Verify active request count
+19. Attempt removal of referenced partner
+20. Verify deletion is blocked and Deactivate is suggested
+21. Verify role/ACL behavior
+22. Verify existing Admin modules still work
+
+IMPORTANT FINAL RULE:
+
+Do not just create the UI.
+
+Implement the complete ServiceNow-backed functionality:
+UI + tables + references + CRUD + ACLs + Flow Designer +
+notifications + audit + case relationship + simulated integration.
+
+Partners must become a fully manageable operational module inside
+FRAUDNEXUS.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-03T18:27:22+05:30.
+
+The user's current state is as follows:
+Active Document: d:\KPMG\README.md (LANGUAGE_MARKDOWN)
+Cursor is on line: 86
+Other open documents:
+- d:\KPMG\README.md (LANGUAGE_MARKDOWN)
+- d:\KPMG\setup_admin_api_endpoints.py (LANGUAGE_PYTHON)
+- d:\KPMG\generate_project_docs.py (LANGUAGE_PYTHON)
+Browser State:
+  Page B700B3CB15BF77539077349E9E942A25 (FRAUDNEXUS Home - FRAUDNEXUS Customer Portal) - https://dev187180.service-now.com/fnx [ACTIVE]
+    Viewport: 2048x972, Page Height: 972
+</ADDITIONAL_METADATA>

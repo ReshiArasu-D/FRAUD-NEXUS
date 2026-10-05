@@ -1,0 +1,1758 @@
+<USER_REQUEST>
+You are working on the FRAUDNEXUS project.
+
+PROJECT:
+FRAUDNEXUS — Financial & Cyber Fraud Investigation Hub
+
+TAGLINE:
+“From Fraud Report to Resolution — One Intelligent Investigation Workspace”
+
+TASK:
+REPLAY AND IMPLEMENT THE COMPLETE FRAUDNEXUS VERIFICATION WORKSPACE SPECIFICATION.
+
+IMPORTANT:
+The attached/reference specification is the source of truth.
+
+Do NOT redesign the architecture from scratch.
+Do NOT remove features to make implementation easier.
+Do NOT replace the intelligence pipeline with mock generic AI.
+Do NOT simplify the Verification Workspace into a dashboard.
+Do NOT invent ServiceNow capabilities.
+Do NOT assume plugin IDs or licensing.
+
+Read the complete specification first and implement it systematically.
+
+REFERENCE:
+FRAUDNEXUS Verification Workspace Specification v1.0
+Sections N–AB contain the complete implementation specification.
+
+========================================================
+1. PRIMARY OBJECTIVE
+========================================================
+
+Build the complete Verification Workspace where an investigator can take a fraud case from:
+
+Customer Submission
+→ Case Registration
+→ Evidence
+→ JOREN Processing
+→ Intelligence
+→ Investigation
+→ Verification
+→ Partner Verification
+→ Re-analysis
+→ Generative Intelligence
+→ Human Decision
+→ Approval
+→ Reports
+→ Customer Notification
+→ Resolution
+→ Closure
+
+The workspace must support:
+
+FINANCIAL FRAUD
+
+AND
+
+CYBER FRAUD
+
+AND combined cases.
+
+Example:
+
+Phishing
+→ Account Compromise
+→ Suspicious Login
+→ Unauthorized Transaction
+→ Financial Loss
+
+========================================================
+2. DO NOT BREAK THE EXISTING PROJECT
+========================================================
+
+Before changing anything:
+
+1. Inspect the existing project.
+2. Inspect all existing pages/components.
+3. Inspect routing.
+4. Inspect data models.
+5. Inspect API services.
+6. Inspect existing authentication.
+7. Inspect existing customer portal.
+8. Inspect existing admin portal.
+9. Inspect existing case functionality.
+10. Inspect existing evidence functionality.
+11. Inspect existing ServiceNow integration structure.
+12. Identify reusable components.
+
+Do not duplicate functionality that already exists.
+
+Preserve existing working functionality.
+
+Only extend/refactor where required by the Verification Workspace specification.
+
+========================================================
+3. CORE INTELLIGENCE ARCHITECTURE
+========================================================
+
+The internal intelligence architecture MUST remain:
+
+CUSTOMER EVIDENCE
+↓
+CASE INTAKE
+↓
+JOREN
+↓
+MULTIMODAL EVIDENCE PROCESSING
+↓
+EVIDENCE INTELLIGENCE
+↓
+DYNAMIC BYTE-LEVEL BPE TOKENIZER
+↓
+EMBEDDINGS
+↓
+MULTI-RAG
+↓
+NEO4J KNOWLEDGE GRAPH
+↓
+11-STAGE CONTEXT FUSION
+↓
+9-STAGE LOCAL-LLM AGENTIC REASONING
+↓
+STRUCTURED INVESTIGATION INTELLIGENCE
+↓
+SERVICENOW INVESTIGATION ORCHESTRATOR
+↓
+VERIFICATION WORKSPACE
+
+DO NOT REMOVE:
+
+JOREN
+BPE
+Embeddings
+Multi-RAG
+Neo4j
+Context Fusion
+Agentic Reasoning
+
+The UI must NOT expose these technical internals to investigators.
+
+The investigator sees meaningful outputs:
+
+- Findings
+- Evidence
+- Risk
+- Relationships
+- Related Cases
+- Patterns
+- Leads
+- Recommendations
+- Timeline
+- Partner Verification
+- Investigation Summary
+
+========================================================
+4. VERIFICATION WORKSPACE UI
+========================================================
+
+Create a premium enterprise investigation workspace.
+
+Layout:
+
+------------------------------------------------------------
+HEADER
+------------------------------------------------------------
+
+LEFT SIDEBAR | MAIN INVESTIGATION AREA | INTELLIGENCE PANEL
+
+------------------------------------------------------------
+
+HEADER MUST SHOW:
+
+- FRAUDNEXUS
+- Case ID
+- Incident Type
+- Severity
+- Priority
+- Risk
+- Financial Exposure
+- Status
+- Customer
+- Assigned Investigator
+- Created
+- Updated
+- SLA
+
+PRIMARY HEADER ACTIONS:
+
+[✨ Generative Intelligence]
+[🔔 Alert Customer]
+[🤝 Partner Request]
+[👤 Alert Case Worker]
+[More]
+
+IMPORTANT:
+
+These must be separate actions.
+
+Do NOT combine them into one generic "Alert" button.
+
+========================================================
+5. LEFT NAVIGATION
+========================================================
+
+Create:
+
+Overview
+Evidence
+Verification
+Investigation
+Financial Analysis
+Cyber Analysis
+Findings
+Timeline
+Partner Requests
+Related Cases
+Relationships
+Risk
+Tasks
+Compliance
+Decision
+Report
+
+The navigation must update the main workspace dynamically.
+
+Use real case data.
+
+Do NOT hardcode counts.
+
+========================================================
+6. OVERVIEW
+========================================================
+
+Show:
+
+- Case summary
+- Customer report
+- Incident type
+- Severity
+- Priority
+- Risk
+- Financial exposure
+- Investigator
+- Case age
+- SLA
+- Evidence count
+- Findings count
+- Partner requests
+- Open tasks
+- Related cases
+
+Investigation progress:
+
+Report Submitted
+→ Case Registered
+→ Investigation Started
+→ Evidence Reviewed
+→ Verification in Progress
+→ Decision Pending
+→ Report Generated
+→ Resolved
+→ Closed
+
+========================================================
+7. EVIDENCE
+========================================================
+
+Build an evidence register.
+
+Each evidence record:
+
+- Evidence ID
+- Type
+- Source
+- Submitted By
+- Date
+- File/reference
+- Processing Status
+- Classification
+- Extracted Information
+- Entities
+- Events
+- Transactions
+- URLs
+- Metadata
+- Hash
+- Provenance
+- Review Status
+
+Statuses:
+
+Submitted
+Processing
+Extracted
+Needs Review
+Under Review
+Confirmed
+Rejected
+Additional Information Required
+
+Actions:
+
+View
+Review
+Confirm
+Reject
+Add Note
+Link to Finding
+Link to Entity
+Link to Transaction
+Link to Timeline
+Request Additional Evidence
+
+AI extracted data must NEVER automatically become confirmed.
+
+========================================================
+8. JOREN
+========================================================
+
+Evidence submitted by customer must enter:
+
+Customer Evidence
+↓
+JOREN
+↓
+Classification
+↓
+Routing
+↓
+Correct processing pipeline
+
+Examples:
+
+PDF
+→ Document Processing
+
+Image
+→ Image Processing
+
+Email
+→ Email Processing
+
+URL
+→ URL Processing
+
+Transaction Statement
+→ Financial Processing
+
+Do not expose "JOREN" as a technical implementation detail in the normal investigator UI.
+
+Use UI language such as:
+
+"Intelligence Processing"
+"Evidence Classification"
+"Extracted Information"
+
+========================================================
+9. FINANCIAL INVESTIGATION
+========================================================
+
+Support:
+
+Institution
+Institution Type
+Branch
+Platform
+Payment Method
+Transaction Reference
+Reference Type
+Transaction Date
+Amount
+Currency
+Transaction Status
+Financial Impact
+Customer Reported Exposure
+Verified Exposure
+Blocked Amount
+Recovered Amount
+
+Payment methods:
+
+UPI
+Bank Transfer
+IMPS
+NEFT
+RTGS
+Debit/Credit Card
+ATM
+Cash
+Wallet
+QR
+Payment Gateway
+Cheque
+Investment
+Insurance
+Loan
+E-commerce
+International Transfer
+Other
+
+NEVER collect:
+
+Full bank account number
+Full card number
+CVV
+PIN
+UPI PIN
+OTP
+Password
+Credentials
+
+========================================================
+10. CYBER INVESTIGATION
+========================================================
+
+Support:
+
+Suspicious URL
+Domain
+Email
+Phone
+Message
+Channel
+Device
+IP
+Account
+Login Activity
+Phishing Indicators
+Account Compromise Indicators
+
+Show connected investigation chain:
+
+Phishing
+→ URL
+→ Domain
+→ Login
+→ Account Compromise
+→ Transaction
+
+========================================================
+11. FINDINGS
+========================================================
+
+Each finding:
+
+Finding ID
+Finding
+Description
+Supporting Evidence
+Supporting Entity
+Transaction
+Related Case
+Supporting Basis
+Confidence
+Source
+Status
+Notes
+Created
+Reviewed
+Reviewer
+
+Statuses:
+
+New
+Under Review
+Confirmed
+Rejected
+Needs More Information
+
+Actions:
+
+Confirm
+Reject
+Request More Information
+Add Note
+
+AI findings MUST start as:
+
+AI Generated
++
+Needs Review
+
+Never automatically Confirm.
+
+========================================================
+12. INTELLIGENCE PANEL
+========================================================
+
+Right-side panel must show:
+
+Case Summary
+Findings
+Risk
+Related Cases
+Relationships
+Patterns
+Leads
+Recommendations
+Alerts
+Pending Actions
+
+The intelligence panel should be contextual to the currently selected case.
+
+========================================================
+13. RISK
+========================================================
+
+Show:
+
+Current Risk
+Risk Level
+Risk Score
+Risk Factors
+Previous Risk
+Risk Change
+Reason
+Supporting Information
+Supporting Evidence
+
+History:
+
+Initial
+→ Evidence Added
+→ Finding
+→ Partner Information
+→ Risk Update
+→ Current
+
+AI can recommend risk changes.
+
+Human must approve the meaningful change.
+
+========================================================
+14. RELATED INFORMATION
+========================================================
+
+Show relationships between:
+
+Customer
+Case
+Transaction
+Account
+Phone
+Email
+URL
+Domain
+Device
+IP
+Location
+Partner
+Related Case
+
+Each relationship:
+
+Why Related
+Source
+Evidence
+Confidence
+Status
+
+Actions:
+
+View
+Confirm
+Reject
+Investigate
+
+========================================================
+15. TIMELINE
+========================================================
+
+Create complete dynamic timeline.
+
+Events:
+
+Case Submitted
+Case Registered
+Evidence Uploaded
+Evidence Processed
+Classification
+Assignment
+Finding Created
+Finding Reviewed
+Evidence Requested
+Evidence Received
+Task Created
+Task Completed
+Partner Request
+Partner Response
+Risk Updated
+Escalation
+Approval
+Decision
+Report Generated
+Customer Notification
+Resolved
+Closed
+
+Every event:
+
+Timestamp
+Actor
+Actor Type
+Action
+Description
+Related Record
+
+Timeline must use actual records.
+
+========================================================
+16. PARTNER REQUEST
+========================================================
+
+Header button:
+
+[🤝 Partner Request]
+
+Opening it must display:
+
+NEW PARTNER REQUEST
+
+Case
+Partner
+Request Type
+Priority
+Description
+Evidence Reference
+Due Date
+Attachments
+
+Request Types:
+
+Transaction Verification
+Account Information
+Payment Trace
+KYC Verification
+Fraud Verification
+Evidence Request
+Additional Investigation Information
+
+Statuses:
+
+Draft
+Submitted
+In Progress
+Awaiting Response
+Response Received
+Completed
+Rejected
+Cancelled
+Overdue
+
+========================================================
+17. PARTNER FLOW
+========================================================
+
+Implement:
+
+Investigator
+↓
+Partner Request
+↓
+ServiceNow Record
+↓
+Flow Designer
+↓
+IntegrationHub / REST
+↓
+Partner
+↓
+Response
+↓
+Partner Response Record
+↓
+Timeline
+↓
+AI Analysis
+↓
+Investigator Review
+↓
+Risk / Finding Update
+↓
+Re-analysis
+↓
+Re-verification
+
+For demo:
+
+Use clearly labelled:
+
+SIMULATED DEMO PARTNER
+SIMULATED DEMO INTEGRATION
+
+Do not pretend simulated APIs are real external financial institutions.
+
+========================================================
+18. PARTNER RESPONSE ANALYSIS
+========================================================
+
+Input:
+
+Partner Request
+Partner Response
+Original Evidence
+Existing Findings
+
+Output:
+
+Response Classification
+Supporting Information
+Contradictions
+Suggested Finding Update
+Suggested Risk Impact
+Follow-up Questions
+
+UI:
+
+[Accept Analysis]
+[Reject Analysis]
+[Request Clarification]
+
+Acceptance does NOT automatically change final case outcome.
+
+========================================================
+19. ALERT CUSTOMER
+========================================================
+
+Separate header action.
+
+Possible templates:
+
+Case Received
+Investigation Started
+Evidence Required
+Case Update
+Verification Complete
+Decision Complete
+Final Report Available
+
+Never expose:
+
+Internal notes
+Partner confidential information
+Risk logic
+AI architecture
+Internal investigation strategy
+Other customer information
+
+========================================================
+20. ALERT CASE WORKER
+========================================================
+
+Separate header action.
+
+Alerts:
+
+New Case
+New Evidence
+High Risk
+Partner Response Received
+Review Required
+Task Assigned
+SLA Warning
+Decision Required
+Escalation
+
+Create actual notification/task behavior.
+
+========================================================
+21. GENERATIVE INTELLIGENCE
+========================================================
+
+This is a PRIMARY feature.
+
+Button:
+
+[✨ Generative Intelligence]
+
+When clicked, provide:
+
+Case Journey Summary
+Current Status Summary
+Investigation Summary
+Evidence Summary
+Financial Investigation Summary
+Cyber Investigation Summary
+Partner Update Summary
+Risk Summary
+Pending Actions
+Related Case Summary
+Decision Preparation Summary
+Final Case Summary
+Resolution Notes Draft
+
+The generated summary must use:
+
+Original Customer Report
+Case Details
+Financial Information
+Cyber Information
+Verified Evidence
+Confirmed Findings
+Related Cases
+Relationships
+Risk History
+Timeline
+Tasks
+Investigator Activities
+Partner Requests
+Partner Responses
+Additional Evidence
+Escalations
+Approvals
+Compliance
+Previous Decisions
+Current Status
+Pending Actions
+
+Do NOT summarize only the description.
+
+========================================================
+22. CASE CONTEXT BUILDER
+========================================================
+
+Implement a server-side context builder.
+
+Concept:
+
+FNXCaseContextBuilder
+
+It must:
+
+1. Load case
+2. Load confirmed findings
+3. Load verified evidence
+4. Load partner responses
+5. Load risk history
+6. Load timeline
+7. Load financial information
+8. Load cyber information
+9. Load confirmed relationships
+10. Load related cases
+11. Load pending tasks
+12. Load current status
+
+EXCLUDE:
+
+Unreviewed AI recommendations
+Internal AI architecture
+JOREN internals
+BPE internals
+RAG internals
+Neo4j internals
+Full financial credentials
+OTP
+PIN
+Password
+CVV
+Other customer data
+Confidential internal notes
+
+Then:
+
+Approved Context
+↓
+Generative AI
+↓
+Summary
+↓
+Human Review
+
+========================================================
+23. GENERATIVE AI UI
+========================================================
+
+Display:
+
+GENERATIVE INTELLIGENCE
+
+Select Mode:
+
+Case Journey Summary
+Current Status Summary
+Investigation Summary
+Evidence Summary
+Financial Investigation Summary
+Cyber Investigation Summary
+Partner Update Summary
+Risk Summary
+Pending Actions
+Related Case Summary
+Decision Preparation Summary
+Final Case Summary
+Resolution Notes Draft
+
+[Cancel] [Generate]
+
+After generation:
+
+AI GENERATED
+FOR INVESTIGATOR REVIEW
+
+Actions:
+
+[Accept]
+[Reject]
+[Copy to Report]
+[Add Note]
+
+Do NOT show model internals.
+
+========================================================
+24. FINAL DECISION
+========================================================
+
+Create dedicated Decision section.
+
+Options:
+
+Continue Investigation
+Request More Information
+Request Partner Verification
+Escalate
+Confirm Finding
+Reject Finding
+Resolve Case
+Close Case
+
+Require:
+
+Decision
+Reason
+Supporting Evidence
+Related Findings
+Investigator
+Timestamp
+
+Validation:
+
+- Required findings reviewed
+- Required evidence reviewed
+- Reason required
+- Resolve Case requires confirmed finding
+- Financial threshold may require approval
+- Cannot resolve solely from AI recommendation
+
+AI MUST NEVER create the final decision record.
+
+========================================================
+25. APPROVAL
+========================================================
+
+Where configured:
+
+Human Decision
+↓
+Approval
+↓
+Approved
+↓
+Report
+↓
+Resolution
+
+If rejected:
+
+Approval rejected
+↓
+Return to investigator
+↓
+Decision reopened
+
+========================================================
+26. ADMIN REPORT
+========================================================
+
+Create complete internal report:
+
+Case Overview
+Original Customer Submission
+Incident Summary
+Financial Investigation
+Cyber Investigation
+Evidence Register
+Evidence Verification
+Findings
+Supporting Evidence
+Related Information
+Relationship Summary
+Risk History
+Partner Requests
+Partner Responses
+Complete Timeline
+Tasks
+Alerts
+Generative Intelligence
+Human Decision
+Decision Reason
+Approval/Compliance
+Financial Exposure
+Blocked Amount
+Recovered Amount
+Outcome
+Case Status
+Audit Information
+
+Admin report is internal.
+
+========================================================
+27. CUSTOMER REPORT
+========================================================
+
+Create separate safe report.
+
+Sections:
+
+FRAUDNEXUS
+Case Reference
+Report Date
+Case Status
+Incident Type
+Incident Summary
+What We Reviewed
+Confirmed Findings
+Actions Taken
+Decision
+Outcome
+Important Dates
+Next Steps
+Contact
+
+Exclude:
+
+Internal notes
+Partner confidential information
+JOREN
+BPE
+RAG
+Neo4j
+Risk logic
+Internal recommendations
+Internal investigation strategy
+Other customer information
+
+========================================================
+28. SERVICENOW IMPLEMENTATION
+========================================================
+
+Use actual ServiceNow concepts.
+
+Candidate capabilities:
+
+CSM
+CSM Configurable Workspace
+UI Builder
+Flow Designer
+Workflow Studio
+IntegrationHub
+Declarative Actions
+Approvals
+Notifications
+REST APIs
+Scripted REST APIs
+Business Rules
+Script Includes
+ACLs
+Roles
+Document Intelligence
+Generative AI Controller
+Now Assist
+AI Agent Studio
+AI Search
+AI Control Tower
+AI Evaluations
+Performance Analytics
+
+BUT:
+
+DO NOT ASSUME ALL ARE AVAILABLE.
+
+For every capability classify:
+
+AVAILABLE / VERIFY / OPTIONAL / LICENSED / CUSTOM
+
+Never invent plugin IDs.
+
+========================================================
+29. DATA MODEL
+========================================================
+
+Use existing ServiceNow records where appropriate.
+
+Expected custom records:
+
+Evidence
+Finding
+Entity
+Relationship
+Risk History
+Partner
+Partner Request
+Partner Response
+Timeline Event
+Decision
+AI Summary
+Admin Report
+Customer Report
+
+Map every UI component to its underlying record.
+
+For every record define:
+
+Table
+Purpose
+Fields
+Reference fields
+ACL
+Flow
+Audit
+UI usage
+
+========================================================
+30. UI → SERVICENOW WIRING
+========================================================
+
+Every UI action must have:
+
+UI component
+↓
+ServiceNow action
+↓
+Record
+↓
+Script/API
+↓
+Flow
+↓
+Notification
+↓
+Audit
+↓
+Result
+
+Examples:
+
+Confirm Evidence
+→ Evidence record
+→ Declarative Action
+→ Flow
+→ Timeline
+→ Audit
+
+Partner Request
+→ Partner Request record
+→ Flow Designer
+→ IntegrationHub
+→ Partner
+→ Response
+→ Timeline
+
+Generative Intelligence
+→ Context Builder
+→ AI service
+→ AI Summary
+→ Review
+→ Audit
+
+Final Decision
+→ Decision record
+→ Approval
+→ Report
+→ Notification
+→ Resolution
+
+========================================================
+31. INTEGRATION ARCHITECTURE
+========================================================
+
+Outbound:
+
+ServiceNow
+→ JOREN
+→ Partner APIs
+→ Neo4j if required
+→ AI services
+
+Inbound:
+
+JOREN
+→ Scripted REST
+→ Intelligence records
+
+Partner
+→ Scripted REST/Webhook
+→ Partner Response
+
+All integrations require:
+
+Authentication
+Credential Alias
+Error handling
+Retry
+Timeout
+Logging
+Audit
+
+Use MID Server if required by deployment architecture.
+
+========================================================
+32. SECURITY
+========================================================
+
+Roles:
+
+fnx_reporter
+fnx_investigator
+fnx_manager
+fnx_compliance
+fnx_admin
+fnx_kyc
+x_fnx_customer_user
+
+Customer:
+Own cases only.
+
+Investigator:
+Assigned/authorized cases.
+
+Manager:
+Investigation + approvals + escalation.
+
+Compliance:
+Compliance/audit/report access.
+
+KYC:
+Restricted identity evidence.
+
+Admin:
+System administration.
+
+Protect sensitive fields.
+
+Never store sensitive credentials.
+
+========================================================
+33. AUDIT
+========================================================
+
+Audit:
+
+Evidence Submitted
+Evidence Viewed
+Evidence Confirmed
+Evidence Rejected
+Finding Created
+Finding Confirmed
+Finding Rejected
+Risk Updated
+Partner Request
+Partner Response
+AI Recommendation
+AI Recommendation Accepted
+AI Recommendation Rejected
+Generative Intelligence
+Human Decision
+Approval
+Customer Notification
+Escalation
+Resolution
+Closure
+Unauthorized Access
+
+Clearly distinguish:
+
+actor_type = HUMAN
+actor_type = AI SYSTEM
+actor_type = SYSTEM
+
+Never make an AI action appear to be a human action.
+
+========================================================
+34. FAILURE HANDLING
+========================================================
+
+Implement graceful handling for:
+
+JOREN unavailable
+AI timeout
+Invalid evidence
+Unsupported file
+Document extraction failure
+Partner API unavailable
+Partner timeout
+Invalid partner response
+Conflicting evidence
+AI recommendation rejected
+Missing customer information
+SLA breach
+Duplicate evidence
+Duplicate case
+Unauthorized access
+Report failure
+Notification failure
+Neo4j unavailable
+
+Each must have:
+
+Status
+Retry
+Fallback
+Audit
+User message
+
+========================================================
+35. DEMO CASE
+========================================================
+
+Use this scenario for testing:
+
+Customer receives phishing SMS.
+
+Clicks malicious URL.
+
+Fake login page captures credentials.
+
+Attacker logs in from unknown IP.
+
+Unauthorized UPI transaction:
+INR 85,000.
+
+Customer reports fraud.
+
+Uploads:
+
+1. Phishing screenshot
+2. Malicious URL screenshot
+3. Transaction statement PDF
+4. Bank confirmation email
+
+JOREN classifies evidence.
+
+Intelligence finds:
+
+Phishing
+Malicious domain
+Account compromise
+Unauthorized transaction
+
+Related case is identified.
+
+Risk becomes High.
+
+Investigator verifies findings.
+
+Partner Bank A is contacted.
+
+Partner confirms transaction unauthorized.
+
+Risk becomes Critical.
+
+Investigator requests Generative Intelligence.
+
+Case Journey Summary generated.
+
+Investigator reviews.
+
+Human decision:
+
+Resolve Case
+
+Manager approval required.
+
+Admin report generated.
+
+Customer report generated.
+
+Customer notified.
+
+Case resolved.
+
+========================================================
+36. IMPLEMENTATION ORDER
+========================================================
+
+Implement in this order:
+
+PHASE 1
+Inspect existing project
+Preserve current functionality
+
+PHASE 2
+Verification Workspace shell
+
+PHASE 3
+Case header
+
+PHASE 4
+Left navigation
+
+PHASE 5
+Evidence
+
+PHASE 6
+Findings
+
+PHASE 7
+Financial Investigation
+
+PHASE 8
+Cyber Investigation
+
+PHASE 9
+Risk
+
+PHASE 10
+Timeline
+
+PHASE 11
+Relationships / Related Cases
+
+PHASE 12
+Partner Request
+
+PHASE 13
+Partner Response
+
+PHASE 14
+Generative Intelligence
+
+PHASE 15
+Decision
+
+PHASE 16
+Approval
+
+PHASE 17
+Admin Report
+
+PHASE 18
+Customer Report
+
+PHASE 19
+Notifications
+
+PHASE 20
+Audit
+
+PHASE 21
+Security
+
+PHASE 22
+Failure handling
+
+PHASE 23
+End-to-end demo
+
+========================================================
+37. ANTIGRAVITY IMPLEMENTATION RULES
+========================================================
+
+Do not generate the entire application blindly in one pass.
+
+First inspect.
+
+Then create a plan.
+
+Then implement incrementally.
+
+After every major phase:
+
+1. Check compilation.
+2. Check routing.
+3. Check data flow.
+4. Check existing features.
+5. Check UI consistency.
+6. Check errors.
+7. Continue.
+
+Do not destroy existing files unnecessarily.
+
+Reuse components.
+
+Keep code modular.
+
+Use meaningful names.
+
+Do not hardcode production data.
+
+Use typed/mock data only where backend integration is not yet connected, and clearly isolate it behind service interfaces.
+
+========================================================
+38. SERVICE NOW VS DEMO FRONTEND
+========================================================
+
+IMPORTANT:
+
+If this environment is a frontend prototype rather than an actual connected ServiceNow instance:
+
+DO NOT pretend ServiceNow APIs are connected.
+
+Create clean service interfaces such as:
+
+caseService
+evidenceService
+findingService
+riskService
+partnerService
+timelineService
+notificationService
+generativeIntelligenceService
+reportService
+
+Then create mock adapters for demonstration.
+
+Keep the architecture ready for replacing mock adapters with:
+
+ServiceNow REST APIs
+IntegrationHub
+Scripted REST
+Flow Designer
+
+Do not mix mock data directly into UI components.
+
+========================================================
+39. FINAL UI QUALITY
+========================================================
+
+The workspace must feel like:
+
+Enterprise Fraud Investigation Platform
+
+NOT:
+
+Student dashboard
+NOT:
+Generic admin panel
+NOT:
+ChatGPT clone
+NOT:
+Simple CRUD page
+
+Use:
+
+- Clean cards
+- Dense but readable information
+- Evidence drawers
+- Timeline
+- Status chips
+- Risk indicators
+- Investigation sections
+- Side panels
+- Confirmation dialogs
+- Clear action hierarchy
+- Professional typography
+- Consistent spacing
+- Accessible controls
+
+Avoid excessive animation.
+
+========================================================
+40. FINAL ACCEPTANCE TEST
+========================================================
+
+The implementation is NOT complete until the following scenario works:
+
+Customer submits case
+↓
+Evidence created
+↓
+Evidence processed
+↓
+JOREN classification represented
+↓
+Intelligence represented
+↓
+AI findings appear as Needs Review
+↓
+Investigator confirms evidence
+↓
+Investigator confirms findings
+↓
+Risk recommendation appears
+↓
+Investigator reviews risk
+↓
+Partner Request created
+↓
+Partner response received
+↓
+Partner analysis appears
+↓
+Investigator reviews partner analysis
+↓
+Case context updated
+↓
+Generative Intelligence generated
+↓
+Investigator reviews summary
+↓
+Human decision submitted
+↓
+Approval occurs if required
+↓
+Admin report generated
+↓
+Customer report generated
+↓
+Customer notification sent
+↓
+Case resolved
+↓
+Case closed
+
+========================================================
+41. FINAL ARCHITECTURE
+========================================================
+
+CUSTOMER
+↓
+CUSTOMER PORTAL
+↓
+CASE + EVIDENCE
+↓
+JOREN
+↓
+MULTIMODAL PROCESSING
+↓
+EVIDENCE INTELLIGENCE
+↓
+DYNAMIC BPE
+↓
+EMBEDDINGS
+↓
+MULTI-RAG
+↓
+NEO4J
+↓
+11-STAGE CONTEXT FUSION
+↓
+9-STAGE AGENTIC REASONING
+↓
+STRUCTURED INTELLIGENCE
+↓
+SERVICENOW INVESTIGATION ORCHESTRATOR
+↓
+VERIFICATION WORKSPACE
+↓
+HUMAN VERIFICATION
+↓
+CUSTOMER / PARTNER / CASE WORKER ACTIONS
+↓
+NEW INFORMATION
+↓
+RE-ANALYSIS
+↓
+GENERATIVE INTELLIGENCE
+↓
+HUMAN FINAL DECISION
+↓
+APPROVAL
+↓
+ADMIN REPORT + CUSTOMER REPORT
+↓
+CUSTOMER NOTIFICATION
+↓
+RESOLUTION
+↓
+CLOSURE
+
+========================================================
+42. MOST IMPORTANT RULE
+========================================================
+
+Do not stop at the visual UI.
+
+This is an end-to-end implementation.
+
+For every feature, answer:
+
+WHAT DOES THE USER SEE?
+
+WHAT RECORD STORES IT?
+
+WHAT ACTION FIRES?
+
+WHAT SERVICE/API IS CALLED?
+
+WHAT FLOW RUNS?
+
+WHAT DATA CHANGES?
+
+WHAT NOTIFICATION IS SENT?
+
+WHAT AUDIT EVENT IS CREATED?
+
+WHAT HAPPENS NEXT?
+
+And for AI:
+
+WHAT DATA IS ALLOWED INTO THE AI?
+
+WHAT DATA IS EXCLUDED?
+
+WHAT DOES AI RETURN?
+
+WHO REVIEWS IT?
+
+HOW IS HUMAN APPROVAL RECORDED?
+
+Never allow AI to silently become the final investigator.
+
+========================================================
+FINAL INSTRUCTION
+========================================================
+
+START BY INSPECTING THE EXISTING FRAUDNEXUS PROJECT.
+
+Do not immediately overwrite or regenerate the application.
+
+First identify:
+
+- Existing architecture
+- Existing routes
+- Existing components
+- Existing admin workspace
+- Existing customer portal
+- Existing case model
+- Existing evidence model
+- Existing APIs
+- Existing mock data
+- Existing ServiceNow integration
+- Existing authentication
+- Existing styling
+
+Then produce a concise implementation plan.
+
+Then implement the Verification Workspace incrementally.
+
+After implementation, run a complete end-to-end validation against the acceptance test above.
+
+Do not claim completion unless all critical flows are represented and working.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-04T12:18:48+05:30.
+
+The user's current state is as follows:
+Active Document: d:\KPMG\final_safe_fixes.py (LANGUAGE_PYTHON)
+Cursor is on line: 1
+Other open documents:
+- d:\KPMG\temp_out.txt (LANGUAGE_PLAINTEXT)
+- d:\KPMG\deploy_global_logo.py (LANGUAGE_PYTHON)
+- d:\KPMG\flush_cache.py (LANGUAGE_PYTHON)
+- d:\KPMG\check_tags.py (LANGUAGE_PYTHON)
+- d:\KPMG\final_safe_fixes.py (LANGUAGE_PYTHON)
+Browser State:
+  Page 79AABAA2FECBE500F8BD9D669F45125C (FRAUDNEXUS Home - FRAUDNEXUS Customer Portal) - https://dev187180.service-now.com/fnx [ACTIVE]
+    Viewport: 1536x730, Page Height: 729
+</ADDITIONAL_METADATA>

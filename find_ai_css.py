@@ -1,0 +1,12 @@
+import requests, re, sys
+sys.stdout.reconfigure(encoding='utf-8')
+
+url = 'https://dev187180.service-now.com/api/now/table/sp_widget/2f258577c32b43d0e54832f1b401317f'
+auth = ('admin', 'mn%XC1^ScdA4')
+r = requests.get(url, auth=auth)
+css = r.json()['result']['css']
+
+lines = css.splitlines()
+for i, line in enumerate(lines):
+    if 'fnx-ai-trigger' in line or 'fnx-ai-widget' in line:
+        print(f'{i}: {line}')

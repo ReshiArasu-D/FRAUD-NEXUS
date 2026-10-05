@@ -1,0 +1,165 @@
+<USER_REQUEST>
+You are working on the FRAUDNEXUS project.
+
+PROJECT:
+FRAUDNEXUS — Financial & Cyber Fraud Investigation Hub
+
+TAGLINE:
+“From Fraud Report to Resolution — One Intelligent Investigation Workspace”
+
+TASK:
+REPLAY AND IMPLEMENT THE COMPLETE FRAUDNEXUS VERIFICATION WORKSPACE SPECIFICATION.
+
+IMPORTANT:
+The attached/reference specification is the source of truth.
+
+Do NOT redesign the architecture from scratch.
+Do NOT remove features to make implementation easier.
+Do NOT replace the intelligence pipeline with mock generic AI.
+Do NOT simplify the Verification Workspace into a dashboard.
+Do NOT invent ServiceNow capabilities.
+Do NOT assume plugin IDs or licensing.
+
+Read the complete specification first and implement it systematically.
+
+REFERENCE:
+FRAUDNEXUS Verification Workspace Specification v1.0
+Sections N–AB contain the complete implementation specification.
+
+========================================================
+1. PRIMARY OBJECTIVE
+========================================================
+
+Build the complete Verification Workspace where an investigator can take a fraud case from:
+
+Customer Submission
+→ Case Registration
+→ Evidence
+→ JOREN Processing
+→ Intelligence
+→ Investigation
+→ Verification
+→ Partner Verification
+→ Re-analysis
+→ Generative Intelligence
+→ Human Decision
+→ Approval
+→ Reports
+→ Customer Notification
+→ Resolution
+→ Closure
+
+The workspace must support:
+
+FINANCIAL FRAUD
+
+AND
+
+CYBER FRAUD
+
+AND combined cases.
+
+Example:
+
+Phishing
+→ Account Compromise
+→ Suspicious Login
+→ Unauthorized Transaction
+→ Financial Loss
+
+========================================================
+2. DO NOT BREAK THE EXISTING PROJECT
+========================================================
+
+Before changing anything:
+
+1. Inspect the existing project.
+2. Inspect all existing pages/components.
+3. Inspect routing.
+4. Inspect data models.
+5. Inspect API services.
+6. Inspect existing authentication.
+<truncated 26311 bytes>
+is an end-to-end implementation.
+
+For every feature, answer:
+
+WHAT DOES THE USER SEE?
+
+WHAT RECORD STORES IT?
+
+WHAT ACTION FIRES?
+
+WHAT SERVICE/API IS CALLED?
+
+WHAT FLOW RUNS?
+
+WHAT DATA CHANGES?
+
+WHAT NOTIFICATION IS SENT?
+
+WHAT AUDIT EVENT IS CREATED?
+
+WHAT HAPPENS NEXT?
+
+And for AI:
+
+WHAT DATA IS ALLOWED INTO THE AI?
+
+WHAT DATA IS EXCLUDED?
+
+WHAT DOES AI RETURN?
+
+WHO REVIEWS IT?
+
+HOW IS HUMAN APPROVAL RECORDED?
+
+Never allow AI to silently become the final investigator.
+
+========================================================
+FINAL INSTRUCTION
+========================================================
+
+START BY INSPECTING THE EXISTING FRAUDNEXUS PROJECT.
+
+Do not immediately overwrite or regenerate the application.
+
+First identify:
+
+- Existing architecture
+- Existing routes
+- Existing components
+- Existing admin workspace
+- Existing customer portal
+- Existing case model
+- Existing evidence model
+- Existing APIs
+- Existing mock data
+- Existing ServiceNow integration
+- Existing authentication
+- Existing styling
+
+Then produce a concise implementation plan.
+
+Then implement the Verification Workspace incrementally.
+
+After implementation, run a complete end-to-end validation against the acceptance test above.
+
+Do not claim completion unless all critical flows are represented and working.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-10-04T12:18:48+05:30.
+
+The user's current state is as follows:
+Active Document: d:\KPMG\final_safe_fixes.py (LANGUAGE_PYTHON)
+Cursor is on line: 1
+Other open documents:
+- d:\KPMG\temp_out.txt (LANGUAGE_PLAINTEXT)
+- d:\KPMG\deploy_global_logo.py (LANGUAGE_PYTHON)
+- d:\KPMG\flush_cache.py (LANGUAGE_PYTHON)
+- d:\KPMG\check_tags.py (LANGUAGE_PYTHON)
+- d:\KPMG\final_safe_fixes.py (LANGUAGE_PYTHON)
+Browser State:
+  Page 79AABAA2FECBE500F8BD9D669F45125C (FRAUDNEXUS Home - FRAUDNEXUS Customer Portal) - https://dev187180.service-now.com/fnx [ACTIVE]
+    Viewport: 1536x730, Page Height: 729
+</ADDITIONAL_METADATA>

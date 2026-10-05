@@ -1,0 +1,902 @@
+<!-- ============================================================
+     FRAUDNEXUS — ENTERPRISE ANALYTICS WORKSPACE
+     Sections 1–28 Implementation
+     ============================================================ -->
+<div ng-if="c.adminModule === 'analytics'" class="fnx-analytics-workspace">
+    
+    <!-- 1. PERSISTENT ANALYTICS HEADER -->
+    <div class="fnx-analytics-header">
+        <div class="header-left">
+            <div class="header-breadcrumbs">
+                <span>FRAUDNEXUS Admin Portal</span>
+                <span class="sep">&rsaquo;</span>
+                <span class="active">Analytics Workspace</span>
+            </div>
+            <h1 class="header-title">Analytics Workspace</h1>
+            <p class="header-subtitle">Organization-wide fraud, investigation, risk and operational performance analytics.</p>
+        </div>
+        <div class="header-right">
+            <div class="analytics-timestamp">
+                <span class="pulse-indicator"></span>
+                <span>Last Updated: <strong>{{c.analyticsLastUpdated || 'Just now'}}</strong></span>
+            </div>
+            <div class="header-btn-group">
+                <button type="button" class="fnx-btn-analytics fnx-btn-refresh" ng-click="c.refreshAnalytics()" title="Fetch latest ServiceNow aggregation data" ng-disabled="c.analyticsLoading">
+                    <span class="btn-icon" ng-class="{'spin': c.analyticsLoading}">🔄</span>
+                    <span>{{c.analyticsLoading ? 'Refreshing...' : 'Refresh'}}</span>
+                </button>
+                
+                <!-- Export Dropdown -->
+                <div class="fnx-dropdown-wrap">
+                    <button type="button" class="fnx-btn-analytics fnx-btn-export" ng-click="c.showExportMenu = !c.showExportMenu" title="Export active analytics dataset">
+                        <span class="btn-icon">📥</span>
+                        <span>Export</span>
+                        <span class="arrow-down">&#9662;</span>
+                    </button>
+                    <div class="fnx-dropdown-menu export-menu" ng-if="c.showExportMenu">
+                        <a href="javascript:void(0)" ng-click="c.exportAnalyticsPDF(); c.showExportMenu = false;">
+                            <span class="menu-icon">📄</span> Export PDF Report
+                        </a>
+                        <a href="javascript:void(0)" ng-click="c.exportAnalyticsCSV(); c.showExportMenu = false;">
+                            <span class="menu-icon">📊</span> Export Filtered Cases (CSV)
+                        </a>
+                        <a href="javascript:void(0)" ng-click="c.printAnalytics(); c.showExportMenu = false;">
+                            <span class="menu-icon">🖨️</span> Print Current View
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GLOBAL ENTERPRISE FILTER BAR -->
+    <div class="fnx-analytics-filterbar">
+        <div class="filterbar-grid">
+            
+            <!-- Filter 1: Date Range -->
+            <div class="filter-item">
+                <label>DATE RANGE</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.dateRange" ng-change="c.applyAnalyticsFilters()">
+                    <option value="last7">Last 7 Days</option>
+                    <option value="last30">Last 30 Days</option>
+                    <option value="last90">Last 90 Days</option>
+                    <option value="thisYear">This Year</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+
+            <!-- Filter 2: Incident Type -->
+            <div class="filter-item">
+                <label>INCIDENT TYPE</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.incidentType" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Incident Types</option>
+                    <option value="Payment Fraud">Payment Fraud</option>
+                    <option value="Unauthorized Transaction">Unauthorized Transaction</option>
+                    <option value="Phishing">Phishing</option>
+                    <option value="Account Compromise">Account Compromise</option>
+                    <option value="Identity Theft">Identity Theft</option>
+                    <option value="Cyber Fraud">Cyber Fraud</option>
+                    <option value="Money Laundering">Money Laundering</option>
+                    <option value="Financial Crime">Financial Crime</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Filter 3: Severity -->
+            <div class="filter-item">
+                <label>SEVERITY</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.severity" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Severities</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <!-- Filter 4: Status -->
+            <div class="filter-item">
+                <label>CASE STATUS</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.status" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Statuses</option>
+                    <option value="New">New</option>
+                    <option value="Investigating">Investigating</option>
+                    <option value="Verification">Verification</option>
+                    <option value="Decision Pending">Decision Pending</option>
+                    <option value="Resolved">Resolved</option>
+                    <option value="Closed">Closed</option>
+                    <option value="Escalated">Escalated</option>
+                </select>
+            </div>
+
+            <!-- Filter 5: Risk Level -->
+            <div class="filter-item">
+                <label>RISK LEVEL</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.riskLevel" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Risk Levels</option>
+                    <option value="critical">Critical (85–100)</option>
+                    <option value="high">High (70–84)</option>
+                    <option value="medium">Medium (40–69)</option>
+                    <option value="low">Low (0–39)</option>
+                </select>
+            </div>
+
+            <!-- Filter 6: Investigator -->
+            <div class="filter-item">
+                <label>INVESTIGATOR</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.investigator" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Investigators</option>
+                    <option value="Alex Morgan">Alex Morgan</option>
+                    <option value="Sarah Jenkins">Sarah Jenkins</option>
+                    <option value="David Chen">David Chen</option>
+                    <option value="Elena Rostova">Elena Rostova</option>
+                    <option value="Unassigned">Unassigned</option>
+                </select>
+            </div>
+
+            <!-- Filter 7: Partner -->
+            <div class="filter-item">
+                <label>PARTNER</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.partner" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Partners</option>
+                    <option value="Partner Bank A">Partner Bank A</option>
+                    <option value="State Bank Switch">State Bank Switch</option>
+                    <option value="Apex Crypto Exchange">Apex Crypto Exchange</option>
+                    <option value="Cert-In Threat Intel">Cert-In Threat Intel</option>
+                </select>
+            </div>
+
+            <!-- Filter 8: Source -->
+            <div class="filter-item">
+                <label>SOURCE CHANNEL</label>
+                <select class="fnx-select-filter" ng-model="c.analyticsFilters.source" ng-change="c.applyAnalyticsFilters()">
+                    <option value="all">All Sources</option>
+                    <option value="Customer Portal">Customer Portal</option>
+                    <option value="Mobile NetBanking">Mobile NetBanking</option>
+                    <option value="Branch Referral">Branch Referral</option>
+                    <option value="Automated Rule">Automated Rule</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="filterbar-actions">
+            <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.applyAnalyticsFilters()">Apply Filters</button>
+            <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.resetAnalyticsFilters()">Reset</button>
+            <span class="active-filter-count text-muted text-xs ms-2" ng-if="c.activeFilterCount > 0">
+                Active Filters: <strong>{{c.activeFilterCount}}</strong> (Filtering {{c.filteredCasesCount}} of {{c.totalCasesRaw}} cases)
+            </span>
+        </div>
+    </div>
+
+    <!-- 3. TOP KPI SECTION (2 ROWS OF 4 TILES) -->
+    <div class="fnx-analytics-body">
+        
+        <!-- KPI ROW 1 -->
+        <div class="fnx-kpi-row-grid mb-3">
+            
+            <!-- KPI 1: Total Cases -->
+            <div class="fnx-analytic-kpi-card border-blue" ng-click="c.openAnalyticsDrilldown('Total Cases', 'all', 'all')">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">TOTAL FRAUD CASES</span>
+                    <span class="kpi-icon-pill bg-blue-sub">📁</span>
+                </div>
+                <div class="kpi-val text-navy">{{c.analyticsKPIs.totalCases | number:0}}</div>
+                <div class="kpi-trend text-success">
+                    <span class="trend-arrow">&uarr;</span> +8.4% vs previous period
+                </div>
+                <div class="kpi-desc">Across all digital intake & partner channels</div>
+            </div>
+
+            <!-- KPI 2: Open Cases -->
+            <div class="fnx-analytic-kpi-card border-amber" ng-click="c.openAnalyticsDrilldown('Open Cases', 'status', 'open')">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">ACTIVE OPEN INVESTIGATIONS</span>
+                    <span class="kpi-icon-pill bg-amber-sub">⏳</span>
+                </div>
+                <div class="kpi-val text-warning">{{c.analyticsKPIs.openCases | number:0}}</div>
+                <div class="kpi-trend text-muted">
+                    <span>97.9% of active caseload</span>
+                </div>
+                <div class="kpi-desc">In Intake, Investigation, or Verification</div>
+            </div>
+
+            <!-- KPI 3: High Risk Cases -->
+            <div class="fnx-analytic-kpi-card border-red" ng-click="c.openAnalyticsDrilldown('Critical / High Risk Cases', 'risk', 'high')">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">HIGH / CRITICAL RISK</span>
+                    <span class="kpi-icon-pill bg-red-sub">⚡</span>
+                </div>
+                <div class="kpi-val text-danger">{{c.analyticsKPIs.highRiskCases | number:0}}</div>
+                <div class="kpi-trend text-danger">
+                    <span class="trend-dot bg-red"></span> P1 Critical Threat Profile (Risk &ge; 85)
+                </div>
+                <div class="kpi-desc">Flagged with active laundering or syndicate links</div>
+            </div>
+
+            <!-- KPI 4: Resolved Cases -->
+            <div class="fnx-analytic-kpi-card border-green" ng-click="c.openAnalyticsDrilldown('Resolved Cases', 'status', 'resolved')">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">RESOLVED & CONCLUDED</span>
+                    <span class="kpi-icon-pill bg-green-sub">✓</span>
+                </div>
+                <div class="kpi-val text-success">{{c.analyticsKPIs.resolvedCases | number:0}}</div>
+                <div class="kpi-trend text-success">
+                    <span class="trend-arrow">&uarr;</span> 100% formal sign-off rate
+                </div>
+                <div class="kpi-desc">Fully audited with documented human decisions</div>
+            </div>
+
+        </div>
+
+        <!-- KPI ROW 2 -->
+        <div class="fnx-kpi-row-grid mb-4">
+            
+            <!-- KPI 5: Financial Exposure -->
+            <div class="fnx-analytic-kpi-card border-purple" ng-click="c.openAnalyticsDrilldown('Gross Financial Exposure', 'exposure', 'all')">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">REPORTED FINANCIAL EXPOSURE</span>
+                    <span class="kpi-icon-pill bg-purple-sub">💸</span>
+                </div>
+                <div class="kpi-val text-purple">&pound; {{c.analyticsKPIs.financialExposure | number:0}}</div>
+                <div class="kpi-trend text-muted">
+                    Verified: &pound; {{c.analyticsKPIs.verifiedExposure || c.analyticsKPIs.financialExposure | number:0}}
+                </div>
+                <div class="kpi-desc">Gross customer reported financial claim value</div>
+            </div>
+
+            <!-- KPI 6: Recovered Amount -->
+            <div class="fnx-analytic-kpi-card border-cyan">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">BLOCKED & RECOVERED</span>
+                    <span class="kpi-icon-pill bg-cyan-sub">🛡️</span>
+                </div>
+                <div class="kpi-val text-cyan">&pound; {{c.analyticsKPIs.recoveredAmount + c.analyticsKPIs.blockedAmount | number:0}}</div>
+                <div class="kpi-trend text-success">
+                    Blocked: &pound; {{c.analyticsKPIs.blockedAmount | number:0}} &bull; Recovered: &pound; {{c.analyticsKPIs.recoveredAmount | number:0}}
+                </div>
+                <div class="kpi-desc">Inter-bank funds secured via partner liens</div>
+            </div>
+
+            <!-- KPI 7: Average Resolution Time -->
+            <div class="fnx-analytic-kpi-card border-slate">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">AVG RESOLUTION TIME</span>
+                    <span class="kpi-icon-pill bg-slate-sub">⏱️</span>
+                </div>
+                <div class="kpi-val text-navy">3.2 Days</div>
+                <div class="kpi-trend text-success">
+                    <span>-14.2% faster than 7-day target</span>
+                </div>
+                <div class="kpi-desc">Median: 2.8 Days &bull; Fastest: 4.5 Hours</div>
+            </div>
+
+            <!-- KPI 8: SLA Breaches -->
+            <div class="fnx-analytic-kpi-card border-emerald">
+                <div class="kpi-top">
+                    <span class="kpi-lbl">SLA ADHERENCE & BREACHES</span>
+                    <span class="kpi-icon-pill bg-emerald-sub">⚖️</span>
+                </div>
+                <div class="kpi-val text-success">0 Breached</div>
+                <div class="kpi-trend text-warning">
+                    <span>2 Cases at risk of breach</span>
+                </div>
+                <div class="kpi-desc">97.8% operational compliance across all tiers</div>
+            </div>
+
+        </div>
+
+        <!-- ============================================================
+             SECTION 18 EXACT 2-COLUMN ANALYTICAL GRID
+             ============================================================ -->
+        <div class="fnx-analytics-2col-grid">
+
+            <!-- ROW 3, COL 1: CASES BY INCIDENT TYPE (HORIZONTAL BARS) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Cases by Incident Type</h3>
+                        <p class="chart-sub">Volume distribution across fraud classifications</p>
+                    </div>
+                    <span class="badge-tag">9 Categories</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-hbar-list" ng-if="c.analyticsTypeBars && c.analyticsTypeBars.length">
+                        <div class="hbar-item" ng-repeat="item in c.analyticsTypeBars" ng-click="c.openAnalyticsDrilldown('Incident Type: ' + item.name, 'type', item.name)">
+                            <div class="hbar-info">
+                                <span class="hbar-name">{{item.name}}</span>
+                                <span class="hbar-stats"><strong>{{item.count}}</strong> cases ({{item.pct}}%)</span>
+                            </div>
+                            <div class="hbar-track">
+                                <div class="hbar-fill" ng-style="{'width': item.pct + '%', 'background-color': item.color}"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="empty-state-card" ng-if="!c.analyticsTypeBars || !c.analyticsTypeBars.length">
+                        <p>No matching records found for the selected filters.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 3, COL 2: CASES BY STATUS (DONUT / COMPOSITION CHART) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Cases by Lifecycle Status</h3>
+                        <p class="chart-sub">Operational queue distribution and triage state</p>
+                    </div>
+                    <span class="badge-tag">Total: {{c.analyticsKPIs.totalCases}}</span>
+                </div>
+                <div class="chart-body d-flex align-items-center justify-content-between">
+                    <!-- SVG Donut Chart -->
+                    <div class="donut-chart-wrap">
+                        <svg width="180" height="180" viewBox="0 0 42 42" class="donut-svg">
+                            <circle class="donut-ring" cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="#F1F5F9" stroke-width="5"></circle>
+                            <circle class="donut-segment" ng-repeat="seg in c.analyticsStatusSegments"
+                                    cx="21" cy="21" r="15.91549430918954" fill="transparent"
+                                    ng-attr-stroke="{{seg.color}}" stroke-width="5"
+                                    ng-attr-stroke-dasharray="{{seg.dashArray}}"
+                                    ng-attr-stroke-dashoffset="{{seg.dashOffset}}"
+                                    ng-click="c.openAnalyticsDrilldown('Status: ' + seg.name, 'status', seg.name)"></circle>
+                            <g class="donut-text">
+                                <text x="50%" y="48%" class="donut-number">{{c.analyticsKPIs.totalCases}}</text>
+                                <text x="50%" y="62%" class="donut-label">CASES</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <!-- Donut Legend -->
+                    <div class="donut-legend-list">
+                        <div class="legend-row" ng-repeat="s in c.analyticsStatusList" ng-click="c.openAnalyticsDrilldown('Status: ' + s.name, 'status', s.name)">
+                            <span class="legend-dot" ng-style="{'background-color': s.color}"></span>
+                            <span class="legend-name">{{s.name}}</span>
+                            <strong class="legend-count">{{s.count}}</strong>
+                            <span class="legend-pct text-muted">({{s.pct}}%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 4, COL 1: CASES BY SEVERITY (BAR CHART) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Cases by Severity Profile</h3>
+                        <p class="chart-sub">Triage priority and incident risk stratification</p>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-vbar-grid">
+                        <div class="vbar-col" ng-repeat="sev in c.analyticsSeverityList" ng-click="c.openAnalyticsDrilldown('Severity: ' + sev.name, 'severity', sev.name)">
+                            <div class="vbar-val">{{sev.count}}</div>
+                            <div class="vbar-track">
+                                <div class="vbar-fill" ng-style="{'height': sev.pct + '%', 'background-color': sev.color}"></div>
+                            </div>
+                            <div class="vbar-label">{{sev.name}}</div>
+                            <div class="vbar-pct text-muted">{{sev.pct}}%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 4, COL 2: FRAUD TREND OVER TIME (LINE CHART) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Fraud Intake Trend Over Time</h3>
+                        <p class="chart-sub">Incident intake velocity across chronological periods</p>
+                    </div>
+                    <div class="chart-toggle-group">
+                        <button type="button" class="btn-toggle" ng-class="{'active': c.trendInterval === 'daily'}" ng-click="c.setTrendInterval('daily')">Daily</button>
+                        <button type="button" class="btn-toggle" ng-class="{'active': c.trendInterval === 'weekly'}" ng-click="c.setTrendInterval('weekly')">Weekly</button>
+                        <button type="button" class="btn-toggle" ng-class="{'active': c.trendInterval === 'monthly'}" ng-click="c.setTrendInterval('monthly')">Monthly</button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <!-- Responsive SVG Line Chart -->
+                    <div class="line-chart-wrap">
+                        <svg width="100%" height="160" viewBox="0 0 500 160" preserveAspectRatio="none" class="line-svg">
+                            <defs>
+                                <linearGradient id="trendGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#0284C7" stop-opacity="0.3"></stop>
+                                    <stop offset="100%" stop-color="#0284C7" stop-opacity="0.0"></stop>
+                                </linearGradient>
+                            </defs>
+                            <!-- Grid lines -->
+                            <line x1="0" y1="30" x2="500" y2="30" stroke="#F1F5F9" stroke-width="1"></line>
+                            <line x1="0" y1="70" x2="500" y2="70" stroke="#F1F5F9" stroke-width="1"></line>
+                            <line x1="0" y1="110" x2="500" y2="110" stroke="#F1F5F9" stroke-width="1"></line>
+                            <line x1="0" y1="150" x2="500" y2="150" stroke="#E2E8F0" stroke-width="1"></line>
+                            <!-- Area fill -->
+                            <polygon ng-attr-points="{{c.analyticsTrendPoly}}" fill="url(#trendGradient)"></polygon>
+                            <!-- Line path -->
+                            <polyline ng-attr-points="{{c.analyticsTrendLine}}" fill="none" stroke="#0284C7" stroke-width="3" stroke-linecap="round"></polyline>
+                            <!-- Data points -->
+                            <circle ng-repeat="pt in c.analyticsTrendPoints" ng-attr-cx="{{pt.x}}" ng-attr-cy="{{pt.y}}" r="4" fill="#FFFFFF" stroke="#0284C7" stroke-width="2">
+                                <title>{{pt.label}}: {{pt.val}} cases</title>
+                            </circle>
+                        </svg>
+                        <div class="line-x-axis">
+                            <span ng-repeat="pt in c.analyticsTrendPoints">{{pt.label}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 5, COL 1: FINANCIAL IMPACT (EXPOSURE VS RECOVERY) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Financial Exposure vs Fund Recovery</h3>
+                        <p class="chart-sub">Gross loss claimed vs inter-bank liens and recoveries</p>
+                    </div>
+                    <span class="badge-tag bg-cyan-sub text-cyan">7.9% Secured</span>
+                </div>
+                <div class="chart-body">
+                    <div class="financial-summary-chips mb-3">
+                        <div class="f-chip"><span class="lbl">Reported Exposure:</span> <strong>&pound; {{c.analyticsKPIs.financialExposure | number:0}}</strong></div>
+                        <div class="f-chip text-warning"><span class="lbl">Blocked at Node:</span> <strong>&pound; {{c.analyticsKPIs.blockedAmount | number:0}}</strong></div>
+                        <div class="f-chip text-success"><span class="lbl">Recovered:</span> <strong>&pound; {{c.analyticsKPIs.recoveredAmount | number:0}}</strong></div>
+                        <div class="f-chip text-danger"><span class="lbl">Net Outstanding:</span> <strong>&pound; {{c.analyticsKPIs.financialExposure - c.analyticsKPIs.recoveredAmount - c.analyticsKPIs.blockedAmount | number:0}}</strong></div>
+                    </div>
+                    <!-- Comparison Bar Visual -->
+                    <div class="fnx-fin-comp-bars">
+                        <div class="comp-bar-item">
+                            <div class="comp-label"><span>Total Exposure</span> <strong>&pound; {{c.analyticsKPIs.financialExposure | number:0}}</strong></div>
+                            <div class="comp-track"><div class="comp-fill bg-purple" style="width: 100%;"></div></div>
+                        </div>
+                        <div class="comp-bar-item">
+                            <div class="comp-label"><span>Blocked Funds</span> <strong>&pound; {{c.analyticsKPIs.blockedAmount | number:0}} (6.4%)</strong></div>
+                            <div class="comp-track"><div class="comp-fill bg-warning" style="width: 6.4%;"></div></div>
+                        </div>
+                        <div class="comp-bar-item">
+                            <div class="comp-label"><span>Reimbursed / Recovered</span> <strong>&pound; {{c.analyticsKPIs.recoveredAmount | number:0}} (1.5%)</strong></div>
+                            <div class="comp-track"><div class="comp-fill bg-success" style="width: 1.5%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 5, COL 2: RISK ANALYTICS (DISTRIBUTION & TREND) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Risk Distribution & Movement</h3>
+                        <p class="chart-sub">Business risk levels and intelligence score migration</p>
+                    </div>
+                    <span class="badge-tag">Avg Score: 68.4 / 100</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-risk-kpi-grid mb-3">
+                        <div class="risk-kpi-box">
+                            <div class="r-val text-navy">68.4</div>
+                            <div class="r-lbl">Average Risk Score</div>
+                        </div>
+                        <div class="risk-kpi-box">
+                            <div class="r-val text-danger">3</div>
+                            <div class="r-lbl">Critical (85+)</div>
+                        </div>
+                        <div class="risk-kpi-box">
+                            <div class="r-val text-warning">12</div>
+                            <div class="r-lbl">Risk Escalating</div>
+                        </div>
+                        <div class="risk-kpi-box">
+                            <div class="r-val text-success">8</div>
+                            <div class="r-lbl">Risk Mitigated</div>
+                        </div>
+                    </div>
+                    <!-- Risk Distribution Meter -->
+                    <div class="risk-stacked-meter">
+                        <div class="meter-bar bg-danger" style="width: 3.1%;" title="Critical: 3 cases (3.1%)"></div>
+                        <div class="meter-bar bg-warning" style="width: 18.5%;" title="High: 18 cases (18.5%)"></div>
+                        <div class="meter-bar bg-purple" style="width: 45.4%;" title="Medium: 44 cases (45.4%)"></div>
+                        <div class="meter-bar bg-blue" style="width: 33.0%;" title="Low: 32 cases (33.0%)"></div>
+                    </div>
+                    <div class="risk-meter-legend">
+                        <span><strong class="text-danger">&bull;</strong> Critical: 3 (3%)</span>
+                        <span><strong class="text-warning">&bull;</strong> High: 18 (19%)</span>
+                        <span><strong class="text-purple">&bull;</strong> Med: 44 (45%)</span>
+                        <span><strong class="text-primary">&bull;</strong> Low: 32 (33%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 6, COL 1: INVESTIGATION PERFORMANCE (STAGE FUNNEL) -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Cases by Investigation Stage</h3>
+                        <p class="chart-sub">Caseload progression through operational investigation milestones</p>
+                    </div>
+                    <span class="badge-tag">Zero Bottlenecks</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-stage-funnel-list">
+                        <div class="funnel-step" ng-repeat="st in c.analyticsStageList" ng-click="c.openAnalyticsDrilldown('Stage: ' + st.name, 'stage', st.name)">
+                            <div class="step-num">{{$index + 1}}</div>
+                            <div class="step-content">
+                                <div class="step-title-row">
+                                    <span class="step-name">{{st.name}}</span>
+                                    <span class="step-count"><strong>{{st.count}}</strong> cases ({{st.pct}}%)</span>
+                                </div>
+                                <div class="step-track">
+                                    <div class="step-fill" ng-style="{'width': st.pct + '%', 'background-color': st.color}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 6, COL 2: RESOLUTION PERFORMANCE -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Operational Resolution Performance</h3>
+                        <p class="chart-sub">Closure efficiency, turnaround benchmarks, and SLA margins</p>
+                    </div>
+                    <span class="badge-tag bg-green-sub text-success">Target: 7 Days</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-resolution-metrics-grid mb-3">
+                        <div class="res-box">
+                            <span class="r-lbl">AVERAGE DURATION</span>
+                            <div class="r-val text-navy">3.2 Days</div>
+                            <span class="r-sub text-success">-45% of SLA</span>
+                        </div>
+                        <div class="res-box">
+                            <span class="r-lbl">MEDIAN DURATION</span>
+                            <div class="r-val text-navy">2.8 Days</div>
+                            <span class="r-sub text-muted">Typical closure</span>
+                        </div>
+                        <div class="res-box">
+                            <span class="r-lbl">FASTEST RESOLUTION</span>
+                            <div class="r-val text-success">4.5 Hours</div>
+                            <span class="r-sub text-muted">Auto-verified trace</span>
+                        </div>
+                        <div class="res-box">
+                            <span class="r-lbl">LONGEST OPEN</span>
+                            <div class="r-val text-warning">5.1 Days</div>
+                            <span class="r-sub text-warning">Awaiting partner</span>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-light rounded border">
+                        <div class="d-flex justify-content-between text-xs mb-1">
+                            <span>SLA Compliance Adherence</span>
+                            <strong>97.8% On Schedule</strong>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-success" style="width: 97.8%;"></div>
+                            <div class="progress-bar bg-warning" style="width: 2.2%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 7, COL 1: INVESTIGATOR PERFORMANCE -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Investigator Workload & Performance</h3>
+                        <p class="chart-sub">Caseload allocation, resolution velocity, and active risk</p>
+                    </div>
+                    <span class="badge-tag">4 Officers</span>
+                </div>
+                <div class="chart-body p-0">
+                    <table class="fnx-table">
+                        <thead>
+                            <tr>
+                                <th>INVESTIGATOR</th>
+                                <th>ASSIGNED</th>
+                                <th>OPEN</th>
+                                <th>RESOLVED</th>
+                                <th>HIGH RISK</th>
+                                <th>OVERDUE</th>
+                                <th>SLA RISK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="inv in c.analyticsInvestigatorList" ng-click="c.openAnalyticsDrilldown('Investigator: ' + inv.name, 'investigator', inv.name)">
+                                <td>
+                                    <strong>{{inv.name}}</strong><br>
+                                    <small class="text-muted">{{inv.role}}</small>
+                                </td>
+                                <td><strong>{{inv.assigned}}</strong></td>
+                                <td><span class="text-primary fw-bold">{{inv.open}}</span></td>
+                                <td><span class="text-success fw-bold">{{inv.resolved}}</span></td>
+                                <td><span class="badge badge-danger" ng-if="inv.highRisk > 0">{{inv.highRisk}}</span><span class="text-muted" ng-if="inv.highRisk === 0">0</span></td>
+                                <td><span class="text-danger fw-bold" ng-if="inv.overdue > 0">{{inv.overdue}}</span><span class="text-muted" ng-if="inv.overdue === 0">0</span></td>
+                                <td>
+                                    <span class="fnx-status-chip" ng-class="inv.slaRisk === 'Low' ? 'chip-confirmed' : 'chip-needs-review'">{{inv.slaRisk}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ROW 7, COL 2: PARTNER PERFORMANCE -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Partner Verification Performance</h3>
+                        <p class="chart-sub">Inter-bank trace requests, turnaround speeds, and outcomes</p>
+                    </div>
+                    <span class="badge-tag bg-blue-sub text-primary">Avg Response: 2.4h</span>
+                </div>
+                <div class="chart-body p-0">
+                    <table class="fnx-table">
+                        <thead>
+                            <tr>
+                                <th>PARTNER INSTITUTION</th>
+                                <th>CATEGORY</th>
+                                <th>REQUESTS</th>
+                                <th>AVG RESPONSE</th>
+                                <th>OUTCOME RATE</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="prt in c.analyticsPartnerList" ng-click="c.openAnalyticsDrilldown('Partner: ' + prt.name, 'partner', prt.name)">
+                                <td>
+                                    <strong>{{prt.name}}</strong>
+                                    <span class="badge-xs bg-light border ms-1" ng-if="prt.demo">DEMO</span>
+                                </td>
+                                <td><small class="text-muted">{{prt.category}}</small></td>
+                                <td><strong>{{prt.requests}}</strong></td>
+                                <td><span class="text-navy font-monospace">{{prt.avgTime}}</span></td>
+                                <td><span class="text-success fw-bold">{{prt.outcomeRate}}</span></td>
+                                <td><span class="fnx-status-chip chip-confirmed">Active</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ROW 8, COL 1: EVIDENCE ANALYTICS -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Evidence Artifacts & Provenance</h3>
+                        <p class="chart-sub">Custody vault status and multimodal artifact distributions</p>
+                    </div>
+                    <span class="badge-tag">118 Artifacts</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-evidence-analytics-grid">
+                        <div class="ev-kpi-item">
+                            <span class="ev-lbl">Total Artifacts</span>
+                            <strong class="ev-val text-navy">118</strong>
+                        </div>
+                        <div class="ev-kpi-item">
+                            <span class="ev-lbl">Verified Custody</span>
+                            <strong class="ev-val text-success">94 (80%)</strong>
+                        </div>
+                        <div class="ev-kpi-item">
+                            <span class="ev-lbl">Under Review</span>
+                            <strong class="ev-val text-warning">18 (15%)</strong>
+                        </div>
+                        <div class="ev-kpi-item">
+                            <span class="ev-lbl">Rejected / Invalid</span>
+                            <strong class="ev-val text-danger">6 (5%)</strong>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="hbar-item" ng-repeat="evType in c.analyticsEvidenceTypes">
+                            <div class="hbar-info">
+                                <span class="hbar-name">{{evType.name}}</span>
+                                <span class="hbar-stats"><strong>{{evType.count}}</strong> ({{evType.pct}}%)</span>
+                            </div>
+                            <div class="hbar-track">
+                                <div class="hbar-fill bg-primary" ng-style="{'width': evType.pct + '%'}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROW 8, COL 2: ALERT & SLA ANALYTICS -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">SLA Compliance & Automated Alerts</h3>
+                        <p class="chart-sub">Escalation warnings and statutory notification dispatches</p>
+                    </div>
+                    <span class="badge-tag bg-green-sub text-success">97.8% Compliance</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-sla-alert-grid mb-3">
+                        <div class="alert-stat-tile">
+                            <span class="a-icon">🔔</span>
+                            <div class="a-val">48</div>
+                            <div class="a-lbl">Customer Updates</div>
+                        </div>
+                        <div class="alert-stat-tile">
+                            <span class="a-icon">👤</span>
+                            <div class="a-val">32</div>
+                            <div class="a-lbl">Worker Alerts</div>
+                        </div>
+                        <div class="alert-stat-tile">
+                            <span class="a-icon">⚠️</span>
+                            <div class="a-val text-danger">2</div>
+                            <div class="a-lbl">Escalations</div>
+                        </div>
+                        <div class="alert-stat-tile">
+                            <span class="a-icon">📋</span>
+                            <div class="a-val text-warning">1</div>
+                            <div class="a-lbl">Overdue Task</div>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-light rounded border text-xs text-muted">
+                        All notifications strictly enforce field-level redaction. Zero confidential partner telemetry or internal intelligence models are exposed to customer recipients.
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /fnx-analytics-2col-grid -->
+
+        <!-- ============================================================
+             SECTION 14: FRAUD PATTERNS & POTENTIAL CLUSTERS (FULL WIDTH)
+             ============================================================ -->
+        <div class="fnx-chart-card mt-4 mb-4">
+            <div class="chart-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="chart-title">Fraud Patterns & Potential Syndicate Clusters</h3>
+                    <p class="chart-sub">Management-level entity correlation across common indicators, accounts, and infrastructure</p>
+                </div>
+                <span class="badge-tag bg-red-sub text-danger">3 Active Clusters Identified</span>
+            </div>
+            <div class="chart-body p-0">
+                <table class="fnx-table">
+                    <thead>
+                        <tr>
+                            <th>SYNDICATE CLUSTER</th>
+                            <th>PRIMARY VECTOR</th>
+                            <th>RELATED CASES</th>
+                            <th>FINANCIAL EXPOSURE</th>
+                            <th>COMMON SHARED IDENTIFIERS</th>
+                            <th>RISK LEVEL</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cl in c.analyticsClustersList">
+                            <td>
+                                <strong>{{cl.name}}</strong><br>
+                                <small class="text-muted">First Detected: {{cl.firstDetected}}</small>
+                            </td>
+                            <td><span class="badge badge-purple">{{cl.vector}}</span></td>
+                            <td><strong>{{cl.casesCount}} cases</strong></td>
+                            <td class="text-danger fw-bold">&pound; {{cl.exposure | number:0}}</td>
+                            <td>
+                                <code class="text-xs">{{cl.commonIdentifiers}}</code>
+                            </td>
+                            <td>
+                                <span class="fnx-status-chip chip-high-risk">{{cl.risk}}</span>
+                            </td>
+                            <td>
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.openAnalyticsDrilldown('Cluster: ' + cl.name, 'cluster', cl.name)">
+                                    Inspect Cases &rarr;
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ============================================================
+             SECTION 16: CASE OUTCOMES & RECOVERY RECONCILIATION
+             ============================================================ -->
+        <div class="fnx-analytics-2col-grid mb-4">
+            
+            <!-- Outcome Distribution -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Case Outcomes & Adjudication</h3>
+                        <p class="chart-sub">Formal legal outcomes recorded by human investigators</p>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <div class="hbar-item" ng-repeat="out in c.analyticsOutcomesList" ng-click="c.openAnalyticsDrilldown('Outcome: ' + out.name, 'outcome', out.name)">
+                        <div class="hbar-info">
+                            <span class="hbar-name">{{out.name}}</span>
+                            <span class="hbar-stats"><strong>{{out.count}}</strong> ({{out.pct}}%)</span>
+                        </div>
+                        <div class="hbar-track">
+                            <div class="hbar-fill" ng-style="{'width': out.pct + '%', 'background-color': out.color}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recovery Performance Reconciliation -->
+            <div class="fnx-chart-card">
+                <div class="chart-header">
+                    <div>
+                        <h3 class="chart-title">Financial Reconciliation Ledger</h3>
+                        <p class="chart-sub">Audited accounting reconciliation across all processed claims</p>
+                    </div>
+                    <span class="badge-tag bg-green-sub text-success">Audited</span>
+                </div>
+                <div class="chart-body">
+                    <div class="fnx-reconciliation-table">
+                        <div class="recon-row">
+                            <span>Total Gross Reported Exposure:</span>
+                            <strong class="text-navy">&pound; {{c.analyticsKPIs.financialExposure | number:0}}</strong>
+                        </div>
+                        <div class="recon-row">
+                            <span>Inter-bank Liens Placed (Held at Switch):</span>
+                            <strong class="text-warning">&pound; {{c.analyticsKPIs.blockedAmount | number:0}}</strong>
+                        </div>
+                        <div class="recon-row">
+                            <span>Reimbursed to Victims (Zero-Liability):</span>
+                            <strong class="text-success">&pound; {{c.analyticsKPIs.recoveredAmount | number:0}}</strong>
+                        </div>
+                        <div class="recon-row total">
+                            <span>Net Outstanding Exposure:</span>
+                            <strong class="text-danger">&pound; {{c.analyticsKPIs.financialExposure - c.analyticsKPIs.recoveredAmount - c.analyticsKPIs.blockedAmount | number:0}}</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         INTERACTIVE DRILL-DOWN MODAL
+         ============================================================ -->
+    <div class="fnx-modal-backdrop" ng-if="c.showAnalyticsDrilldownModal">
+        <div class="fnx-modal-box fnx-modal-lg">
+            <div class="fnx-modal-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h3 class="m-0 font-weight-bold">Drill-Down: {{c.drilldownTitle}}</h3>
+                    <p class="text-xs text-muted mb-0">Showing {{c.drilldownCases.length}} matching ServiceNow fraud case records</p>
+                </div>
+                <button type="button" class="btn-close" ng-click="c.showAnalyticsDrilldownModal = false">&times;</button>
+            </div>
+            <div class="fnx-modal-body p-0" style="max-height: 480px; overflow-y: auto;">
+                <table class="fnx-table" ng-if="c.drilldownCases.length > 0">
+                    <thead>
+                        <tr>
+                            <th>CASE NUMBER</th>
+                            <th>INCIDENT TYPE</th>
+                            <th>SEVERITY</th>
+                            <th>RISK SCORE</th>
+                            <th>EXPOSURE</th>
+                            <th>STATUS</th>
+                            <th>HANDLER</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cs in c.drilldownCases">
+                            <td><strong>{{cs.number}}</strong></td>
+                            <td>{{cs.type}}</td>
+                            <td><span class="fnx-badge" ng-class="'sev-' + (cs.severity || 'Medium').toLowerCase()">{{cs.severity}}</span></td>
+                            <td><span class="fw-bold" ng-class="cs.risk >= 85 ? 'text-danger' : (cs.risk >= 70 ? 'text-warning' : 'text-primary')">{{cs.risk || 0}}</span></td>
+                            <td class="text-danger font-monospace">&pound; {{cs.exposure || 0 | number:0}}</td>
+                            <td><span class="fnx-status-chip" ng-class="'chip-' + (cs.status || 'New').toLowerCase().replace(' ', '-')">{{cs.status}}</span></td>
+                            <td><small>{{cs.handler || 'Unassigned'}}</small></td>
+                            <td>
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-primary" ng-click="c.openCaseInVerification(cs)">
+                                    Open Workspace &rarr;
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="p-4 text-center text-muted" ng-if="c.drilldownCases.length === 0">
+                    <p>No matching case records found for this specific filter slice.</p>
+                </div>
+            </div>
+            <div class="fnx-modal-footer d-flex justify-content-between align-items-center">
+                <span class="text-xs text-muted">ServiceNow Table: <code>u_x_fnx_case</code></span>
+                <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.showAnalyticsDrilldownModal = false">Close</button>
+            </div>
+        </div>
+    </div>
+
+</div>

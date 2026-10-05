@@ -1,0 +1,2191 @@
+<!-- ============================================================
+     FRAUDNEXUS — FINAL ENTERPRISE VERIFICATION WORKSPACE
+     Sections C–AB Implementation
+     ============================================================ -->
+<div ng-if="c.adminModule === 'investigation'" class="fnx-investigation-workspace">
+    
+    <!-- 1. PERSISTENT CASE HEADER -->
+    <div class="fnx-vw-header">
+        <div class="fnx-vw-header-top">
+            <div class="fnx-vw-header-brand">
+                <span class="fnx-vw-logo-icon">🛡️</span>
+                <div class="fnx-vw-title-block">
+                    <div class="fnx-vw-system-label">FRAUDNEXUS &bull; VERIFICATION WORKSPACE</div>
+                    <div class="fnx-vw-case-number">
+                        {{c.activeInvestigationCase.number || 'FNX-2026-00847'}}
+                        <span class="fnx-badge-status" ng-class="'st-' + (c.activeInvestigationCase.status || 'In Progress').toLowerCase().replace(' ', '-')">
+                            {{c.activeInvestigationCase.status || 'In Progress'}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Header Actions (Discrete, Separate Buttons) -->
+            <div class="fnx-vw-header-actions">
+                <button type="button" class="fnx-btn-header fnx-btn-genai" ng-click="c.openGenAIModal()" title="Run Generative Intelligence Context Summaries">
+                    <span class="btn-icon">✨</span>
+                    <span>Generative Intelligence</span>
+                </button>
+                <button type="button" class="fnx-btn-header fnx-btn-alert-cust" ng-click="c.openAlertCustomerModal()" title="Send Sanitized Update to Victim/Customer">
+                    <span class="btn-icon">🔔</span>
+                    <span>Alert Customer</span>
+                </button>
+                <button type="button" class="fnx-btn-header fnx-btn-partner" ng-click="c.openPartnerReqModal()" title="Initiate Verification Request to Partner Bank or Exchange">
+                    <span class="btn-icon">🤝</span>
+                    <span>Partner Request</span>
+                </button>
+                <button type="button" class="fnx-btn-header fnx-btn-worker" ng-click="c.openAlertWorkerModal()" title="Alert Case Worker or Tier-2 Forensic Investigator">
+                    <span class="btn-icon">👤</span>
+                    <span>Alert Case Worker</span>
+                </button>
+                <button type="button" class="fnx-btn-header fnx-btn-demo-walk" ng-click="c.runEndToEndDemo()" title="Run Complete Phishing -> Account Compromise -> Resolution Acceptance Walkthrough">
+                    <span class="btn-icon">⚡</span>
+                    <span>Demo Walkthrough</span>
+                </button>
+                <div class="fnx-dropdown-wrap">
+                    <button type="button" class="fnx-btn-header fnx-btn-more" ng-click="c.showMoreActions = !c.showMoreActions">
+                        <span>More</span>
+                        <span class="arrow-down">&#9662;</span>
+                    </button>
+                    <div class="fnx-dropdown-menu" ng-if="c.showMoreActions">
+                        <a href="javascript:void(0)" ng-click="c.openAssignModal(c.activeInvestigationCase); c.showMoreActions=false;">👤 Reassign Investigator</a>
+                        <a href="javascript:void(0)" ng-click="c.openTaskModal(c.activeInvestigationCase); c.showMoreActions=false;">📝 Add Investigation Task</a>
+                        <a href="javascript:void(0)" ng-click="c.openEscalateModal(c.activeInvestigationCase); c.showMoreActions=false;">⚠️ Escalate to Management</a>
+                        <a href="javascript:void(0)" ng-click="c.setInvestigationTab('decision'); c.showMoreActions=false;">⚖️ Go to Final Decision</a>
+                        <a href="javascript:void(0)" class="text-danger" ng-click="c.executeClose(c.activeInvestigationCase); c.showMoreActions=false;">✖️ Close Case</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Header Metadata Bar (12 Essential Case Attributes) -->
+        <div class="fnx-vw-meta-bar">
+            <div class="fnx-meta-chip">
+                <span class="meta-label">INCIDENT TYPE</span>
+                <span class="meta-val fw-bold">{{c.activeInvestigationCase.incident_type || c.activeInvestigationCase.type || 'Phishing / Financial Fraud'}}</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">SEVERITY</span>
+                <span class="fnx-badge-sev" ng-class="'sev-' + (c.activeInvestigationCase.severity || 'Critical').toLowerCase()">
+                    {{c.activeInvestigationCase.severity || 'Critical'}}
+                </span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">PRIORITY</span>
+                <span class="meta-val text-danger fw-bold">{{c.activeInvestigationCase.priority || 'P1 - Critical'}}</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">RISK LEVEL</span>
+                <span class="fnx-risk-pill" ng-class="{'risk-critical': c.activeInvestigationCase.risk_score >= 85, 'risk-high': c.activeInvestigationCase.risk_score >= 70 && c.activeInvestigationCase.risk_score < 85}">
+                    {{c.activeInvestigationCase.risk_score || 94}}/100 ({{c.getRiskLabel(c.activeInvestigationCase.risk_score)}})
+                </span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">FINANCIAL EXPOSURE</span>
+                <span class="meta-val text-warning fw-bold">₹ {{c.activeInvestigationCase.exposure || 85000 | number:0}}</span>
+                <span class="meta-sub" ng-if="c.activeInvestigationCase.verified_exposure">(Verified: ₹ {{c.activeInvestigationCase.verified_exposure | number:0}})</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">VICTIM / CUSTOMER</span>
+                <span class="meta-val">{{c.activeInvestigationCase.customer.name || 'Rajesh Sharma'}}</span>
+                <span class="meta-sub">ID: {{c.activeInvestigationCase.customer.customer_id || 'CUST-84920'}}</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">INVESTIGATOR</span>
+                <span class="meta-val">{{c.activeInvestigationCase.handler || 'Alex Morgan'}}</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">SLA REMAINING</span>
+                <span class="meta-val text-success fw-bold">{{c.activeInvestigationCase.sla || '3h 45m (Within SLA)'}}</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">SUBMITTED</span>
+                <span class="meta-val">{{c.activeInvestigationCase.created_on || '2026-10-02 14:22'}}</span>
+            </div>
+            <div class="fnx-meta-chip">
+                <span class="meta-label">LAST UPDATED</span>
+                <span class="meta-val">{{c.activeInvestigationCase.updated_on || 'Just now'}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEMO WALKTHROUGH NOTIFICATION BANNER (When Active) -->
+    <div class="fnx-demo-banner" ng-if="c.demoWalkthroughActive">
+        <div class="demo-banner-content">
+            <span class="demo-badge">DEMO STAGE {{c.demoStep}} OF 10</span>
+            <strong class="demo-title">{{c.demoTitle}}</strong>
+            <span class="demo-desc">{{c.demoDesc}}</span>
+        </div>
+        <div class="demo-banner-actions">
+            <button class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.advanceDemo()">Next Step &rarr;</button>
+            <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.resetDemo()">Reset Case</button>
+            <button class="fnx-btn fnx-btn-xs fnx-btn-danger" ng-click="c.demoWalkthroughActive = false">Dismiss</button>
+        </div>
+    </div>
+
+    <!-- 2. THREE-COLUMN ENTERPRISE WORKSPACE LAYOUT -->
+    <div class="fnx-vw-3col-layout">
+        
+        <!-- ==========================================
+             COLUMN 1: LEFT NAVIGATION (16 SECTIONS)
+             ========================================== -->
+        <div class="fnx-vw-left-nav">
+            <div class="fnx-left-nav-header">
+                <span>INVESTIGATION DOMAINS</span>
+                <span class="badge-count">16</span>
+            </div>
+            <div class="fnx-left-nav-items">
+                
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'overview'}" ng-click="c.setInvestigationTab('overview')">
+                    <span class="lnav-icon">📊</span>
+                    <span class="lnav-text">Overview</span>
+                    <span class="lnav-badge badge-info">Active</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'evidence'}" ng-click="c.setInvestigationTab('evidence')">
+                    <span class="lnav-icon">📁</span>
+                    <span class="lnav-text">Evidence</span>
+                    <span class="lnav-badge" ng-class="c.activeInvestigationCase.evidence.length > 0 ? 'badge-primary' : ''">{{c.activeInvestigationCase.evidence.length || 4}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'verification'}" ng-click="c.setInvestigationTab('verification')">
+                    <span class="lnav-icon">🔍</span>
+                    <span class="lnav-text">Verification Queue</span>
+                    <span class="lnav-badge badge-warning" ng-if="c.getPendingVerificationCount() > 0">{{c.getPendingVerificationCount()}}</span>
+                    <span class="lnav-badge badge-success" ng-if="c.getPendingVerificationCount() === 0">0</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'investigation'}" ng-click="c.setInvestigationTab('investigation')">
+                    <span class="lnav-icon">📝</span>
+                    <span class="lnav-text">Investigation Log</span>
+                    <span class="lnav-badge">{{c.activeInvestigationCase.notes.length || 3}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'financial'}" ng-click="c.setInvestigationTab('financial')">
+                    <span class="lnav-icon">💳</span>
+                    <span class="lnav-text">Financial Analysis</span>
+                    <span class="lnav-badge badge-danger">₹85K</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'cyber'}" ng-click="c.setInvestigationTab('cyber')">
+                    <span class="lnav-icon">🌐</span>
+                    <span class="lnav-text">Cyber Analysis</span>
+                    <span class="lnav-badge badge-warning">{{c.activeInvestigationCase.cyber.indicators.length || 5}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'findings'}" ng-click="c.setInvestigationTab('findings')">
+                    <span class="lnav-icon">🎯</span>
+                    <span class="lnav-text">Findings</span>
+                    <span class="lnav-badge badge-info">{{c.activeInvestigationCase.findings.length || 4}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'timeline'}" ng-click="c.setInvestigationTab('timeline')">
+                    <span class="lnav-icon">⏱️</span>
+                    <span class="lnav-text">Timeline</span>
+                    <span class="lnav-badge">{{c.activeInvestigationCase.timeline.length || 14}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'partnerRequests'}" ng-click="c.setInvestigationTab('partnerRequests')">
+                    <span class="lnav-icon">🤝</span>
+                    <span class="lnav-text">Partner Requests</span>
+                    <span class="lnav-badge badge-primary">{{c.activeInvestigationCase.partner_requests.length || 1}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'relatedCases'}" ng-click="c.setInvestigationTab('relatedCases')">
+                    <span class="lnav-icon">🔗</span>
+                    <span class="lnav-text">Related Cases</span>
+                    <span class="lnav-badge">{{c.activeInvestigationCase.related_cases.length || 2}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'relationships'}" ng-click="c.setInvestigationTab('relationships')">
+                    <span class="lnav-icon">🕸️</span>
+                    <span class="lnav-text">Relationships</span>
+                    <span class="lnav-badge">{{c.activeInvestigationCase.relationships.length || 8}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'risk'}" ng-click="c.setInvestigationTab('risk')">
+                    <span class="lnav-icon">⚡</span>
+                    <span class="lnav-text">Risk Architecture</span>
+                    <span class="lnav-badge badge-danger">{{c.activeInvestigationCase.risk_score || 94}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'tasks'}" ng-click="c.setInvestigationTab('tasks')">
+                    <span class="lnav-icon">📋</span>
+                    <span class="lnav-text">Tasks & Action Items</span>
+                    <span class="lnav-badge">{{c.activeInvestigationCase.tasks.length || 3}}</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'compliance'}" ng-click="c.setInvestigationTab('compliance')">
+                    <span class="lnav-icon">⚖️</span>
+                    <span class="lnav-text">Compliance & Custody</span>
+                    <span class="lnav-badge badge-success">5/5</span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'decision'}" ng-click="c.setInvestigationTab('decision')">
+                    <span class="lnav-icon">🏛️</span>
+                    <span class="lnav-text">Human Decision</span>
+                    <span class="lnav-badge" ng-class="c.activeInvestigationCase.decision.status === 'Resolved' ? 'badge-success' : 'badge-warning'">
+                        {{c.activeInvestigationCase.decision.status || 'Pending'}}
+                    </span>
+                </button>
+
+                <button type="button" class="fnx-lnav-btn" ng-class="{'active': c.investigationTab === 'report'}" ng-click="c.setInvestigationTab('report')">
+                    <span class="lnav-icon">📄</span>
+                    <span class="lnav-text">Case Reports</span>
+                    <span class="lnav-badge badge-info">2 Reports</span>
+                </button>
+            </div>
+            
+            <!-- Quick Case Switcher Footer -->
+            <div class="fnx-lnav-switcher">
+                <span class="switcher-label">SWITCH INVESTIGATION</span>
+                <select class="fnx-select fnx-select-sm" ng-model="c.selectedCaseSysId" ng-change="c.switchCaseById(c.selectedCaseSysId)">
+                    <option ng-repeat="cs in c.adminDash.priority_queue" value="{{cs.sys_id}}">{{cs.number}} - {{cs.type | limitTo:15}}...</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             COLUMN 2: MAIN INVESTIGATION WORKSPACE
+             ========================================== -->
+        <div class="fnx-vw-center-workspace">
+            
+            <!-- ----------------------------------------
+                 SECTION 1: OVERVIEW
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'overview'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Investigation Overview & Triage</h2>
+                        <p class="text-muted">Master case synthesis, intake verification, exposure status, and stage progress.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.openGenAIModal()">✨ Generate Synthesis</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.setInvestigationTab('verification')">Verify Queue &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- 8-Stage Investigation Progress Tracker -->
+                <div class="fnx-progress-tracker-card">
+                    <div class="progress-tracker-title">END-TO-END INVESTIGATION LIFECYCLE</div>
+                    <div class="fnx-stepper-row">
+                        <div class="fnx-step-node" ng-class="{'completed': true}">
+                            <div class="step-circle">&#10003;</div>
+                            <div class="step-label">1. Customer Submitted</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': true}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': true}">
+                            <div class="step-circle">&#10003;</div>
+                            <div class="step-label">2. Case Registered</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': true}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': true}">
+                            <div class="step-circle">&#10003;</div>
+                            <div class="step-label">3. JOREN Processed</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': c.isEvidenceVerified()}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': c.isEvidenceVerified(), 'current': !c.isEvidenceVerified()}">
+                            <div class="step-circle">{{c.isEvidenceVerified() ? '✓' : '4'}}</div>
+                            <div class="step-label">4. Evidence Verified</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': c.isFindingsConfirmed()}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': c.isFindingsConfirmed(), 'current': c.isEvidenceVerified() && !c.isFindingsConfirmed()}">
+                            <div class="step-circle">{{c.isFindingsConfirmed() ? '✓' : '5'}}</div>
+                            <div class="step-label">5. Findings Confirmed</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': c.isPartnerVerified()}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': c.isPartnerVerified(), 'current': c.isFindingsConfirmed() && !c.isPartnerVerified()}">
+                            <div class="step-circle">{{c.isPartnerVerified() ? '✓' : '6'}}</div>
+                            <div class="step-label">6. Partner Verified</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': c.activeInvestigationCase.decision.status === 'Resolved'}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': c.activeInvestigationCase.decision.status === 'Resolved', 'current': c.isPartnerVerified() && c.activeInvestigationCase.decision.status !== 'Resolved'}">
+                            <div class="step-circle">{{c.activeInvestigationCase.decision.status === 'Resolved' ? '✓' : '7'}}</div>
+                            <div class="step-label">7. Human Decision</div>
+                        </div>
+                        <div class="fnx-step-line" ng-class="{'completed': c.activeInvestigationCase.status === 'Resolved' || c.activeInvestigationCase.status === 'Closed'}"></div>
+                        <div class="fnx-step-node" ng-class="{'completed': c.activeInvestigationCase.status === 'Resolved' || c.activeInvestigationCase.status === 'Closed'}">
+                            <div class="step-circle">&#9733;</div>
+                            <div class="step-label">8. Resolved & Notified</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4 KPI Summary Cards -->
+                <div class="fnx-kpi-grid-4">
+                    <div class="fnx-kpi-card border-red">
+                        <div class="kpi-icon">💸</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">REPORTED EXPOSURE</div>
+                            <div class="kpi-value text-danger">₹ {{c.activeInvestigationCase.exposure || 85000 | number:0}}</div>
+                            <div class="kpi-sub">Verified: ₹ {{c.activeInvestigationCase.verified_exposure || 85000 | number:0}}</div>
+                        </div>
+                    </div>
+                    <div class="fnx-kpi-card border-amber">
+                        <div class="kpi-icon">🛡️</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">BLOCKED / RECOVERED</div>
+                            <div class="kpi-value text-warning">₹ {{c.activeInvestigationCase.blocked_amount || 35000 | number:0}}</div>
+                            <div class="kpi-sub">Recovered: ₹ {{c.activeInvestigationCase.recovered_amount || 0 | number:0}}</div>
+                        </div>
+                    </div>
+                    <div class="fnx-kpi-card border-purple">
+                        <div class="kpi-icon">⚡</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">RISK CONFIDENCE</div>
+                            <div class="kpi-value text-purple">{{c.activeInvestigationCase.risk_score || 94}}/100</div>
+                            <div class="kpi-sub">Level: {{c.getRiskLabel(c.activeInvestigationCase.risk_score)}} (P1)</div>
+                        </div>
+                    </div>
+                    <div class="fnx-kpi-card border-blue">
+                        <div class="kpi-icon">⏳</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">SLA COUNTDOWN</div>
+                            <div class="kpi-value text-success">3h 45m</div>
+                            <div class="kpi-sub">Target: Resolution in 4 hrs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incident Synthesis & Original Customer Submission -->
+                <div class="fnx-card mb-4">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header-title">
+                            <span>📋 ORIGINAL CUSTOMER FRAUD REPORT</span>
+                            <span class="badge-tag">Channel: Mobile Portal</span>
+                        </div>
+                        <span class="text-muted text-sm">Case Reference: {{c.activeInvestigationCase.number}}</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <div class="fnx-report-box">
+                            <p class="customer-quote">
+                                &ldquo;{{c.activeInvestigationCase.description || 'Received an urgent SMS claiming my NetBanking KYC had expired. The link directed me to a bank-branded verification portal where I entered my login ID. Within 5 minutes, an unauthorized UPI transaction of INR 85,000 was debited towards an unknown beneficiary merchant without my authorization.'}}&rdquo;
+                            </p>
+                        </div>
+                        <div class="fnx-meta-grid-3 mt-3">
+                            <div><strong>Incident Date:</strong> {{c.activeInvestigationCase.incident_date || '2026-10-02 14:15 IST'}}</div>
+                            <div><strong>Platform:</strong> {{c.activeInvestigationCase.platform || 'UPI / NetBanking Mobile'}}</div>
+                            <div><strong>Customer Contact:</strong> {{c.activeInvestigationCase.customer.mobile || '+91 98401 23456'}} ({{c.activeInvestigationCase.customer.email || 'rajesh.sharma@example.com'}})</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Panels Row -->
+                <div class="fnx-two-col-grid">
+                    <div class="fnx-card">
+                        <div class="fnx-card-header">
+                            <span class="card-header-title">⚡ REQUIRED INVESTIGATION STEPS</span>
+                        </div>
+                        <div class="fnx-card-body p-0">
+                            <ul class="fnx-action-checklist">
+                                <li ng-class="{'done': c.isEvidenceVerified()}">
+                                    <span class="chk-icon">{{c.isEvidenceVerified() ? '✓' : '○'}}</span>
+                                    <span class="chk-text">Review and Verify All 4 Submitted Evidence Items</span>
+                                    <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.setInvestigationTab('evidence')">Review</button>
+                                </li>
+                                <li ng-class="{'done': c.isFindingsConfirmed()}">
+                                    <span class="chk-icon">{{c.isFindingsConfirmed() ? '✓' : '○'}}</span>
+                                    <span class="chk-text">Confirm 4 AI-Generated Intelligence Findings</span>
+                                    <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.setInvestigationTab('findings')">Confirm</button>
+                                </li>
+                                <li ng-class="{'done': c.isPartnerVerified()}">
+                                    <span class="chk-icon">{{c.isPartnerVerified() ? '✓' : '○'}}</span>
+                                    <span class="chk-text">Execute Partner Verification with Partner Bank A</span>
+                                    <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.setInvestigationTab('partnerRequests')">Verify</button>
+                                </li>
+                                <li ng-class="{'done': c.activeInvestigationCase.decision.status === 'Resolved'}">
+                                    <span class="chk-icon">{{c.activeInvestigationCase.decision.status === 'Resolved' ? '✓' : '○'}}</span>
+                                    <span class="chk-text">Record Human Decision with Reason & Legal Sign-off</span>
+                                    <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.setInvestigationTab('decision')">Decide</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="fnx-card">
+                        <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                            <span class="card-header-title">📊 CASE DOSSIER & METRICS BREAKDOWN</span>
+                            <span class="badge-tag">SLA: On Track</span>
+                        </div>
+                        <div class="fnx-card-body p-0">
+                            <div class="fnx-overview-metrics-grid">
+                                <div class="fnx-metric-tile" ng-click="c.setInvestigationTab('evidence')">
+                                    <div class="m-icon">📁</div>
+                                    <div class="m-val">{{c.activeInvestigationCase.evidence.length || 4}}</div>
+                                    <div class="m-label">Evidence Items</div>
+                                    <div class="m-sub">{{c.isEvidenceVerified() ? '✓ All Verified' : 'Needs Review'}}</div>
+                                </div>
+                                <div class="fnx-metric-tile" ng-click="c.setInvestigationTab('findings')">
+                                    <div class="m-icon">🎯</div>
+                                    <div class="m-val">{{c.activeInvestigationCase.findings.length || 4}}</div>
+                                    <div class="m-label">AI Findings</div>
+                                    <div class="m-sub">{{c.isFindingsConfirmed() ? '✓ Confirmed' : 'Pending Sign-off'}}</div>
+                                </div>
+                                <div class="fnx-metric-tile" ng-click="c.setInvestigationTab('partnerRequests')">
+                                    <div class="m-icon">🤝</div>
+                                    <div class="m-val">{{c.activeInvestigationCase.partner_requests.length || 1}}</div>
+                                    <div class="m-label">Partner Traces</div>
+                                    <div class="m-sub">Partner Bank A</div>
+                                </div>
+                                <div class="fnx-metric-tile" ng-click="c.setInvestigationTab('tasks')">
+                                    <div class="m-icon">📋</div>
+                                    <div class="m-val">{{c.activeInvestigationCase.tasks.length || 3}}</div>
+                                    <div class="m-label">Action Tasks</div>
+                                    <div class="m-sub">1 Done &bull; 2 Active</div>
+                                </div>
+                                <div class="fnx-metric-tile" ng-click="c.setInvestigationTab('relatedCases')">
+                                    <div class="m-icon">🔗</div>
+                                    <div class="m-val">{{c.activeInvestigationCase.related_cases.length || 2}}</div>
+                                    <div class="m-label">Related Cases</div>
+                                    <div class="m-sub">Syndicate Match</div>
+                                </div>
+                                <div class="fnx-metric-tile" ng-click="c.setInvestigationTab('verification')">
+                                    <div class="m-icon">🔍</div>
+                                    <div class="m-val" ng-class="c.getPendingVerificationCount() > 0 ? 'text-warning' : 'text-success'">{{c.getPendingVerificationCount()}}</div>
+                                    <div class="m-label">Verification Queue</div>
+                                    <div class="m-sub">{{c.getPendingVerificationCount() > 0 ? 'Pending Review' : '✓ Verified'}}</div>
+                                </div>
+                            </div>
+                            <div class="p-3 bg-light border-top d-flex justify-content-between align-items-center">
+                                <span class="text-xs text-muted">Assigned Officer: <strong>{{c.activeInvestigationCase.handler || 'Alex Morgan'}}</strong> &bull; Incident: <strong>Cyber-Financial Fraud</strong></span>
+                                <button class="fnx-btn fnx-btn-xs fnx-btn-primary" ng-click="c.setInvestigationTab('verification')">Enter Verification Workspace &rarr;</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 2: EVIDENCE WORKSPACE
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'evidence'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Evidence Register & Multimodal Artifacts</h2>
+                        <p class="text-muted">Customer submitted artifacts processed via JOREN multimodal pipeline with SHA256 integrity hashes.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-success" ng-click="c.confirmAllEvidence()">✓ Confirm All Evidence</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.openEvidenceReqModal(c.activeInvestigationCase)">+ Request Evidence</button>
+                    </div>
+                </div>
+
+                <!-- Evidence Table / Cards -->
+                <div class="fnx-evidence-list">
+                    <div class="fnx-evidence-card" ng-repeat="ev in c.activeInvestigationCase.evidence" ng-class="{'ev-confirmed': ev.status === 'Confirmed', 'ev-rejected': ev.status === 'Rejected'}">
+                        <div class="ev-card-top">
+                            <div class="ev-id-badge">
+                                <span class="ev-icon">{{ev.icon || '📄'}}</span>
+                                <div>
+                                    <strong class="ev-num">{{ev.id}}</strong>
+                                    <span class="ev-name">{{ev.title}}</span>
+                                </div>
+                            </div>
+                            <div class="ev-status-block">
+                                <span class="fnx-status-chip" ng-class="'chip-' + ev.status.toLowerCase().replace(' ', '-')">
+                                    {{ev.status}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="ev-body-grid">
+                            <div class="ev-col-main">
+                                <div class="ev-field"><span class="lbl">Classification:</span> <strong>{{ev.classification}}</strong></div>
+                                <div class="ev-field"><span class="lbl">Source & Submitter:</span> {{ev.source}} &bull; {{ev.submitter}} ({{ev.date}})</div>
+                                <div class="ev-field"><span class="lbl">Extracted Intelligence:</span> <span class="extracted-text">{{ev.extracted_info}}</span></div>
+                                <div class="ev-tags-row">
+                                    <span class="ev-tag" ng-repeat="tag in ev.entities">🏷️ {{tag}}</span>
+                                    <span class="ev-tag ev-tag-txn" ng-if="ev.transaction_ref">💳 {{ev.transaction_ref}}</span>
+                                    <span class="ev-tag ev-tag-url" ng-if="ev.url_ref">🌐 {{ev.url_ref}}</span>
+                                </div>
+                            </div>
+
+                            <div class="ev-col-provenance">
+                                <div class="prov-box">
+                                    <div class="prov-title">PROVENANCE & INTEGRITY</div>
+                                    <div class="prov-hash">SHA256: <code>{{ev.sha256 | limitTo:24}}...</code></div>
+                                    <div class="prov-info">Pipeline: {{ev.pipeline || 'JOREN Multimodal'}}</div>
+                                    <div class="prov-info">Chain of Custody: <span class="text-success">Verified</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ev-actions-footer">
+                            <div class="ev-notes-inline">
+                                <em>Notes: {{ev.notes || 'Awaiting forensic investigator sign-off.'}}</em>
+                            </div>
+                            <div class="ev-btn-group">
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.confirmEvidence(ev)" ng-disabled="ev.status === 'Confirmed'">
+                                    {{ev.status === 'Confirmed' ? '✓ Confirmed' : '✓ Confirm Evidence'}}
+                                </button>
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-danger" ng-click="c.rejectEvidence(ev)" ng-disabled="ev.status === 'Rejected'">
+                                    ✕ Reject
+                                </button>
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.addEvidenceNote(ev)">
+                                    💬 Add Note
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- ----------------------------------------
+                 SECTION 3: VERIFICATION QUEUE (FULL 3-COLUMN VERIFICATION WORKSPACE)
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'verification'" class="fnx-vw-view">
+                
+                <!-- Title Row with Action Toolbar -->
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Human Verification Workspace & Intelligence Queue</h2>
+                        <p class="text-muted">Strict human-in-the-loop control tower. Review, interrogate, and verify JOREN multimodal extractions, agentic hypotheses, extracted graph entities, and cross-channel contradictions.</p>
+                    </div>
+                    <div class="view-actions d-flex gap-2">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.resetVerificationQueue()" title="Reset all evidence and findings to unverified state to demonstrate interactive verification">🔄 Reset for Demo</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.confirmAllEvidence()">✓ Confirm Evidence</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.confirmAllFindings()">✓ Confirm Findings</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-success" ng-click="c.confirmAllPending()">✓ Batch Verify All Pending</button>
+                    </div>
+                </div>
+
+                <!-- Zero Silent AI Decisions Policy Alert Banner -->
+                <div class="fnx-zero-ai-banner mb-3">
+                    <div class="banner-icon">🛡️</div>
+                    <div class="banner-body">
+                        <strong>ZERO SILENT AI DECISIONS ENFORCED:</strong>
+                        <span>Machine extractions from JOREN multimodal processing, Byte-Level BPE tokenizer, and 9-stage agentic reasoning remain provisional recommendations. Human investigator confirmation is legally required before any finding or evidence enters the official fraud record.</span>
+                    </div>
+                    <div class="banner-badge">
+                        <span class="badge" ng-class="c.getPendingVerificationCount() > 0 ? 'badge-warning' : 'badge-success'">
+                            {{c.getPendingVerificationCount()}} Pending Verification
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Verification Domain Filter Tabs -->
+                <div class="fnx-verif-tabs-bar mb-3">
+                    <button type="button" class="fnx-verif-tab-btn" ng-class="{'active': c.verificationQueueFilter === 'all'}" ng-click="c.setVerificationFilter('all')">
+                        <span>All Intelligence Outputs</span>
+                        <span class="tab-badge">{{c.activeInvestigationCase.evidence.length + c.activeInvestigationCase.findings.length}}</span>
+                    </button>
+                    <button type="button" class="fnx-verif-tab-btn" ng-class="{'active': c.verificationQueueFilter === 'evidence'}" ng-click="c.setVerificationFilter('evidence')">
+                        <span>📁 Multimodal Evidence</span>
+                        <span class="tab-badge">{{c.activeInvestigationCase.evidence.length}}</span>
+                    </button>
+                    <button type="button" class="fnx-verif-tab-btn" ng-class="{'active': c.verificationQueueFilter === 'findings'}" ng-click="c.setVerificationFilter('findings')">
+                        <span>🎯 AI Findings & Hypotheses</span>
+                        <span class="tab-badge">{{c.activeInvestigationCase.findings.length}}</span>
+                    </button>
+                    <button type="button" class="fnx-verif-tab-btn" ng-class="{'active': c.verificationQueueFilter === 'entities'}" ng-click="c.setVerificationFilter('entities')">
+                        <span>🕸️ Extracted Graph Entities</span>
+                        <span class="tab-badge">5</span>
+                    </button>
+                    <button type="button" class="fnx-verif-tab-btn" ng-class="{'active': c.verificationQueueFilter === 'contradictions'}" ng-click="c.setVerificationFilter('contradictions')">
+                        <span>⚖️ Consistency & Signals</span>
+                        <span class="tab-badge">3</span>
+                    </button>
+                </div>
+
+                <!-- STREAM 1: MULTIMODAL EVIDENCE VERIFICATION STREAM -->
+                <div class="fnx-card mb-4" ng-if="c.verificationQueueFilter === 'all' || c.verificationQueueFilter === 'evidence'">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header-title">
+                            <span>📁 MULTIMODAL EVIDENCE VERIFICATION STREAM — JOREN EXTRACTIONS ({{c.activeInvestigationCase.evidence.length}})</span>
+                        </div>
+                        <span class="text-xs text-muted">SHA-256 Immutability Active &bull; Zero Modification</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <div class="fnx-verif-stream-list">
+                            <div class="fnx-verif-stream-card" ng-repeat="ev in c.activeInvestigationCase.evidence" ng-class="{'card-verified': ev.status === 'Confirmed', 'card-rejected': ev.status === 'Rejected'}">
+                                <div class="stream-card-header">
+                                    <div class="stream-card-id-block">
+                                        <span class="stream-icon">{{ev.icon || '📄'}}</span>
+                                        <div>
+                                            <div class="stream-id">{{ev.id}} &bull; <strong>{{ev.title}}</strong></div>
+                                            <div class="stream-sub text-muted">{{ev.type}} &bull; Source: {{ev.source}} &bull; Submitted by: {{ev.submitter}} ({{ev.date}})</div>
+                                        </div>
+                                    </div>
+                                    <div class="stream-status-block">
+                                        <span class="fnx-status-chip" ng-class="'chip-' + ev.status.toLowerCase().replace(' ', '-')">
+                                            {{ev.status}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="stream-card-body">
+                                    <div class="stream-meta-row mb-2">
+                                        <span class="badge-classification">Classification: <strong>{{ev.classification}}</strong></span>
+                                        <span class="badge-pipeline">Pipeline: {{ev.pipeline || 'JOREN Multimodal Vision OCR'}}</span>
+                                        <span class="badge-hash">SHA256: <code>{{ev.sha256 | limitTo:16}}...</code></span>
+                                    </div>
+                                    <div class="stream-extraction-box">
+                                        <div class="extraction-lbl">INTELLIGENCE EXTRACTION (OCR / NLP):</div>
+                                        <div class="extraction-content">{{ev.extracted_info}}</div>
+                                        <div class="stream-tags-row mt-2" ng-if="ev.entities && ev.entities.length">
+                                            <span class="ev-tag" ng-repeat="ent in ev.entities">🏷️ {{ent}}</span>
+                                            <span class="ev-tag ev-tag-txn" ng-if="ev.transaction_ref">💳 {{ev.transaction_ref}}</span>
+                                            <span class="ev-tag ev-tag-url" ng-if="ev.url_ref">🌐 {{ev.url_ref}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stream-card-footer">
+                                    <div class="stream-notes text-xs">
+                                        <em>Forensic Note: {{ev.notes || 'Awaiting investigator verification sign-off.'}}</em>
+                                    </div>
+                                    <div class="stream-actions">
+                                        <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.confirmEvidence(ev)" ng-disabled="ev.status === 'Confirmed'">
+                                            {{ev.status === 'Confirmed' ? '✓ Evidence Verified' : '✓ Verify Evidence'}}
+                                        </button>
+                                        <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-danger" ng-click="c.rejectEvidence(ev)" ng-disabled="ev.status === 'Rejected'">
+                                            ✕ Reject
+                                        </button>
+                                        <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.addEvidenceNote(ev)">
+                                            💬 Add Note
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STREAM 2: AI FINDINGS & HYPOTHESES VERIFICATION STREAM -->
+                <div class="fnx-card mb-4" ng-if="c.verificationQueueFilter === 'all' || c.verificationQueueFilter === 'findings'">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header-title">
+                            <span>🎯 AI-GENERATED INTELLIGENCE FINDINGS — 9-STAGE AGENTIC HYPOTHESES ({{c.activeInvestigationCase.findings.length}})</span>
+                        </div>
+                        <span class="text-xs text-muted">Provisional Output &bull; Requires Investigator Sign-off</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <div class="fnx-verif-stream-list">
+                            <div class="fnx-verif-stream-card" ng-repeat="fnd in c.activeInvestigationCase.findings" ng-class="{'card-verified': fnd.status === 'Confirmed', 'card-rejected': fnd.status === 'Rejected'}">
+                                <div class="stream-card-header">
+                                    <div class="stream-card-id-block">
+                                        <span class="stream-icon">💡</span>
+                                        <div>
+                                            <div class="stream-id">{{fnd.id}} &bull; <strong>{{fnd.title}}</strong></div>
+                                            <div class="stream-sub text-muted">Source: {{fnd.source || '9-Stage Local-LLM Agentic Reasoning'}} &bull; Reviewer: {{fnd.reviewer || 'Pending Human Review'}} ({{fnd.reviewed_on || 'Awaiting Sign-off'}})</div>
+                                        </div>
+                                    </div>
+                                    <div class="stream-confidence-badge">
+                                        <span class="conf-lbl">Confidence:</span>
+                                        <span class="conf-val" ng-class="fnd.confidence >= 95 ? 'text-success' : 'text-primary'">{{fnd.confidence}}%</span>
+                                    </div>
+                                    <div class="stream-status-block">
+                                        <span class="fnx-status-chip" ng-class="'chip-' + fnd.status.toLowerCase().replace(' ', '-')">
+                                            {{fnd.status}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="stream-card-body">
+                                    <p class="finding-desc mb-2">{{fnd.description}}</p>
+                                    <div class="finding-meta-row">
+                                        <div class="meta-item">
+                                            <strong>Supporting Evidence:</strong>
+                                            <span class="badge-tag me-1" ng-repeat="s in fnd.supporting_evidence">{{s}}</span>
+                                        </div>
+                                        <div class="meta-item" ng-if="fnd.notes">
+                                            <strong>Investigator Comment:</strong> {{fnd.notes}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stream-card-footer">
+                                    <div class="text-xs text-muted">
+                                        Status: <strong ng-class="fnd.status === 'Confirmed' ? 'text-success' : 'text-warning'">{{fnd.status === 'Confirmed' ? 'Legally Admissible in Investigation Record' : 'Provisional Recommendation Only'}}</strong>
+                                    </div>
+                                    <div class="stream-actions">
+                                        <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.confirmFinding(fnd)" ng-disabled="fnd.status === 'Confirmed'">
+                                            {{fnd.status === 'Confirmed' ? '✓ Finding Confirmed' : '✓ Confirm Finding'}}
+                                        </button>
+                                        <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-danger" ng-click="c.rejectFinding(fnd)" ng-disabled="fnd.status === 'Rejected'">
+                                            ✕ Reject
+                                        </button>
+                                        <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.addFindingNote(fnd)">
+                                            📝 Edit Rationale
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STREAM 3: EXTRACTED GRAPH ENTITIES & RELATIONSHIPS -->
+                <div class="fnx-card mb-4" ng-if="c.verificationQueueFilter === 'all' || c.verificationQueueFilter === 'entities'">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header-title">
+                            <span>🕸️ EXTRACTED ENTITIES & GRAPH RELATIONSHIPS — DYNAMIC BPE & KNOWLEDGE GRAPH (5)</span>
+                        </div>
+                        <span class="text-xs text-muted">Neo4j Entity Resolution &bull; 53 Node Types</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>ENTITY TYPE</th>
+                                    <th>EXTRACTED VALUE</th>
+                                    <th>THREAT / REPUTATION</th>
+                                    <th>ASSOCIATED SYNDICATE / CLUSTER</th>
+                                    <th>GRAPH CORRELATION</th>
+                                    <th>VERIFICATION</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="ind in c.activeInvestigationCase.cyber.indicators">
+                                    <td><span class="badge badge-purple">{{ind.type}}</span></td>
+                                    <td><code>{{ind.value}}</code></td>
+                                    <td><span class="fnx-status-chip chip-high-risk">{{ind.reputation}}</span></td>
+                                    <td><strong>{{ind.syndicate}}</strong></td>
+                                    <td><span class="text-xs text-muted">{{ind.classification}}</span></td>
+                                    <td>
+                                        <button class="fnx-btn fnx-btn-xs" ng-class="ind.verified ? 'fnx-btn-success' : 'fnx-btn-outline'" ng-click="c.verifyEntity(ind)">
+                                            {{ind.verified ? '✓ Verified' : 'Verify Entity'}}
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- STREAM 4: CROSS-CHANNEL CONTRADICTION & CONSISTENCY SIGNALS -->
+                <div class="fnx-card mb-4" ng-if="c.verificationQueueFilter === 'all' || c.verificationQueueFilter === 'contradictions'">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header-title">
+                            <span>⚖️ CROSS-CHANNEL CONTRADICTION & CONSISTENCY SIGNALS (11-STAGE FUSION)</span>
+                        </div>
+                        <span class="badge-tag bg-green text-white">0 Contradictions Detected</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <div class="fnx-contradiction-grid">
+                            <div class="fnx-signal-card signal-consistent">
+                                <div class="signal-header">
+                                    <span class="signal-icon">⏱️</span>
+                                    <span class="signal-title">Temporal Chronology Check</span>
+                                    <span class="signal-badge text-success">✓ 100% Consistent</span>
+                                </div>
+                                <div class="signal-desc">
+                                    Phishing SMS received 14:10 IST &rarr; Malicious URL visited 14:15 IST &rarr; Tor session initiated 14:19 IST &rarr; Unauthorized UPI debit executed 14:22:18 IST. Perfect sequence alignment with zero time-travel paradoxes.
+                                </div>
+                            </div>
+                            <div class="fnx-signal-card signal-anomaly">
+                                <div class="signal-header">
+                                    <span class="signal-icon">🌍</span>
+                                    <span class="signal-title">Impossible Travel Anomaly Check</span>
+                                    <span class="signal-badge text-warning">⚠️ Anomaly Flagged</span>
+                                </div>
+                                <div class="signal-desc">
+                                    Victim mobile cellular IP located in Mumbai, India. NetBanking login session originated from Tor exit node IP 185.220.101.5 in Frankfurt, Germany within 4 minutes. Physical impossibility confirms remote session hijacking.
+                                </div>
+                            </div>
+                            <div class="fnx-signal-card signal-consistent">
+                                <div class="signal-header">
+                                    <span class="signal-icon">💰</span>
+                                    <span class="signal-title">Financial Ledger Reconciliation</span>
+                                    <span class="signal-badge text-success">✓ Amount Reconciled</span>
+                                </div>
+                                <div class="signal-desc">
+                                    Victim-claimed exposure of ₹ 85,000 matches transaction receipt PDF, debit alert email, and Partner Bank A settlement feed to the exact rupee (INR 85,000.00). No discrepancy detected.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STREAM 5: FORENSIC VERIFICATION CHECKLIST -->
+                <div class="fnx-card mb-4">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <span class="card-header-title">📋 FORENSIC VERIFICATION CHECKLIST & AUDIT CRITERIA</span>
+                        <span class="text-xs text-muted">Legal Chain of Custody Required</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <div class="fnx-checklist-grid">
+                            <label class="fnx-chk-item">
+                                <input type="checkbox" checked disabled>
+                                <span><strong>Customer KYC Identity:</strong> National PAN / Aadhaar verified. Remitter identity authenticated against core banking record.</span>
+                            </label>
+                            <label class="fnx-chk-item">
+                                <input type="checkbox" checked disabled>
+                                <span><strong>Bank Statement Corroboration:</strong> Transaction reference UPI/2026/84920194819 matches debit ledger.</span>
+                            </label>
+                            <label class="fnx-chk-item">
+                                <input type="checkbox" ng-checked="c.isEvidenceVerified()" disabled>
+                                <span><strong>Artifact Provenance Hashes:</strong> SHA-256 hashes generated for all 4 items and stored in tamper-evident audit log.</span>
+                            </label>
+                            <label class="fnx-chk-item">
+                                <input type="checkbox" ng-checked="c.isFindingsConfirmed()" disabled>
+                                <span><strong>Attack Vector Identified:</strong> Phishing SMS + Credential Harvester + Foreign Tor IP verified.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Steps Progression Footer -->
+                <div class="fnx-verif-next-bar p-3 bg-white border rounded d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>Verification Progress:</strong>
+                        <span class="ms-2" ng-if="c.getPendingVerificationCount() > 0">
+                            <span class="text-warning font-monospace fw-bold">{{c.getPendingVerificationCount()}} items</span> pending human review before resolution can be signed.
+                        </span>
+                        <span class="ms-2 text-success fw-bold" ng-if="c.getPendingVerificationCount() === 0">
+                            🎉 All evidence items and intelligence findings are fully human-verified!
+                        </span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.setInvestigationTab('partnerRequests')">🤝 Proceed to Partner Verification &rarr;</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.openGenAIModal()">✨ Generate Synthesis</button>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-success" ng-click="c.setInvestigationTab('decision')">🏛️ Final Decision &rarr;</button>
+                    </div>
+                </div>
+
+            </div>
+
+<!-- ----------------------------------------
+                 SECTION 4: INVESTIGATION (JOURNAL)
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'investigation'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Investigation Notes & Working Hypothesis</h2>
+                        <p class="text-muted">Formal investigator working journal, active theory, and forensic hypotheses.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.showAddNoteForm = !c.showAddNoteForm">+ Add Journal Note</button>
+                    </div>
+                </div>
+
+                <!-- Active Hypothesis Card -->
+                <div class="fnx-card mb-4 bg-light-blue">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">💡 ACTIVE INVESTIGATION HYPOTHESIS</span>
+                        <span class="badge-tag bg-blue">Confidence: 94%</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <p class="mb-0">
+                            <strong>Threat Actor Strategy:</strong> Targeted smishing campaign using bulk SMS gateway masquerading as HDFC Bank KYC alerts. 
+                            Victim clicked dynamic bit.ly redirect leading to credential harvester at <code>secure-bank-login-verify.com</code>. 
+                            Threat actor logged into NetBanking from Tor exit node IP <code>185.220.101.5</code>, immediately generated an instant UPI pull request for INR 85,000 to mule UPI ID <code>pay-fast-merchant@ybl</code>.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Add Note Form -->
+                <div class="fnx-card mb-4" ng-if="c.showAddNoteForm">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">NEW INVESTIGATOR JOURNAL ENTRY</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <textarea class="fnx-textarea mb-2" rows="3" ng-model="c.newJournalNote" placeholder="Enter forensic observation, interview notes, or external verification details..."></textarea>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-sm text-muted">Author: {{c.activeInvestigationCase.handler || 'Alex Morgan'}} (Senior Investigator)</span>
+                            <div>
+                                <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.showAddNoteForm = false">Cancel</button>
+                                <button class="fnx-btn fnx-btn-xs fnx-btn-primary" ng-click="c.saveJournalNote()">Save Entry</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notes Timeline -->
+                <div class="fnx-notes-list">
+                    <div class="fnx-note-card" ng-repeat="note in c.activeInvestigationCase.notes">
+                        <div class="note-header">
+                            <div class="author-block">
+                                <span class="author-avatar">{{note.author.substring(0,2).toUpperCase()}}</span>
+                                <div>
+                                    <strong>{{note.author}}</strong>
+                                    <span class="author-role">{{note.role}}</span>
+                                </div>
+                            </div>
+                            <span class="note-time">{{note.timestamp}}</span>
+                        </div>
+                        <div class="note-body">
+                            {{note.text}}
+                        </div>
+                        <div class="note-tags" ng-if="note.tags">
+                            <span class="tag-pill" ng-repeat="t in note.tags">#{{t}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 5: FINANCIAL ANALYSIS
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'financial'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Financial Exposure & Transaction Analysis</h2>
+                        <p class="text-muted">Transaction audit trail, banking institution details, payment method, and fund tracing.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-warning" ng-click="c.openPartnerReqModal()">Request Bank Trace &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Financial Highlights -->
+                <div class="fnx-kpi-grid-4 mb-4">
+                    <div class="fnx-kpi-card border-red">
+                        <div class="kpi-icon">💸</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">REPORTED LOSS</div>
+                            <div class="kpi-value text-danger">₹ {{c.activeInvestigationCase.exposure || 85000 | number:0}}</div>
+                            <div class="kpi-sub">Reported by victim</div>
+                        </div>
+                    </div>
+                    <div class="fnx-kpi-card border-purple">
+                        <div class="kpi-icon">🔍</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">VERIFIED LOSS</div>
+                            <div class="kpi-value text-purple">₹ {{c.activeInvestigationCase.verified_exposure || 85000 | number:0}}</div>
+                            <div class="kpi-sub">Verified via bank logs</div>
+                        </div>
+                    </div>
+                    <div class="fnx-kpi-card border-amber">
+                        <div class="kpi-icon">🛑</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">BLOCKED IN TRANSIT</div>
+                            <div class="kpi-value text-warning">₹ {{c.activeInvestigationCase.blocked_amount || 35000 | number:0}}</div>
+                            <div class="kpi-sub">Held at beneficiary node</div>
+                        </div>
+                    </div>
+                    <div class="fnx-kpi-card border-green">
+                        <div class="kpi-icon">💰</div>
+                        <div class="kpi-content">
+                            <div class="kpi-title">RECOVERED AMOUNT</div>
+                            <div class="kpi-value text-success">₹ {{c.activeInvestigationCase.recovered_amount || 0 | number:0}}</div>
+                            <div class="kpi-sub">Awaiting reversal order</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transaction Details Card -->
+                <div class="fnx-card mb-4">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <span class="card-header-title">UNAUTHORIZED TRANSACTION AUDIT RECORD</span>
+                        <span class="badge-tag bg-danger">Status: Fraud Debited</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <tbody>
+                                <tr>
+                                    <td class="table-lbl">Transaction Reference</td>
+                                    <td><code>UPI/2026/84920194819</code></td>
+                                    <td class="table-lbl">Payment Method</td>
+                                    <td><span class="badge badge-primary">UPI (Unified Payments Interface)</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-lbl">Issuing Institution</td>
+                                    <td><strong>Partner Bank A</strong> (National Banking Alliance)</td>
+                                    <td class="table-lbl">Institution Type</td>
+                                    <td>Scheduled Commercial Bank (Tier-1)</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-lbl">Remitter Account (Masked)</td>
+                                    <td><code>XXXX-XXXX-4819</code> (Rajesh Sharma)</td>
+                                    <td class="table-lbl">Beneficiary UPI ID</td>
+                                    <td><code class="text-danger fw-bold">pay-fast-merchant@ybl</code> (Flagged Mule)</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-lbl">Transaction Timestamp</td>
+                                    <td>2026-10-02 14:22:18 IST</td>
+                                    <td class="table-lbl">Amount & Currency</td>
+                                    <td><strong class="text-danger">INR 85,000.00</strong></td>
+                                </tr>
+                                <tr>
+                                    <td class="table-lbl">Channel / Platform</td>
+                                    <td>PhonePe / Mobile Web Gateway</td>
+                                    <td class="table-lbl">Authorization Method</td>
+                                    <td>Harvested Session OTP / Device Spoof</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PCI-DSS Compliance Safeguard Notice -->
+                <div class="fnx-alert fnx-alert-info">
+                    <span class="alert-icon">🔒</span>
+                    <div class="alert-text">
+                        <strong>Zero Credential Retention Policy (PCI-DSS & RBI Master Direction):</strong>
+                        FRAUDNEXUS strictly forbids collecting or storing full credit card numbers, CVV, ATM PINs, UPI PINs, or raw OTP credentials. All transaction references are cryptographically pseudonymized.
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 6: CYBER ANALYSIS
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'cyber'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Cyber Forensic Analysis & Attack Chain</h2>
+                        <p class="text-muted">Technical threat artifacts, domain intelligence, malicious URLs, IP telemetry, and attack sequencing.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.setInvestigationTab('relatedCases')">Scan Syndicate Cases &rarr;</button>
+                    </div>
+                </div>
+
+                <!-- Attack Chain Visualization Card -->
+                <div class="fnx-card mb-4">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">🔗 MULTI-STAGE CYBER ATTACK CHAIN</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <div class="fnx-attack-chain">
+                            <div class="chain-node">
+                                <div class="node-icon bg-red">💬</div>
+                                <div class="node-title">1. Phishing SMS</div>
+                                <div class="node-desc">Sender: <code>VK-HDFCBK</code> with urgent KYC expiration claim</div>
+                            </div>
+                            <div class="chain-arrow">&rarr;</div>
+                            <div class="chain-node">
+                                <div class="node-icon bg-orange">🌐</div>
+                                <div class="node-title">2. Malicious URL</div>
+                                <div class="node-desc"><code>secure-bank-login-verify.com</code> (bit.ly redirect)</div>
+                            </div>
+                            <div class="chain-arrow">&rarr;</div>
+                            <div class="chain-node">
+                                <div class="node-icon bg-amber">🔑</div>
+                                <div class="node-title">3. Credential Harvest</div>
+                                <div class="node-desc">Captured User ID, login password, and session token</div>
+                            </div>
+                            <div class="chain-arrow">&rarr;</div>
+                            <div class="chain-node">
+                                <div class="node-icon bg-purple">💻</div>
+                                <div class="node-title">4. Attacker Login</div>
+                                <div class="node-desc">IP: <code>185.220.101.5</code> (Tor exit node, Germany)</div>
+                            </div>
+                            <div class="chain-arrow">&rarr;</div>
+                            <div class="chain-node">
+                                <div class="node-icon bg-red">💸</div>
+                                <div class="node-title">5. Fraud Transaction</div>
+                                <div class="node-desc">Instant UPI transfer of INR 85,000 to mule account</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cyber Indicators Table -->
+                <div class="fnx-card">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <span class="card-header-title">TECHNICAL INDICATORS OF COMPROMISE (IOCs)</span>
+                        <span class="badge-tag">Threat Intel: Confirmed Malicious</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>TYPE</th>
+                                    <th>INDICATOR VALUE</th>
+                                    <th>THREAT CLASSIFICATION</th>
+                                    <th>FIRST SEEN</th>
+                                    <th>REPUTATION</th>
+                                    <th>ASSOCIATED SYNDICATE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="ioc in c.activeInvestigationCase.cyber.indicators">
+                                    <td><span class="badge" ng-class="ioc.type === 'IP' ? 'badge-purple' : (ioc.type === 'Domain' ? 'badge-danger' : 'badge-warning')">{{ioc.type}}</span></td>
+                                    <td><code>{{ioc.value}}</code></td>
+                                    <td><strong>{{ioc.classification}}</strong></td>
+                                    <td>{{ioc.first_seen}}</td>
+                                    <td><span class="badge-sev sev-critical">{{ioc.reputation}}</span></td>
+                                    <td>{{ioc.syndicate}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 7: FINDINGS
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'findings'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Investigation Findings Register</h2>
+                        <p class="text-muted">Structured findings from agentic reasoning and human verification. Every AI finding requires investigator confirmation.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-success" ng-click="c.confirmAllFindings()">✓ Confirm All Findings</button>
+                    </div>
+                </div>
+
+                <div class="fnx-findings-grid">
+                    <div class="fnx-finding-card" ng-repeat="fnd in c.activeInvestigationCase.findings" ng-class="{'fnd-confirmed': fnd.status === 'Confirmed', 'fnd-rejected': fnd.status === 'Rejected'}">
+                        <div class="fnd-card-header">
+                            <div class="fnd-id-box">
+                                <span class="fnd-badge">{{fnd.id}}</span>
+                                <strong class="fnd-title">{{fnd.title}}</strong>
+                            </div>
+                            <div class="fnd-status-wrap">
+                                <span class="fnx-source-pill">{{fnd.source}}</span>
+                                <span class="fnx-status-chip" ng-class="'chip-' + fnd.status.toLowerCase().replace(' ', '-')">{{fnd.status}}</span>
+                            </div>
+                        </div>
+
+                        <div class="fnd-card-body">
+                            <p class="fnd-desc">{{fnd.description}}</p>
+                            <div class="fnd-meta-row">
+                                <div><span class="lbl">Supporting Evidence:</span> <strong>{{fnd.supporting_evidence.join(', ')}}</strong></div>
+                                <div><span class="lbl">Confidence Score:</span> <span class="text-success fw-bold">{{fnd.confidence}}%</span></div>
+                                <div ng-if="fnd.reviewer"><span class="lbl">Reviewed By:</span> {{fnd.reviewer}} ({{fnd.reviewed_on}})</div>
+                            </div>
+                        </div>
+
+                        <div class="fnd-card-footer">
+                            <div class="fnd-notes-text">
+                                <em>{{fnd.notes || 'Forensic confirmation pending.'}}</em>
+                            </div>
+                            <div class="fnd-actions">
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.confirmFinding(fnd)" ng-disabled="fnd.status === 'Confirmed'">
+                                    {{fnd.status === 'Confirmed' ? '✓ Confirmed' : '✓ Confirm Finding'}}
+                                </button>
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-danger" ng-click="c.rejectFinding(fnd)" ng-disabled="fnd.status === 'Rejected'">
+                                    ✕ Reject
+                                </button>
+                                <button type="button" class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.addFindingNote(fnd)">
+                                    💬 Add Note
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 8: TIMELINE
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'timeline'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Comprehensive Investigation Timeline</h2>
+                        <p class="text-muted">Chronological audit ledger documenting all system, AI, and human investigator actions.</p>
+                    </div>
+                    <div class="view-actions">
+                        <div class="btn-group-filter">
+                            <button class="fnx-filter-btn" ng-class="{'active': c.timelineFilter === 'all'}" ng-click="c.timelineFilter = 'all'">All ({{c.activeInvestigationCase.timeline.length}})</button>
+                            <button class="fnx-filter-btn" ng-class="{'active': c.timelineFilter === 'HUMAN'}" ng-click="c.timelineFilter = 'HUMAN'">Human Only</button>
+                            <button class="fnx-filter-btn" ng-class="{'active': c.timelineFilter === 'AI SYSTEM'}" ng-click="c.timelineFilter = 'AI SYSTEM'">AI System</button>
+                            <button class="fnx-filter-btn" ng-class="{'active': c.timelineFilter === 'SYSTEM'}" ng-click="c.timelineFilter = 'SYSTEM'">System</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fnx-timeline-feed">
+                    <div class="fnx-timeline-item" ng-repeat="item in c.getFilteredTimeline()" ng-class="'actor-' + item.actor_type.toLowerCase().replace(' ', '-')">
+                        <div class="tl-left">
+                            <span class="tl-time">{{item.time}}</span>
+                            <span class="tl-actor-badge" ng-class="{'badge-human': item.actor_type === 'HUMAN', 'badge-ai': item.actor_type === 'AI SYSTEM', 'badge-sys': item.actor_type === 'SYSTEM'}">
+                                [{{item.actor_type}}]
+                            </span>
+                        </div>
+                        <div class="tl-dot"></div>
+                        <div class="tl-content">
+                            <div class="tl-header">
+                                <strong class="tl-title">{{item.action}}</strong>
+                                <span class="tl-actor-name">by {{item.actor}}</span>
+                            </div>
+                            <div class="tl-desc">{{item.desc}}</div>
+                            <div class="tl-record-ref" ng-if="item.record_id">
+                                <span>Ref: <code>{{item.record_id}}</code></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 9: PARTNER REQUESTS
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'partnerRequests'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Partner Verification & Integration Hub</h2>
+                        <p class="text-muted">Inter-institutional fraud trace requests sent to simulated partner banks, payment gateways, and threat registries.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.openPartnerReqModal()">+ New Partner Request</button>
+                    </div>
+                </div>
+
+                <!-- Active Partner Requests List -->
+                <div class="fnx-partner-req-list mb-4">
+                    <div class="fnx-partner-req-card" ng-repeat="pr in c.activeInvestigationCase.partner_requests">
+                        <div class="pr-card-header">
+                            <div>
+                                <strong class="pr-num">{{pr.id}}</strong>
+                                <span class="pr-partner-name">🤝 {{pr.partner}}</span>
+                                <span class="badge badge-warning" ng-if="pr.demo_flag">SIMULATED DEMO PARTNER</span>
+                            </div>
+                            <span class="fnx-status-chip" ng-class="'chip-' + pr.status.toLowerCase().replace(' ', '-')">
+                                {{pr.status}}
+                            </span>
+                        </div>
+
+                        <div class="pr-card-body">
+                            <div class="fnx-meta-grid-3 mb-3">
+                                <div><strong>Request Type:</strong> {{pr.request_type}}</div>
+                                <div><strong>Priority:</strong> <span class="text-danger fw-bold">{{pr.priority}}</span></div>
+                                <div><strong>Due Date:</strong> {{pr.due_date}}</div>
+                            </div>
+                            <p class="pr-desc"><strong>Request Description:</strong> {{pr.description}}</p>
+                        </div>
+
+                        <!-- Partner Response Card (If Received) -->
+                        <div class="pr-response-box" ng-if="pr.response">
+                            <div class="pr-resp-header">
+                                <strong>📥 PARTNER RESPONSE RECEIVED:</strong> {{pr.partner}} &bull; Received {{pr.response.received_on}}
+                            </div>
+                            <div class="pr-resp-content">
+                                <p><strong>Verification Result:</strong> <span class="text-danger fw-bold">{{pr.response.verification_result}}</span></p>
+                                <p>{{pr.response.details}}</p>
+                                <div class="pr-resp-meta">
+                                    <span>Beneficiary Bank: <strong>{{pr.response.beneficiary_bank}}</strong></span> &bull;
+                                    <span>Account Status: <strong class="text-danger">{{pr.response.account_status}}</strong></span> &bull;
+                                    <span>Hold Placed: <strong class="text-success">₹ {{pr.response.held_amount | number:0}}</strong></span>
+                                </div>
+                            </div>
+
+                            <!-- AI Partner Response Analysis -->
+                            <div class="pr-ai-analysis-card" ng-if="pr.ai_analysis">
+                                <div class="analysis-header">
+                                    <span>🤖 AI PARTNER RESPONSE ANALYSIS</span>
+                                    <span class="badge badge-info">Agent: Partner Response Verification</span>
+                                </div>
+                                <div class="analysis-body">
+                                    <p><strong>Classification:</strong> {{pr.ai_analysis.classification}}</p>
+                                    <p><strong>Supporting Evidence:</strong> {{pr.ai_analysis.supporting_info}}</p>
+                                    <p><strong>Contradictions:</strong> <span class="text-muted">{{pr.ai_analysis.contradictions || 'None identified. Transaction matches victim reported timestamp.'}}</span></p>
+                                    <p><strong>Suggested Finding Update:</strong> <code>{{pr.ai_analysis.suggested_finding_update}}</code></p>
+                                    <p><strong>Suggested Risk Impact:</strong> <strong class="text-danger">{{pr.ai_analysis.suggested_risk_impact}}</strong></p>
+                                </div>
+                                <div class="analysis-footer">
+                                    <span class="text-muted text-xs">Human investigator review required before updating case risk.</span>
+                                    <div class="btn-group">
+                                        <button class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.acceptPartnerAnalysis(pr)" ng-disabled="pr.analysis_accepted">
+                                            {{pr.analysis_accepted ? '✓ Analysis Accepted' : '✓ Accept Analysis & Update Risk'}}
+                                        </button>
+                                        <button class="fnx-btn fnx-btn-xs fnx-btn-danger" ng-click="c.rejectPartnerAnalysis(pr)">✕ Reject</button>
+                                        <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.requestPartnerClarification(pr)">💬 Clarify</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 10: RELATED CASES
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'relatedCases'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Related Cases & Fraud Syndicate Clusters</h2>
+                        <p class="text-muted">Multi-case correlation indexed by Neo4j graph & shared IOCs (phone, domain, IP, mule account).</p>
+                    </div>
+                </div>
+
+                <div class="fnx-card">
+                    <div class="fnx-card-header d-flex justify-content-between align-items-center">
+                        <span class="card-header-title">MATCHED SYNDICATE CASES ({{c.activeInvestigationCase.related_cases.length}})</span>
+                        <span class="badge-tag bg-purple">Knowledge Graph Linked</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>CASE NUMBER</th>
+                                    <th>INCIDENT TYPE</th>
+                                    <th>STATUS</th>
+                                    <th>SHARED INDICATORS</th>
+                                    <th>SIMILARITY</th>
+                                    <th>PATTERN LINK</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rc in c.activeInvestigationCase.related_cases">
+                                    <td><strong>{{rc.number}}</strong></td>
+                                    <td>{{rc.type}}</td>
+                                    <td><span class="fnx-status-chip" ng-class="'chip-' + rc.status.toLowerCase().replace(' ', '-')">{{rc.status}}</span></td>
+                                    <td>
+                                        <div class="shared-indicators">
+                                            <span class="ioc-chip" ng-repeat="ind in rc.shared_indicators">🔗 {{ind}}</span>
+                                        </div>
+                                    </td>
+                                    <td><strong class="text-purple font-monospace">{{rc.similarity}}%</strong></td>
+                                    <td>{{rc.pattern_desc}}</td>
+                                    <td>
+                                        <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-click="c.viewRelatedCaseModal(rc)">Compare</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 11: RELATIONSHIPS (ENTITY GRAPH)
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'relationships'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Entity Relationship Architecture</h2>
+                        <p class="text-muted">Graph topology linking victims, accounts, attacker infrastructure, payment nodes, and partner institutions.</p>
+                    </div>
+                </div>
+
+                <div class="fnx-card mb-4">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">🕸️ KNOWLEDGE GRAPH ENTITY TOPOLOGY</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        <div class="fnx-graph-preview-box">
+                            <div class="graph-legend">
+                                <span><span class="dot dot-blue"></span> Victim Entity</span>
+                                <span><span class="dot dot-red"></span> Threat Infrastructure</span>
+                                <span><span class="dot dot-purple"></span> Mule Account</span>
+                                <span><span class="dot dot-green"></span> Partner Institution</span>
+                            </div>
+                            <div class="graph-mock-diagram">
+                                <div class="node-box n-victim">
+                                    <div class="n-title">Rajesh Sharma</div>
+                                    <div class="n-type">Victim / Customer</div>
+                                </div>
+                                <div class="node-conn">&larr; [Received SMS] &rarr;</div>
+                                <div class="node-box n-threat">
+                                    <div class="n-title">secure-bank-login-verify.com</div>
+                                    <div class="n-type">Phishing Domain</div>
+                                </div>
+                                <div class="node-conn">&larr; [Hosted On] &rarr;</div>
+                                <div class="node-box n-threat">
+                                    <div class="n-title">185.220.101.5</div>
+                                    <div class="n-type">Attacker Tor Node</div>
+                                </div>
+                                <div class="node-conn">&larr; [Initiated Txn] &rarr;</div>
+                                <div class="node-box n-mule">
+                                    <div class="n-title">pay-fast-merchant@ybl</div>
+                                    <div class="n-type">Beneficiary Mule</div>
+                                </div>
+                                <div class="node-conn">&larr; [Held At] &rarr;</div>
+                                <div class="node-box n-partner">
+                                    <div class="n-title">Partner Bank A</div>
+                                    <div class="n-type">Settlement Partner</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entity Link Table -->
+                <div class="fnx-card">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">CONFIRMED RELATIONSHIPS ({{c.activeInvestigationCase.relationships.length}})</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>SOURCE ENTITY</th>
+                                    <th>RELATIONSHIP</th>
+                                    <th>TARGET ENTITY</th>
+                                    <th>CONFIDENCE</th>
+                                    <th>EVIDENCE REF</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rel in c.activeInvestigationCase.relationships">
+                                    <td><strong>{{rel.source}}</strong> <small class="text-muted">({{rel.source_type}})</small></td>
+                                    <td><span class="rel-tag">&harr; {{rel.relationship}}</span></td>
+                                    <td><strong>{{rel.target}}</strong> <small class="text-muted">({{rel.target_type}})</small></td>
+                                    <td><span class="text-success fw-bold">{{rel.confidence}}%</span></td>
+                                    <td><code>{{rel.evidence_ref}}</code></td>
+                                    <td><span class="fnx-status-chip chip-confirmed">{{rel.status}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 12: RISK
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'risk'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Risk Scoring & Progression Architecture</h2>
+                        <p class="text-muted">Deterministic multi-factor risk model. AI recommends adjustments, but changes require human verification.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-danger" ng-if="c.activeInvestigationCase.risk_score < 90" ng-click="c.elevateRiskToCritical()">
+                            ⚡ Approve Critical Risk Escalation
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Current Score Card -->
+                <div class="fnx-risk-hero-card mb-4">
+                    <div class="risk-gauge-block">
+                        <div class="risk-circle-dial" ng-class="{'dial-critical': c.activeInvestigationCase.risk_score >= 85}">
+                            <span class="dial-score">{{c.activeInvestigationCase.risk_score || 94}}</span>
+                            <span class="dial-max">/ 100</span>
+                        </div>
+                        <div class="risk-dial-label">
+                            <h3>{{c.getRiskLabel(c.activeInvestigationCase.risk_score)}} RISK LEVEL</h3>
+                            <p class="text-muted">Priority: P1 &bull; Financial Exposure: ₹ {{c.activeInvestigationCase.exposure || 85000 | number:0}}</p>
+                        </div>
+                    </div>
+
+                    <!-- 4-Stage Risk Progression -->
+                    <div class="risk-progression-timeline">
+                        <div class="rp-stage" ng-repeat="stg in c.activeInvestigationCase.risk_history">
+                            <div class="rp-circle" ng-class="{'rp-current': $last}">{{stg.score}}</div>
+                            <div class="rp-label">
+                                <strong>{{stg.stage}}</strong>
+                                <span>{{stg.reason}}</span>
+                                <small class="text-muted">{{stg.time}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Factors Breakdown -->
+                <div class="fnx-card">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">DETERMINISTIC RISK FACTORS</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>RISK FACTOR</th>
+                                    <th>CONTRIBUTION</th>
+                                    <th>EVALUATION</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rf in c.activeInvestigationCase.risk_factors">
+                                    <td><strong>{{rf.name}}</strong></td>
+                                    <td><span class="badge badge-danger">+{{rf.points}} pts</span></td>
+                                    <td>{{rf.evaluation}}</td>
+                                    <td><span class="fnx-status-chip chip-confirmed">Triggered</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 13: TASKS
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'tasks'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Investigation Tasks & Action Items</h2>
+                        <p class="text-muted">Operational tasks assigned to forensic specialists, legal officers, and partner liaisons.</p>
+                    </div>
+                    <div class="view-actions">
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.openTaskModal(c.activeInvestigationCase)">+ Add Task</button>
+                    </div>
+                </div>
+
+                <div class="fnx-card">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">ASSIGNED TASKS ({{c.activeInvestigationCase.tasks.length}})</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>TASK ID</th>
+                                    <th>TITLE</th>
+                                    <th>ASSIGNEE</th>
+                                    <th>PRIORITY</th>
+                                    <th>DUE DATE</th>
+                                    <th>STATE</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="tsk in c.activeInvestigationCase.tasks">
+                                    <td><strong>{{tsk.number}}</strong></td>
+                                    <td>{{tsk.short_description}}</td>
+                                    <td>{{tsk.assigned_to}}</td>
+                                    <td><span class="badge" ng-class="tsk.priority === 'High' ? 'badge-danger' : 'badge-warning'">{{tsk.priority}}</span></td>
+                                    <td>{{tsk.due_date}}</td>
+                                    <td><span class="fnx-status-chip" ng-class="'chip-' + tsk.state.toLowerCase().replace(' ', '-')">{{tsk.state}}</span></td>
+                                    <td>
+                                        <button class="fnx-btn fnx-btn-xs fnx-btn-success" ng-click="c.completeTask(tsk)" ng-if="tsk.state !== 'Completed'">✓ Mark Done</button>
+                                        <span class="text-muted text-xs" ng-if="tsk.state === 'Completed'">Completed</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 14: COMPLIANCE
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'compliance'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Regulatory Compliance & Evidence Custody</h2>
+                        <p class="text-muted">Statutory fraud reporting obligations, central bank directives, and chain of custody logs.</p>
+                    </div>
+                </div>
+
+                <div class="fnx-card mb-4">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">⚖️ STATUTORY COMPLIANCE CHECKLIST</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>FRAMEWORK</th>
+                                    <th>REQUIREMENT</th>
+                                    <th>DEADLINE</th>
+                                    <th>COMPLIANCE STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="comp in c.activeInvestigationCase.compliance">
+                                    <td><strong>{{comp.framework}}</strong></td>
+                                    <td>{{comp.requirement}}</td>
+                                    <td>{{comp.deadline}}</td>
+                                    <td><span class="fnx-status-chip chip-confirmed">✓ {{comp.status}}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="fnx-card">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">🛡️ IMMUTABLE CHAIN OF CUSTODY LOG</span>
+                    </div>
+                    <div class="fnx-card-body p-0">
+                        <table class="fnx-table">
+                            <thead>
+                                <tr>
+                                    <th>TIMESTAMP</th>
+                                    <th>EVIDENCE ID</th>
+                                    <th>ACTION</th>
+                                    <th>CUSTODIAN</th>
+                                    <th>INTEGRITY HASH</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="cl in c.activeInvestigationCase.custody_log">
+                                    <td>{{cl.timestamp}}</td>
+                                    <td><strong>{{cl.evidence_id}}</strong></td>
+                                    <td>{{cl.action}}</td>
+                                    <td>{{cl.custodian}}</td>
+                                    <td><code>{{cl.hash | limitTo:32}}...</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 15: DECISION
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'decision'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Human Decision & Formal Case Resolution</h2>
+                        <p class="text-muted">Final human investigation outcome. Strictly requires verified evidence, confirmed findings, and legal rationale.</p>
+                    </div>
+                </div>
+
+                <div class="fnx-card mb-4 border-decision">
+                    <div class="fnx-card-header">
+                        <span class="card-header-title">⚖️ RECORD INVESTIGATOR DECISION</span>
+                        <span class="badge-tag bg-purple">Human Authority Required</span>
+                    </div>
+                    <div class="fnx-card-body">
+                        
+                        <div class="fnx-decision-form">
+                            <div class="form-group mb-3">
+                                <label class="fw-bold">Investigation Decision:</label>
+                                <div class="fnx-radio-pill-group">
+                                    <label class="radio-pill" ng-class="{'selected': c.decisionForm.decision === 'Resolve Case'}">
+                                        <input type="radio" ng-model="c.decisionForm.decision" value="Resolve Case">
+                                        <span>Resolve Case (Confirmed Fraud)</span>
+                                    </label>
+                                    <label class="radio-pill" ng-class="{'selected': c.decisionForm.decision === 'Continue Investigation'}">
+                                        <input type="radio" ng-model="c.decisionForm.decision" value="Continue Investigation">
+                                        <span>Continue Investigation</span>
+                                    </label>
+                                    <label class="radio-pill" ng-class="{'selected': c.decisionForm.decision === 'Escalate'}">
+                                        <input type="radio" ng-model="c.decisionForm.decision" value="Escalate">
+                                        <span>Escalate to Executive</span>
+                                    </label>
+                                    <label class="radio-pill" ng-class="{'selected': c.decisionForm.decision === 'Reject Finding'}">
+                                        <input type="radio" ng-model="c.decisionForm.decision" value="Reject Finding">
+                                        <span>Reject / False Positive</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="fw-bold">Formal Decision Reason & Legal Justification (Mandatory):</label>
+                                <textarea class="fnx-textarea" rows="4" ng-model="c.decisionForm.reason" placeholder="Provide complete justification citing confirmed evidence, partner responses, and attack indicators..."></textarea>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label class="fw-bold">Supporting Confirmed Evidence:</label>
+                                <div class="fnx-checkbox-group">
+                                    <label class="chk-box-item" ng-repeat="ev in c.activeInvestigationCase.evidence" ng-if="ev.status === 'Confirmed'">
+                                        <input type="checkbox" checked disabled>
+                                        <span>{{ev.id}} - {{ev.title}} (Confirmed)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Validation Warning if Unconfirmed Items -->
+                            <div class="fnx-alert fnx-alert-warning mb-3" ng-if="!c.isFindingsConfirmed() || !c.isEvidenceVerified()">
+                                <span class="alert-icon">⚠️</span>
+                                <div>
+                                    <strong>Validation Incomplete:</strong> All evidence items must be verified and findings confirmed before submitting resolution.
+                                </div>
+                            </div>
+
+                            <!-- Manager Approval Requirement -->
+                            <div class="fnx-approval-box mb-3" ng-if="c.activeInvestigationCase.exposure >= 50000 || c.activeInvestigationCase.severity === 'Critical'">
+                                <div class="approval-title">👔 MANAGER APPROVAL WORKFLOW REQUIRED</div>
+                                <p class="text-sm mb-1">Exposure exceeds ₹ 50,000 threshold. Escalated to Fraud Operations Manager.</p>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span>Approval Status: </span>
+                                    <span class="badge" ng-class="c.activeInvestigationCase.manager_approved ? 'badge-success' : 'badge-warning'">
+                                        {{c.activeInvestigationCase.manager_approved ? '✓ Approved by Marcus Vance (Fraud Operations Director)' : 'Pending Manager Review'}}
+                                    </span>
+                                    <button class="fnx-btn fnx-btn-xs fnx-btn-outline" ng-if="!c.activeInvestigationCase.manager_approved" ng-click="c.grantManagerApproval()">
+                                        Sign as Marcus Vance (Demo)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <div class="sign-block">
+                                    <small class="text-muted">Investigator Signature:</small><br>
+                                    <strong>Alex Morgan</strong> &bull; Senior Fraud Investigator &bull; {{c.currentDateStr}}
+                                </div>
+                                <button type="button" class="fnx-btn fnx-btn-primary fnx-btn-lg" ng-click="c.executeHumanDecision()" ng-disabled="c.decisionSubmitting">
+                                    {{c.activeInvestigationCase.decision.status === 'Resolved' ? '✓ Case Resolved Successfully' : 'Submit Final Decision & Resolve Case'}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ----------------------------------------
+                 SECTION 16: REPORT
+                 ---------------------------------------- -->
+            <div ng-if="c.investigationTab === 'report'" class="fnx-vw-view">
+                <div class="fnx-view-title-row">
+                    <div>
+                        <h2>Investigation Reports & Case Dispatches</h2>
+                        <p class="text-muted">Internal 27-section comprehensive forensic dossier and sanitized 13-section customer statement.</p>
+                    </div>
+                    <div class="view-actions">
+                        <div class="btn-group-filter">
+                            <button class="fnx-filter-btn" ng-class="{'active': c.reportSubTab === 'admin'}" ng-click="c.reportSubTab = 'admin'">Internal Admin Report (27 Sec)</button>
+                            <button class="fnx-filter-btn" ng-class="{'active': c.reportSubTab === 'customer'}" ng-click="c.reportSubTab = 'customer'">Customer-Facing Safe Report (13 Sec)</button>
+                        </div>
+                        <button class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.printReport()">🖨️ Print / PDF</button>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB A: ADMIN REPORT (27 INTERNAL SECTIONS) -->
+                <div class="fnx-card p-4 fnx-dossier-card" ng-if="c.reportSubTab === 'admin'">
+                    <div class="dossier-header text-center pb-3 border-bottom mb-4">
+                        <h1 class="dossier-title">FRAUDNEXUS &bull; INTERNAL FORENSIC DOSSIER</h1>
+                        <p class="text-muted mb-0">RESTRICTED &bull; FOR INTERNAL FRAUD INVESTIGATION & LEGAL AUTHORITIES ONLY</p>
+                        <div class="text-sm text-muted">Case ID: {{c.activeInvestigationCase.number}} &bull; Generated: {{c.currentDateStr}} &bull; Lead Investigator: {{c.activeInvestigationCase.handler}}</div>
+                    </div>
+
+                    <div class="dossier-sections">
+                        <div class="dossier-sec">
+                            <h4>1. EXECUTIVE SUMMARY & JURISDICTION</h4>
+                            <p>Investigation into unauthorized NetBanking credential access and subsequent UPI fund siphoning totaling INR 85,000 against customer Rajesh Sharma (CUST-84920). Initial report received 2026-10-02.</p>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>2. CUSTOMER REPORT & INTAKE</h4>
+                            <p>Customer verified via registered mobile OTP. Initial report stated smishing SMS received with urgent KYC deactivation ultimatum.</p>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>3. FINANCIAL RECONCILIATION</h4>
+                            <p>Debited Amount: INR 85,000.00 &bull; Verified Loss: INR 85,000.00 &bull; Beneficiary Node: pay-fast-merchant@ybl &bull; Held at Destination: INR 35,000.00.</p>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>4. CYBER FORENSICS & THREAT TELEMETRY</h4>
+                            <p>Credential harvester: <code>secure-bank-login-verify.com</code> &bull; Originating IP: <code>185.220.101.5</code> (Tor Node, AS60729) &bull; Attacker User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) HeadlessChrome/124.0.0.0.</p>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>5. EVIDENCE REGISTER & INTEGRITY VERIFICATION</h4>
+                            <p>4 primary artifacts ingested via JOREN pipeline. All SHA256 hashes validated with unbroken chain of custody records.</p>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>6. CONFIRMED INVESTIGATION FINDINGS</h4>
+                            <ul>
+                                <li ng-repeat="fnd in c.activeInvestigationCase.findings">
+                                    <strong>{{fnd.id}}: {{fnd.title}}</strong> &bull; Status: {{fnd.status}} &bull; Confidence: {{fnd.confidence}}%
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>7. INTER-INSTITUTIONAL PARTNER VERIFICATION</h4>
+                            <p>Partner Bank A completed inter-bank transaction trace PR-001 confirming unauthorized status. Beneficiary account frozen.</p>
+                        </div>
+
+                        <div class="dossier-sec">
+                            <h4>8. FINAL HUMAN DISPOSITION & RESOLUTION</h4>
+                            <p><strong>Outcome: Confirmed Fraud.</strong> Manager approval recorded by Marcus Vance. Reversal advice initiated. Customer safe notification dispatched.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUB-TAB B: CUSTOMER-FACING SAFE REPORT (13 SANITIZED SECTIONS) -->
+                <div class="fnx-card p-4 fnx-customer-report-card" ng-if="c.reportSubTab === 'customer'">
+                    <div class="dossier-header text-center pb-3 border-bottom mb-4">
+                        <div class="customer-report-brand">🛡️ FRAUDNEXUS FRAUD RESOLUTION STATEMENT</div>
+                        <p class="text-success fw-bold mb-0">OFFICIAL CASE RESOLUTION DOCUMENT</p>
+                        <div class="text-sm text-muted">Reference: {{c.activeInvestigationCase.number}} &bull; Recipient: {{c.activeInvestigationCase.customer.name}} &bull; Date: {{c.currentDateStr}}</div>
+                    </div>
+
+                    <div class="customer-report-body">
+                        <div class="cust-report-sec">
+                            <h4>Dear {{c.activeInvestigationCase.customer.name}},</h4>
+                            <p>Thank you for reporting the suspicious transaction to FRAUDNEXUS. Our Fraud Investigation Team has concluded its formal inquiry into Case Reference <strong>{{c.activeInvestigationCase.number}}</strong>.</p>
+                        </div>
+
+                        <div class="cust-report-sec">
+                            <h4>1. WHAT WE REVIEWED</h4>
+                            <p>Our specialists thoroughly inspected the SMS message screenshot, the website link you provided, your bank account statement, and banking confirmation communications.</p>
+                        </div>
+
+                        <div class="cust-report-sec">
+                            <h4>2. INVESTIGATION FINDINGS</h4>
+                            <p>Our investigation confirmed that your banking credentials were harvested through an unauthorized fraudulent website masquerading as our portal. The resulting transaction of <strong>INR 85,000</strong> on 2026-10-02 has been officially confirmed as <strong>Unauthorized Fraud</strong>.</p>
+                        </div>
+
+                        <div class="cust-report-sec">
+                            <h4>3. ACTIONS TAKEN</h4>
+                            <ul>
+                                <li>The fraudulent website has been reported to national cyber authorities and taken down.</li>
+                                <li>The recipient banking entity has placed an immediate lien on the beneficiary account.</li>
+                                <li>Your banking security profile has been updated and your access secured.</li>
+                            </ul>
+                        </div>
+
+                        <div class="cust-report-sec">
+                            <h4>4. REVERSAL & NEXT STEPS</h4>
+                            <p>A formal claim reimbursement advice has been submitted to your settlement bank under zero-liability protection guidelines. You will receive an SMS and email notification once funds are restored to your account.</p>
+                        </div>
+
+                        <div class="cust-report-sec mt-4 pt-3 border-top d-flex justify-content-between">
+                            <div>
+                                <small class="text-muted">FRAUDNEXUS Fraud Resolution Department</small><br>
+                                <strong>Case Officer: Alex Morgan</strong>
+                            </div>
+                            <button class="fnx-btn fnx-btn-sm fnx-btn-primary" ng-click="c.dispatchCustomerReport()">
+                                ✉️ Email Official Copy to Customer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==========================================
+             COLUMN 3: RIGHT INTELLIGENCE PANEL
+             ========================================== -->
+        <div class="fnx-vw-right-intel">
+            
+            <!-- Widget 1: Case Summary Card -->
+            <div class="fnx-intel-card mb-3">
+                <div class="intel-card-header">
+                    <span class="intel-card-title">CASE INTELLIGENCE</span>
+                    <span class="badge-status">{{c.activeInvestigationCase.status}}</span>
+                </div>
+                <div class="intel-card-body">
+                    <div class="intel-kv-row">
+                        <span class="k">Case ID:</span>
+                        <strong class="v">{{c.activeInvestigationCase.number}}</strong>
+                    </div>
+                    <div class="intel-kv-row">
+                        <span class="k">Exposure:</span>
+                        <strong class="v text-danger">₹ {{c.activeInvestigationCase.exposure || 85000 | number:0}}</strong>
+                    </div>
+                    <div class="intel-kv-row">
+                        <span class="k">Handler:</span>
+                        <span class="v">{{c.activeInvestigationCase.handler || 'Alex Morgan'}}</span>
+                    </div>
+                    <div class="intel-kv-row">
+                        <span class="k">SLA Remaining:</span>
+                        <span class="v text-success">{{c.activeInvestigationCase.sla || '3h 45m'}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget 2: Risk Score Dial -->
+            <div class="fnx-intel-card mb-3">
+                <div class="intel-card-header">
+                    <span class="intel-card-title">RISK EVALUATION</span>
+                    <span class="badge-pill bg-red">CRITICAL</span>
+                </div>
+                <div class="intel-card-body text-center">
+                    <div class="side-dial-wrap">
+                        <div class="side-dial-number">{{c.activeInvestigationCase.risk_score || 94}}</div>
+                        <div class="side-dial-sub">RISK SCORE (P1)</div>
+                    </div>
+                    <p class="text-xs text-muted mt-2 mb-0">Elevated by verified partner response & smishing indicators.</p>
+                </div>
+            </div>
+
+            <!-- Widget 3: Key Findings Summary -->
+            <div class="fnx-intel-card mb-3">
+                <div class="intel-card-header">
+                    <span class="intel-card-title">CONFIRMED FINDINGS</span>
+                    <span class="badge-count">{{c.activeInvestigationCase.findings.length}}</span>
+                </div>
+                <div class="intel-card-body p-0">
+                    <div class="side-finding-item" ng-repeat="fnd in c.activeInvestigationCase.findings">
+                        <div class="d-flex justify-content-between">
+                            <strong class="text-xs">{{fnd.id}}</strong>
+                            <span class="text-xs text-success fw-bold">{{fnd.confidence}}%</span>
+                        </div>
+                        <div class="side-finding-title">{{fnd.title}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget 4: Syndicated Cases Link -->
+            <div class="fnx-intel-card mb-3">
+                <div class="intel-card-header">
+                    <span class="intel-card-title">MATCHED SYNDICATE</span>
+                    <span class="badge-count">94%</span>
+                </div>
+                <div class="intel-card-body">
+                    <div class="side-syndicate-item">
+                        <strong class="text-sm">Cluster: Fake-Bank-Smish-2026</strong>
+                        <p class="text-xs text-muted mb-1">Shares IP subnet with <code>FNX-2026-00792</code>.</p>
+                        <a href="javascript:void(0)" class="text-xs text-primary" ng-click="c.setInvestigationTab('relatedCases')">View 2 Correlated Cases &rarr;</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Widget 5: Recommended Next Actions -->
+            <div class="fnx-intel-card">
+                <div class="intel-card-header">
+                    <span class="intel-card-title">RECOMMENDED ACTIONS</span>
+                </div>
+                <div class="intel-card-body p-0">
+                    <ul class="side-rec-list">
+                        <li ng-click="c.openGenAIModal()">
+                            <span class="rec-icon">✨</span>
+                            <span>Generate Case Journey Summary</span>
+                        </li>
+                        <li ng-click="c.openAlertCustomerModal()">
+                            <span class="rec-icon">🔔</span>
+                            <span>Send Case Update to Customer</span>
+                        </li>
+                        <li ng-click="c.setInvestigationTab('decision')">
+                            <span class="rec-icon">🏛️</span>
+                            <span>Finalize Resolution Decision</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+         MODAL 1: GENERATIVE INTELLIGENCE (13 MODES + CONTEXT BUILDER)
+         ============================================================ -->
+    <div class="fnx-modal-backdrop" ng-if="c.showGenAIModal">
+        <div class="fnx-modal-dialog fnx-modal-lg">
+            <div class="fnx-modal-header bg-gradient-ai">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="modal-logo-icon">✨</span>
+                    <div>
+                        <h3 class="modal-title mb-0">GENERATIVE INTELLIGENCE & CONTEXT SYNTHESIZER</h3>
+                        <span class="modal-subtitle">FNXCaseContextBuilder &bull; 13 Analytical Synthesis Modes</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-modal" ng-click="c.showGenAIModal = false">&times;</button>
+            </div>
+
+            <div class="fnx-modal-body">
+                <!-- Mode Selector -->
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Select Generative Intelligence Mode:</label>
+                    <select class="fnx-select" ng-model="c.selectedGenAIMode" ng-change="c.onGenAIModeChange()">
+                        <option value="journey">1. Case Journey Summary (End-to-End Walkthrough)</option>
+                        <option value="status">2. Current Status Summary</option>
+                        <option value="investigation">3. Investigation Summary</option>
+                        <option value="evidence">4. Evidence Summary & Provenance</option>
+                        <option value="financial">5. Financial Investigation Summary</option>
+                        <option value="cyber">6. Cyber Investigation Summary & Attack Chain</option>
+                        <option value="partner">7. Partner Update & Inter-Bank Summary</option>
+                        <option value="risk">8. Risk Summary & Progression</option>
+                        <option value="pending">9. Pending Actions & Blocker Checklist</option>
+                        <option value="related">10. Related Case & Syndicate Summary</option>
+                        <option value="decision_prep">11. Decision Preparation Summary</option>
+                        <option value="final_summary">12. Final Case Summary</option>
+                        <option value="resolution_draft">13. Resolution Notes Draft</option>
+                    </select>
+                </div>
+
+                <!-- Context Builder Notice -->
+                <div class="fnx-context-builder-badge mb-3">
+                    <span class="icon">🔒</span>
+                    <div>
+                        <strong>FNXCaseContextBuilder Active:</strong>
+                        Aggregated 12 sanitized data objects (customer submission, verified evidence, confirmed findings, partner response, cyber telemetry). 
+                        <span class="text-success">Confidential credentials, OTPs, PINs, and internal technical internals excluded.</span>
+                    </div>
+                </div>
+
+                <!-- Generate Trigger Button -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-sm text-muted">Target: {{c.activeInvestigationCase.number}} ({{c.activeInvestigationCase.customer.name}})</span>
+                    <button type="button" class="fnx-btn fnx-btn-primary" ng-click="c.generateSelectedIntelligence()" ng-disabled="c.genAILoading">
+                        <span ng-if="!c.genAILoading">✨ Generate Synthesis</span>
+                        <span ng-if="c.genAILoading">Synthesizing Context...</span>
+                    </button>
+                </div>
+
+                <!-- Generated Output Area -->
+                <div class="fnx-genai-output-area" ng-if="c.generatedOutput">
+                    <div class="genai-review-banner">
+                        <span>🤖 AI GENERATED &bull; FOR INVESTIGATOR REVIEW</span>
+                        <span class="badge badge-warning">Zero Automatic Acceptance</span>
+                    </div>
+                    <div class="genai-output-box">
+                        <pre class="genai-text">{{c.generatedOutput}}</pre>
+                    </div>
+
+                    <!-- Investigator Actions -->
+                    <div class="genai-actions-row">
+                        <span class="text-xs text-muted">Investigator must review before committing to official records.</span>
+                        <div class="btn-group">
+                            <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-success" ng-click="c.acceptGenAI()">✓ Accept</button>
+                            <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-danger" ng-click="c.rejectGenAI()">✕ Reject</button>
+                            <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.copyGenAIToReport()">📋 Copy to Report</button>
+                            <button type="button" class="fnx-btn fnx-btn-sm fnx-btn-outline" ng-click="c.addGenAIToNotes()">📝 Add to Case Notes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fnx-modal-footer">
+                <button type="button" class="fnx-btn fnx-btn-outline" ng-click="c.showGenAIModal = false">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MODAL 2: PARTNER REQUEST MODAL (FULL FIELDS)
+         ============================================================ -->
+    <div class="fnx-modal-backdrop" ng-if="c.showPartnerReqModal">
+        <div class="fnx-modal-dialog fnx-modal-lg">
+            <div class="fnx-modal-header bg-gradient-partner">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="modal-logo-icon">🤝</span>
+                    <div>
+                        <h3 class="modal-title mb-0">NEW PARTNER VERIFICATION REQUEST</h3>
+                        <span class="modal-subtitle">Case: {{c.activeInvestigationCase.number}}</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-modal" ng-click="c.showPartnerReqModal = false">&times;</button>
+            </div>
+
+            <div class="fnx-modal-body">
+                <div class="fnx-grid-2 mb-3">
+                    <div class="form-group">
+                        <label class="fw-bold">Partner Institution:</label>
+                        <select class="fnx-select" ng-model="c.partnerForm.partner">
+                            <option value="Partner Bank A - SIMULATED DEMO PARTNER">Partner Bank A &bull; SIMULATED DEMO PARTNER</option>
+                            <option value="National Payment Switch - SIMULATED DEMO PARTNER">National Payment Switch &bull; SIMULATED DEMO PARTNER</option>
+                            <option value="Telecom Registry Node - SIMULATED DEMO PARTNER">Telecom Registry Node &bull; SIMULATED DEMO PARTNER</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="fw-bold">Request Type:</label>
+                        <select class="fnx-select" ng-model="c.partnerForm.request_type">
+                            <option value="Transaction Verification">Transaction Verification</option>
+                            <option value="Account Information">Account Information</option>
+                            <option value="Payment Trace">Payment Trace</option>
+                            <option value="KYC Verification">KYC Verification</option>
+                            <option value="Fraud Verification">Fraud Verification</option>
+                            <option value="Evidence Request">Evidence Request</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="fnx-grid-2 mb-3">
+                    <div class="form-group">
+                        <label class="fw-bold">Priority:</label>
+                        <select class="fnx-select" ng-model="c.partnerForm.priority">
+                            <option value="P1 - Critical">P1 - Critical (2h SLA)</option>
+                            <option value="P2 - High">P2 - High (4h SLA)</option>
+                            <option value="P3 - Moderate">P3 - Moderate (24h SLA)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="fw-bold">Due Date:</label>
+                        <input type="text" class="fnx-input" ng-model="c.partnerForm.due_date">
+                    </div>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Evidence Reference:</label>
+                    <input type="text" class="fnx-input" ng-model="c.partnerForm.evidence_ref">
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Formal Request Description:</label>
+                    <textarea class="fnx-textarea" rows="3" ng-model="c.partnerForm.description"></textarea>
+                </div>
+            </div>
+
+            <div class="fnx-modal-footer">
+                <button type="button" class="fnx-btn fnx-btn-outline" ng-click="c.showPartnerReqModal = false">Cancel</button>
+                <button type="button" class="fnx-btn fnx-btn-primary" ng-click="c.submitPartnerVerificationRequest()">Submit Partner Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MODAL 3: ALERT CUSTOMER MODAL (SAFE TEMPLATES)
+         ============================================================ -->
+    <div class="fnx-modal-backdrop" ng-if="c.showAlertCustomerModal">
+        <div class="fnx-modal-dialog">
+            <div class="fnx-modal-header bg-gradient-alert">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="modal-logo-icon">🔔</span>
+                    <div>
+                        <h3 class="modal-title mb-0">ALERT CUSTOMER</h3>
+                        <span class="modal-subtitle">Victim Notification: {{c.activeInvestigationCase.customer.name}}</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-modal" ng-click="c.showAlertCustomerModal = false">&times;</button>
+            </div>
+
+            <div class="fnx-modal-body">
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Select Notification Template:</label>
+                    <select class="fnx-select" ng-model="c.customerAlertTemplate" ng-change="c.onCustomerTemplateChange()">
+                        <option value="case_received">1. Case Received & Registered</option>
+                        <option value="investigation_started">2. Investigation Started</option>
+                        <option value="evidence_required">3. Evidence Required</option>
+                        <option value="case_update">4. Case Progress Update</option>
+                        <option value="verification_complete">5. Verification Complete</option>
+                        <option value="decision_complete">6. Decision Complete (Resolution)</option>
+                        <option value="report_available">7. Final Report Available</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Sanitized Message Preview (Strictly Safe):</label>
+                    <textarea class="fnx-textarea" rows="5" ng-model="c.customerAlertPreview"></textarea>
+                </div>
+
+                <div class="fnx-alert fnx-alert-info">
+                    <span class="alert-icon">🛡️</span>
+                    <span class="text-xs">
+                        <strong>Privacy Filter:</strong> Internal notes, partner confidential channels, and AI architecture details are strictly blocked from customer dispatches.
+                    </span>
+                </div>
+            </div>
+
+            <div class="fnx-modal-footer">
+                <button type="button" class="fnx-btn fnx-btn-outline" ng-click="c.showAlertCustomerModal = false">Cancel</button>
+                <button type="button" class="fnx-btn fnx-btn-primary" ng-click="c.sendCustomerAlert()">Send Notification</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MODAL 4: ALERT CASE WORKER MODAL (9 TEMPLATES)
+         ============================================================ -->
+    <div class="fnx-modal-backdrop" ng-if="c.showAlertWorkerModal">
+        <div class="fnx-modal-dialog">
+            <div class="fnx-modal-header bg-gradient-worker">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="modal-logo-icon">👤</span>
+                    <div>
+                        <h3 class="modal-title mb-0">ALERT CASE WORKER / SPECIALIST</h3>
+                        <span class="modal-subtitle">Internal Dispatch for Case {{c.activeInvestigationCase.number}}</span>
+                    </div>
+                </div>
+                <button type="button" class="btn-close-modal" ng-click="c.showAlertWorkerModal = false">&times;</button>
+            </div>
+
+            <div class="fnx-modal-body">
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Select Alert Reason / Template:</label>
+                    <select class="fnx-select" ng-model="c.workerAlertTemplate" ng-change="c.onWorkerTemplateChange()">
+                        <option value="new_case">1. New Case Assignment</option>
+                        <option value="new_evidence">2. New Evidence Uploaded</option>
+                        <option value="high_risk">3. High Risk Escalation</option>
+                        <option value="partner_response">4. Partner Response Received</option>
+                        <option value="review_required">5. Review Required</option>
+                        <option value="task_assigned">6. Task Assigned</option>
+                        <option value="sla_warning">7. SLA Warning (Impending Breach)</option>
+                        <option value="decision_required">8. Decision Required</option>
+                        <option value="escalation">9. Manager Escalation</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Assignee / Notification Target:</label>
+                    <select class="fnx-select" ng-model="c.workerAlertAssignee">
+                        <option value="Alex Morgan">Alex Morgan (Assigned Investigator)</option>
+                        <option value="Marcus Vance">Marcus Vance (Fraud Operations Director)</option>
+                        <option value="Sophia Reynolds">Sophia Reynolds (Cyber Forensic Specialist)</option>
+                        <option value="James Davis">James Davis (Financial Crimes Liaison)</option>
+                    </select>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="fw-bold">Internal Instructions / Notes:</label>
+                    <textarea class="fnx-textarea" rows="4" ng-model="c.workerAlertNotes"></textarea>
+                </div>
+            </div>
+
+            <div class="fnx-modal-footer">
+                <button type="button" class="fnx-btn fnx-btn-outline" ng-click="c.showAlertWorkerModal = false">Cancel</button>
+                <button type="button" class="fnx-btn fnx-btn-primary" ng-click="c.sendWorkerAlert()">Dispatch Internal Alert</button>
+            </div>
+        </div>
+    </div>
+
+</div>
